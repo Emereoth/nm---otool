@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2018/10/17 17:02:07 by acottier         ###   ########.fr       */
+/*   Updated: 2018/10/18 14:59:09 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,15 @@ enum errcodes
 	_EXIT_NO_FILE
 };
 
+enum symtypes
+{
+	UNDEFINED = 0
+};
+
 typedef struct s_symbol
 {
+	struct nlist_64		*data;
 	char				*name;
-	uint64_t			value;
 	struct s_symbol		*next;
 	struct s_symbol		*prev;
 }				t_symbol;
@@ -48,7 +53,8 @@ typedef struct s_symbol
 ** MACH-O.C
 */
 
-int			bin64(char *ptr, char *file);
+int			bin64(char *ptr, char *file, int nb_args);
+char		get_symbol_type(uint8_t n_type, uint8_t n_sect);
 
 /*
 ** SYM_LIST.C
