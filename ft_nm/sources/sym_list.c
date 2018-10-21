@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 15:46:16 by acottier          #+#    #+#             */
-/*   Updated: 2018/10/18 16:00:11 by acottier         ###   ########.fr       */
+/*   Updated: 2018/10/21 15:22:22 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_symbol	*make_sym_list(char *stringtable, struct nlist_64 *el, int nsyms)
 	{
 		new = (t_symbol *)malloc(sizeof(t_symbol));
 		new->name = ft_strdup(stringtable + el[i].n_un.n_strx);
-		new->data = &el[i];
+		new->s_info = &el[i];
 		new->prev = NULL;
 		new->next = NULL;
 		res = add_to_list(res, new);

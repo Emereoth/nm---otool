@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2018/10/18 13:59:29 by acottier         ###   ########.fr       */
+/*   Updated: 2018/10/19 12:26:06 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	magic_reader(char *ptr, char *file, int nb_args)
 	else
 		rvalue = _EXIT_SUCCESS;
 	munmap(ptr, sizeof(ptr));
-	return (rvalue);
+	return (rvalue != _EXIT_SUCCESS ? error(_BAD_FMT, NULL) : _EXIT_SUCCESS);
 }
 
 static int	treat_file(char *file, int nb_args)
