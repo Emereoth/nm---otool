@@ -6,7 +6,7 @@
 #    By: acottier <acottier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/01 13:55:41 by acottier          #+#    #+#              #
-#    Updated: 2018/10/21 15:27:33 by acottier         ###   ########.fr        #
+#    Updated: 2018/10/30 09:20:06 by acottier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,8 @@ NAME		=	ft_nm
 
 LIB_PATH	=	../libft
 LIB			=	../libft/libft.a
+
+LOG			=	log
 
 SRC_PATH	=	sources
 OBJ_PATH	=	objects
@@ -39,7 +41,7 @@ OBJ			=	$(addprefix $(OBJ_PATH)/, $(OBJ_NAMES))
 CC			=	gcc
 FLAGS		=	-Wall -Wextra -Werror
 
-.PHONY: all clean fclean re fast
+.PHONY: all clean fclean re fast debug
 
 all : lib $(NAME)
 
@@ -63,10 +65,13 @@ clean :
 	@printf "${RED}'ft_nm' executable object files deleted.${NC}\n"
 
 fclean : clean
-	@@rm -f $(NAME)
+	@@rm -f $(NAME) $(LOG)
 	@printf "${RED}'ft_nm' executable deleted.${NC}\n"
 
 re : fclean all
 
 fast : fclean
 	$(CC) $(FLAGS) $(SRC) -o $(NAME) $(LIB)
+
+debug: fclean
+	$(CC) $(FLAGS) -g3 $(SRC) -o $(NAME) $(LIB)

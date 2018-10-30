@@ -6,20 +6,25 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 17:01:06 by acottier          #+#    #+#             */
-/*   Updated: 2018/10/21 15:51:45 by acottier         ###   ########.fr       */
+/*   Updated: 2018/10/30 14:03:35 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
+#include <stdio.h>
 
-static void	display_value(int n_value)
+static void	display_value(uint64_t n_value)
 {
 	char	*value;
 	int		padding;
 
+	if (n_value > 0)
+		ft_putstr("0000000");
+	else
+		ft_putstr("       ");
 	value = ft_to_hex(n_value);
 	ft_putstr(value);
-	padding = 17 - ft_strlen(value);
+	padding = 10 - ft_strlen(value);
 	while (padding-- > 0)
 		ft_putchar(' ');
 }

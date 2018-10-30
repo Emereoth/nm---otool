@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/21 15:26:55 by acottier          #+#    #+#             */
-/*   Updated: 2018/10/21 15:49:17 by acottier         ###   ########.fr       */
+/*   Updated: 2018/10/30 14:06:38 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ char		browse_sector_bin64(t_data *data, t_symbol *list)
 		if (i == list->s_info->n_sect)
 		{
 			seg = (struct segment_command_64 *)lc_cursor;
+			ft_putnbr(i);
+			ft_putstr("memory sector found: '");
+			ft_putstr(seg->segname);
+			ft_putchar('\'');
 			return (seg->segname[2]);
 		}
 		lc_cursor = (void *)lc_cursor + lc_cursor->cmdsize;

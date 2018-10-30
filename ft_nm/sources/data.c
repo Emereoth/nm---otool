@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 12:33:17 by acottier          #+#    #+#             */
-/*   Updated: 2018/10/21 15:34:21 by acottier         ###   ########.fr       */
+/*   Updated: 2018/10/30 09:26:02 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int		fill_data(char *ptr, t_data **data)
 	unsigned int			i;
 
 	i = 0;
+	symtab = NULL;
 	header = (struct mach_header_64 *)ptr;
 	lc_cursor = (void *) ptr + sizeof(*header);
 	(*data)->ptr = ptr;
@@ -40,7 +41,7 @@ int		fill_data(char *ptr, t_data **data)
 		i++;
 		lc_cursor = (void *)lc_cursor + lc_cursor->cmdsize;
 	}
-	if (symtab)
+	if (!symtab)
 		return (_NO_SYMTAB_FAILURE);
 	(*data)->symtab = symtab;
 	return (_DATA_OK);
