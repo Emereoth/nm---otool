@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 17:01:06 by acottier          #+#    #+#             */
-/*   Updated: 2018/10/30 14:03:35 by acottier         ###   ########.fr       */
+/*   Updated: 2018/11/01 14:54:53 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ static void	display_value(uint64_t n_value)
 
 static char	get_sector_type(t_data *data, t_symbol *list)
 {
-	char	(*f[1]) (t_data *data, t_symbol *list) = 
+	char	(*f[1]) (t_data *data, t_symbol *list, struct load_command *lc) = 
 	{
 		&browse_sector_bin64
 	};
 
-	return (f[data->filetype](data, list));
+	return (f[data->filetype](data, list, data->lc));
 }
 
 static int	display_type(t_symbol *list, t_data *data)

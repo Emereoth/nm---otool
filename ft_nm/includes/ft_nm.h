@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2018/10/21 15:51:22 by acottier         ###   ########.fr       */
+/*   Updated: 2018/11/01 14:54:43 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct	s_data
 {
 	int							filetype;
 	char						*ptr;
-	int							ncmds;
+	unsigned int				ncmds;
 	struct load_command			*lc;
 	struct symtab_command		*symtab;
 }				t_data;
@@ -94,7 +94,8 @@ int			free_all(t_symbol *list, t_data *data, int errcode, char *str);
 /*
 ** SECTOR_BROWSING.C
 */
-char		browse_sector_bin64(t_data *data, t_symbol *list);
+char		browse_sector_bin64(t_data *data, t_symbol *list,
+						struct load_command *lc);
 
 /*
 ** ERRORS.C
