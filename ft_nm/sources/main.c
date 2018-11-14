@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2018/10/30 13:41:04 by acottier         ###   ########.fr       */
+/*   Updated: 2018/11/14 13:21:51 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int			main(int argc, char **argv)
 	int	rvalue;
 
     i = 0;
-	ft_putendl(ft_to_hex(4294971760));
 	rvalue = -1;
     while (argc - i > 1)
     {

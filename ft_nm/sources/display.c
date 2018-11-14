@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 17:01:06 by acottier          #+#    #+#             */
-/*   Updated: 2018/11/01 14:54:53 by acottier         ###   ########.fr       */
+/*   Updated: 2018/11/14 13:23:24 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static int	display_type(t_symbol *list, t_data *data)
 		symbol_type = get_sector_type(data, list);
 		if (symbol_type == _SCTR_NOT_FOUND)
 			return (free_all(list, data, _SCTR_NOT_FOUND, list->name));
+		else
+			ft_putnbr(symbol_type);
 	}
 	if ((list->s_info->n_type & N_EXT) == N_EXT)
 		external = 1;
