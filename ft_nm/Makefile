@@ -6,7 +6,7 @@
 #    By: acottier <acottier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/01 13:55:41 by acottier          #+#    #+#              #
-#    Updated: 2018/10/30 09:20:06 by acottier         ###   ########.fr        #
+#    Updated: 2018/11/15 11:51:28 by acottier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ OBJ_PATH	=	objects
 
 SRC_NAMES	=	main.c \
 				errors.c \
-				mach-o.c \
+				macho.c \
 				sym_list.c \
 				display.c \
 				data.c \

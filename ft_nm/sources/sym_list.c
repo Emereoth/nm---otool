@@ -6,11 +6,15 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 15:46:16 by acottier          #+#    #+#             */
-/*   Updated: 2018/10/30 13:39:28 by acottier         ###   ########.fr       */
+/*   Updated: 2018/11/15 11:49:18 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
+
+/*
+** Return pointer to start of list
+*/
 
 static t_symbol	*list_start(t_symbol *list)
 {
@@ -18,6 +22,10 @@ static t_symbol	*list_start(t_symbol *list)
 		list = list->prev;
 	return (list);
 }
+
+/*
+** Add link to list
+*/
 
 static t_symbol	*add_to_list(t_symbol *list, t_symbol *new)
 {
@@ -45,7 +53,11 @@ static t_symbol	*add_to_list(t_symbol *list, t_symbol *new)
 	return (NULL);
 }
 
-void		free_sym_list(t_symbol *list)
+/*
+** Free and destroy list
+*/
+
+void			free_sym_list(t_symbol *list)
 {
 	t_symbol	*tmp;
 
@@ -58,7 +70,11 @@ void		free_sym_list(t_symbol *list)
 	}
 }
 
-t_symbol	*make_sym_list(char *stringtable, struct nlist_64 *el, int nsyms)
+/*
+** Create sym_list from symbol table contents
+*/
+
+t_symbol		*make_sym_list(char *stringtab, struct nlist_64 *el, int nsyms)
 {
 	t_symbol	*res;
 	t_symbol	*new;
@@ -70,7 +86,7 @@ t_symbol	*make_sym_list(char *stringtable, struct nlist_64 *el, int nsyms)
 	while (i < nsyms)
 	{
 		new = (t_symbol *)malloc(sizeof(t_symbol));
-		new->name = ft_strdup(stringtable + el[i].n_un.n_strx);
+		new->name = ft_strdup(stringtab + el[i].n_un.n_strx);
 		new->s_info = &el[i];
 		new->prev = NULL;
 		new->next = NULL;

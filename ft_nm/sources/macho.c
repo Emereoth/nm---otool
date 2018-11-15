@@ -1,16 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mach-o.c                                           :+:      :+:    :+:   */
+/*   macho.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2018/10/30 09:08:50 by acottier         ###   ########.fr       */
+/*   Updated: 2018/11/15 14:02:30 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
+
+/*
+** Create symbol list, display it and free
+*/
 
 static int	symtab_read(t_data *data, int nsyms, int symoff, int stroff)
 {
@@ -29,24 +33,9 @@ static int	symtab_read(t_data *data, int nsyms, int symoff, int stroff)
 	return (res);
 }
 
-char		get_symbol_type(uint8_t n_type, uint8_t n_sect)
-{
-	if ((n_type & N_SECT) == N_SECT)
-	{
-		if (n_sect == NO_SECT)
-			return ('X');
-		return ('S');
-	}
-	else if ((n_type & N_UNDF) == N_UNDF)
-		return ('U');
-	else if ((n_type & N_ABS) == N_ABS)
-		return ('A');
-	else if ((n_type & N_PBUD) == N_PBUD)
-		return ('U');
-	else if ((n_type & N_INDR) == N_INDR)
-		return ('I');
-	return ('X');
-}
+/*
+** General function for 64bit binaries
+*/
 
 int			bin64(char *ptr, char *file, int nb_args)
 {
@@ -63,7 +52,8 @@ int			bin64(char *ptr, char *file, int nb_args)
 			ft_putstr(file);
 			ft_putendl(":");
 		}
-		return (symtab_read(data, symtab->nsyms, symtab->symoff, symtab->stroff));
+		return (symtab_read(data, symtab->nsyms, symtab->symoff,
+				symtab->stroff));
 	}
 	free(data);
 	return (error(_NO_SYMTAB_FAILURE, NULL));

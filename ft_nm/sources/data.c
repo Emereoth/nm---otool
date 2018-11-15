@@ -6,11 +6,15 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 12:33:17 by acottier          #+#    #+#             */
-/*   Updated: 2018/10/30 09:26:02 by acottier         ###   ########.fr       */
+/*   Updated: 2018/11/15 14:03:46 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
+
+/*
+** Destroy and free data struct
+*/
 
 int		free_all(t_symbol *list, t_data *data, int errcode, char *str)
 {
@@ -19,6 +23,10 @@ int		free_all(t_symbol *list, t_data *data, int errcode, char *str)
 		free(data);
 	return (errcode == _EXIT_SUCCESS ? 0 : error(errcode, str));
 }
+
+/*
+** Create and fill data structure for current file
+*/
 
 int		fill_data(char *ptr, t_data **data)
 {
@@ -30,7 +38,7 @@ int		fill_data(char *ptr, t_data **data)
 	i = 0;
 	symtab = NULL;
 	header = (struct mach_header_64 *)ptr;
-	lc_cursor = (void *) ptr + sizeof(*header);
+	lc_cursor = (void *)ptr + sizeof(*header);
 	(*data)->ptr = ptr;
 	(*data)->ncmds = header->ncmds;
 	(*data)->lc = lc_cursor;

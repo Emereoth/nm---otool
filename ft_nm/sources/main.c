@@ -6,11 +6,15 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2018/11/14 13:21:51 by acottier         ###   ########.fr       */
+/*   Updated: 2018/11/15 11:50:47 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
+
+/*
+** Read magic_number et start appropriate function
+*/
 
 static int	magic_reader(char *ptr, char *file, int nb_args)
 {
@@ -27,6 +31,10 @@ static int	magic_reader(char *ptr, char *file, int nb_args)
 	munmap(ptr, sizeof(ptr));
 	return (rvalue != _EXIT_SUCCESS ? error(_BAD_FMT, NULL) : _EXIT_SUCCESS);
 }
+
+/*
+** Open, map and display one file's symbols
+*/
 
 static int	treat_file(char *file, int nb_args)
 {
@@ -51,17 +59,17 @@ static int	treat_file(char *file, int nb_args)
 
 int			main(int argc, char **argv)
 {
-    int i;
+	int i;
 	int	rvalue;
 
-    i = 0;
+	i = 0;
 	rvalue = -1;
-    while (argc - i > 1)
-    {
+	while (argc - i > 1)
+	{
 		rvalue = treat_file(ft_strdup(argv[i + 1]), argc - 1);
-        i++;
-    }
+		i++;
+	}
 	if (argc == 1)
 		return (treat_file("a.out", 0));
-    return (rvalue ? rvalue : _EXIT_SUCCESS);
+	return (rvalue ? rvalue : _EXIT_SUCCESS);
 }
