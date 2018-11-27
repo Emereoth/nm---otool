@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 12:33:17 by acottier          #+#    #+#             */
-/*   Updated: 2018/11/15 14:03:46 by acottier         ###   ########.fr       */
+/*   Updated: 2018/11/16 13:27:05 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,36 @@ int		fill_data(char *ptr, t_data **data)
 	i = 0;
 	symtab = NULL;
 	header = (struct mach_header_64 *)ptr;
+	lc_cursor = (void *)ptr + sizeof(*header);
+	(*data)->ptr = ptr;
+	(*data)->ncmds = header->ncmds;
+	(*data)->lc = lc_cursor;
+	while (i < header->ncmds && !symtab)
+	{
+		if (lc_cursor->cmd == LC_SYMTAB)
+			symtab = (struct symtab_command *)lc_cursor;
+		i++;
+		lc_cursor = (void *)lc_cursor + lc_cursor->cmdsize;
+	}
+	if (!symtab)
+		return (_NO_SYMTAB_FAILURE);
+	(*data)->symtab = symtab;
+	return (_DATA_OK);
+}
+
+/*
+** Create and fill data structure for 32-bit arch
+*/
+int		fill_data_32(char *ptr, t_data **data)
+{
+	struct mach_header		*header;
+	struct load_command		*lc_cursor;
+	struct symtab_command	*symtab;
+	unsigned int			i;
+
+	i = 0;
+	symtab = NULL;
+	header = (struct mach_header *)ptr;
 	lc_cursor = (void *)ptr + sizeof(*header);
 	(*data)->ptr = ptr;
 	(*data)->ncmds = header->ncmds;

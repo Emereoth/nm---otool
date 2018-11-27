@@ -6,22 +6,11 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 15:46:16 by acottier          #+#    #+#             */
-/*   Updated: 2018/11/15 11:49:18 by acottier         ###   ########.fr       */
+/*   Updated: 2018/11/27 14:01:59 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
-
-/*
-** Return pointer to start of list
-*/
-
-static t_symbol	*list_start(t_symbol *list)
-{
-	while (list && list->prev)
-		list = list->prev;
-	return (list);
-}
 
 /*
 ** Add link to list
@@ -29,8 +18,11 @@ static t_symbol	*list_start(t_symbol *list)
 
 static t_symbol	*add_to_list(t_symbol *list, t_symbol *new)
 {
+	t_symbol	*start;
+
 	if (!list)
 		return (new);
+	start = list;
 	while (list)
 	{
 		if (ft_strcmp(list->name, new->name) > 0)
@@ -40,13 +32,15 @@ static t_symbol	*add_to_list(t_symbol *list, t_symbol *new)
 			if (list->prev)
 				list->prev->next = new;
 			list->prev = new;
-			return (list_start(new));
+			if (list == start)
+				return (new);
+			return (start);
 		}
 		if (!(list->next))
 		{
 			list->next = new;
 			new->prev = list;
-			return (list_start(new));
+			return (start);
 		}
 		list = list->next;
 	}
@@ -65,32 +59,88 @@ void			free_sym_list(t_symbol *list)
 	{
 		tmp = list->next;
 		free(list->name);
+		free(list->s_info);
 		free(list);
 		list = tmp;
 	}
 }
 
 /*
+** Create t_info struct from nlist/nlist_64
+*/
+
+static t_info	*create_info_struct(t_nlist *el, char type, int i)
+{
+	t_info		*res;
+
+	res = (t_info *)malloc(sizeof(t_info));
+	if (type == _BIN32)
+	{
+		res->n_un = (el->list32)[i].n_un.n_strx;
+		res->n_type = (el->list32)[i].n_type;
+		res->n_sect = (el->list32)[i].n_sect;
+		res->n_desc = (el->list32)[i].n_desc;
+		res->n_value = (el->list32)[i].n_value;
+	}
+	else if (type == _BIN64)
+	{
+		res->n_un = (el->list64)[i].n_un.n_strx;
+		res->n_type = (el->list64)[i].n_type;
+		res->n_sect = (el->list64)[i].n_sect;
+		res->n_desc = (el->list64)[i].n_desc;
+		res->n_value = (el->list64)[i].n_value;
+	}
+	return (res);
+}
+
+/*
+** Create new link to add to list
+*/
+
+static t_symbol	*create_link(char *stringtab, t_nlist *el, char type, int i)
+{
+	t_symbol		*res;
+
+	if ((res = (t_symbol *)malloc(sizeof(t_symbol))) == NULL)
+		return (NULL);
+	res->s_info = create_info_struct(el, type, i);
+	if ((res->s_info->n_type & N_STAB) == N_STAB)
+	{
+		free(res);
+		return (NULL);
+	}
+	if (type == _BIN32)
+		res->name = ft_strdup(stringtab + el->list32[i].n_un.n_strx);
+	else if (type == _BIN64)
+		res->name = ft_strdup(stringtab + el->list64[i].n_un.n_strx);
+	res->type = type;
+	return (res);
+}
+
+/*
 ** Create sym_list from symbol table contents
 */
 
-t_symbol		*make_sym_list(char *stringtab, struct nlist_64 *el, int nsyms)
+t_symbol		*make_sym_list(char *stringtab, t_nlist *el, int nsyms,
+								char type)
 {
 	t_symbol	*res;
 	t_symbol	*new;
 	int			i;
+	uint8_t		n_type;
 
 	i = 0;
 	res = NULL;
 	new = NULL;
+	n_type = (type == _BIN32 ? el->list32->n_type : el->list64->n_type);
 	while (i < nsyms)
 	{
-		new = (t_symbol *)malloc(sizeof(t_symbol));
-		new->name = ft_strdup(stringtab + el[i].n_un.n_strx);
-		new->s_info = &el[i];
-		new->prev = NULL;
-		new->next = NULL;
-		res = add_to_list(res, new);
+		if ((n_type & N_STAB) != N_STAB)
+		{
+			new = create_link(stringtab, el, type, i);
+			if (new)
+				res = add_to_list(res, new);
+		}
 		i++;
 	}
 	return (res);

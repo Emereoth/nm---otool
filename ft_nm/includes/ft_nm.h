@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2018/11/15 17:22:09 by acottier         ###   ########.fr       */
+/*   Updated: 2018/11/27 13:50:52 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ enum						e_errcodes
 
 enum						e_filetypes
 {
-	_BIN,
+	_BIN32,
 	_BIN64,
 	_FAT,
 	_DYLIB,
@@ -47,10 +47,26 @@ enum						e_filetypes
 	_LIB
 };
 
+typedef union				u_nlist
+{
+	struct nlist			*list32;
+	struct nlist_64			*list64;
+}							t_nlist;
+
+typedef struct				s_info
+{
+	uint32_t				n_un;
+	uint8_t					n_type;
+	uint8_t					n_sect;
+	uint16_t				n_desc;
+	uint64_t				n_value;
+}							t_info;
+
 typedef struct				s_symbol
 {
-	struct nlist_64			*s_info;
+	t_info					*s_info;
 	char					*name;
+	char					type;
 	struct s_symbol			*next;
 	struct s_symbol			*prev;
 }							t_symbol;
@@ -69,17 +85,23 @@ typedef struct				s_data
 */
 
 /*
-** MACH-O.C
+** 64BIT.C
 */
 
 int							bin64(char *ptr, char *file, int nb_args);
+
+/*
+** 32BIT.C
+*/
+
+int							bin32(char *ptr, char *file, int nb_args);
 
 /*
 ** SYM_LIST.C
 */
 
 t_symbol					*make_sym_list(char *stringtable,
-								struct nlist_64*el, int nysms);
+								t_nlist *el, int nysms, char type);
 void						free_sym_list(t_symbol *list);
 
 /*
@@ -87,13 +109,14 @@ void						free_sym_list(t_symbol *list);
 */
 
 int							display(t_symbol *list, t_data *data);
-char						get_symbol_type(uint8_t n_type, uint8_t n_sect);
+char						get_symbol_type(t_symbol *list);
 
 /*
 ** DATA.C
 */
 
 int							fill_data(char *ptr, t_data **data);
+int							fill_data_32(char *ptr, t_data **data);
 int							free_all(t_symbol *list, t_data *data,
 								int errcode, char *str);
 
@@ -102,7 +125,7 @@ int							free_all(t_symbol *list, t_data *data,
 */
 
 char						browse_sector_bin64(t_data *data,
-								t_symbol *list, struct load_command *lc);
+								uint8_t n_sect, struct load_command *lc);
 
 /*
 ** ERRORS.C

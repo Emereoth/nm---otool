@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 17:01:06 by acottier          #+#    #+#             */
-/*   Updated: 2018/11/15 14:58:46 by acottier         ###   ########.fr       */
+/*   Updated: 2018/11/27 13:45:21 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,17 @@ static void	display_value(uint64_t n_value)
 	char	*value;
 	int		padding;
 
-	if (n_value > 0)
-		ft_putstr("0000000");
-	else
-		ft_putstr("       ");
 	value = ft_to_hex(n_value);
-	ft_putstr(value);
-	padding = 10 - ft_strlen(value);
-	while (padding-- > 0)
-		ft_putchar(' ');
+	if (n_value > 0)
+	{
+		padding = 16 - ft_strlen(value);
+		while (padding-- > 0)
+			ft_putchar('0');
+		ft_putstr(value);
+	}
+	else
+		ft_putstr("                ");
+	ft_putchar(' ');
 }
 
 /*
@@ -39,18 +41,27 @@ static void	display_value(uint64_t n_value)
 
 static char	get_sector_type(t_data *data, t_symbol *list)
 {
-	static char	(*f[1]) (t_data *data, t_symbol *list, struct load_command *lc);
+	static char	(*f[1]) (t_data *data, uint8_t n_sect, struct load_command *lc);
+	char		segment;
 
-	f[1] = &browse_sector_bin64;
-	return (f[data->filetype](data, list, data->lc));
+	f[0] = &browse_sector_bin64;
+	segment = f[data->filetype](data, list->s_info->n_sect, data->lc);
+	if (segment != 'T' && segment != 'D' && segment != 'B')
+		return ('S');
+	return (segment);
 }
 
 /*
 ** Fetch letter corresponding to symbol type
 */
 
-char		get_symbol_type(uint8_t n_type, uint8_t n_sect)
+char		get_symbol_type(t_symbol *list)
 {
+	uint8_t	n_type;
+	uint8_t n_sect;
+
+	n_type = list->s_info->n_type;
+	n_sect = list->s_info->n_sect;
 	if ((n_type & N_SECT) == N_SECT)
 	{
 		if (n_sect == NO_SECT)
@@ -72,13 +83,11 @@ char		get_symbol_type(uint8_t n_type, uint8_t n_sect)
 ** Display letter corresponding to symbol type
 */
 
-static int	display_type(t_symbol *list, t_data *data)
+static int	display_type(t_symbol *list, t_data *data, char symbol_type)
 {
 	char	external;
-	char	symbol_type;
 
 	external = 0;
-	symbol_type = get_symbol_type(list->s_info->n_type, list->s_info->n_sect);
 	if (symbol_type == 'S')
 	{
 		symbol_type = get_sector_type(data, list);
@@ -101,14 +110,19 @@ static int	display_type(t_symbol *list, t_data *data)
 int			display(t_symbol *list, t_data *data)
 {
 	int		res;
+	char	symbol_type;
 
 	while (list)
 	{
-		display_value(list->s_info->n_value);
-		res = display_type(list, data);
-		if (res != _DISPLAY_OK)
-			return (res);
-		ft_putendl(list->name);
+		symbol_type = get_symbol_type(list);
+		if (symbol_type != 1)
+		{
+			display_value(list->s_info->n_value);
+			res = display_type(list, data, symbol_type);
+			if (res != _DISPLAY_OK)
+				return (res);
+			ft_putendl(list->name);
+		}
 		list = list->next;
 	}
 	return (_DISPLAY_OK);
