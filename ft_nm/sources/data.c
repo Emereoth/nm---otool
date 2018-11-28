@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 12:33:17 by acottier          #+#    #+#             */
-/*   Updated: 2018/11/16 13:27:05 by acottier         ###   ########.fr       */
+/*   Updated: 2018/11/28 13:07:04 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int		fill_data(char *ptr, t_data **data)
 /*
 ** Create and fill data structure for 32-bit arch
 */
+
 int		fill_data_32(char *ptr, t_data **data)
 {
 	struct mach_header		*header;

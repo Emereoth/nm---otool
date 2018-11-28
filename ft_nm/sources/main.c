@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2018/11/22 11:09:25 by acottier         ###   ########.fr       */
+/*   Updated: 2018/11/28 13:33:55 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,14 @@
 
 static int	magic_reader(char *ptr, char *file, int nb_args)
 {
+	int				(*f[2]) (char *ptr, char *file, int nb_args);
 	unsigned int	magicnb;
 	unsigned int	rvalue;
-	static int		(*f[2]) (char *ptr, char *file, int nb_args) = 
-	{
-		&bin32, &bin64
-	};
 
 	if (!ptr)
 		return (_EXIT_FAILURE);
+	f[0] = &bin32;
+	f[1] = &bin64;
 	magicnb = *(int *)ptr;
 	if (magicnb == MH_MAGIC_64)
 		rvalue = f[1](ptr, file, nb_args);

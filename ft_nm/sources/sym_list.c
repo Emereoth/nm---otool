@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 15:46:16 by acottier          #+#    #+#             */
-/*   Updated: 2018/11/27 14:01:59 by acottier         ###   ########.fr       */
+/*   Updated: 2018/11/28 11:09:49 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ static t_symbol	*add_to_list(t_symbol *list, t_symbol *new)
 {
 	t_symbol	*start;
 
-	if (!list)
-		return (new);
 	start = list;
 	while (list)
 	{
@@ -104,11 +102,6 @@ static t_symbol	*create_link(char *stringtab, t_nlist *el, char type, int i)
 	if ((res = (t_symbol *)malloc(sizeof(t_symbol))) == NULL)
 		return (NULL);
 	res->s_info = create_info_struct(el, type, i);
-	if ((res->s_info->n_type & N_STAB) == N_STAB)
-	{
-		free(res);
-		return (NULL);
-	}
 	if (type == _BIN32)
 		res->name = ft_strdup(stringtab + el->list32[i].n_un.n_strx);
 	else if (type == _BIN64)
@@ -132,13 +125,15 @@ t_symbol		*make_sym_list(char *stringtab, t_nlist *el, int nsyms,
 	i = 0;
 	res = NULL;
 	new = NULL;
-	n_type = (type == _BIN32 ? el->list32->n_type : el->list64->n_type);
 	while (i < nsyms)
 	{
-		if ((n_type & N_STAB) != N_STAB)
+		n_type = (type == _BIN32 ? el->list32[i].n_type : el->list64[i].n_type);
+		if (!(n_type & N_STAB))
 		{
 			new = create_link(stringtab, el, type, i);
-			if (new)
+			if (!res)
+				res = new;
+			else
 				res = add_to_list(res, new);
 		}
 		i++;
