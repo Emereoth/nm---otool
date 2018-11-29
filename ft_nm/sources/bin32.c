@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   32bit.c                                            :+:      :+:    :+:   */
+/*   bin32.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2018/11/28 13:06:48 by acottier         ###   ########.fr       */
+/*   Updated: 2018/11/29 16:01:00 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,15 @@ static int			symtab_read_32(t_data *data, int nsyms, int symoff,
 ** General function for 64bit binaries
 */
 
-int					bin32(char *ptr, char *file, int nb_args)
+int					bin32(char *ptr, char *file, int nb_args, int swap)
 {
 	t_data					*data;
 	struct symtab_command	*symtab;
 
 	data = (t_data *)malloc(sizeof(t_data));
 	fill_data_32(ptr, &data);
+	if (swap)
+		endian_swap(ptr + data->symtab->stroff, data->symtab->strsize);
 	symtab = data->symtab;
 	if (symtab)
 	{

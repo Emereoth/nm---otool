@@ -6,33 +6,81 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2018/11/28 13:33:55 by acottier         ###   ########.fr       */
+/*   Updated: 2018/11/29 16:08:48 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "../includes/ft_nm.h"
+
+static int	fat_boi(char *ptr, char *file, int nb_args, int swap)
+{
+	struct fat_header	*h;
+	struct fat_arch		*arch;
+	unsigned int		rvalue;
+	unsigned int		i;
+
+	(void)swap;
+	i = 0;
+	rvalue = -2;
+	h = (struct fat_header*)ptr;
+	ft_putendl("FAAAAAAAAAT");
+	while (i < h->nfat_arch)
+	{
+		arch = (struct fat_arch*)ptr + sizeof(h) + sizeof(struct fat_arch) * i;
+		rvalue = magic_reader(ptr + arch->offset, file, nb_args, 1);
+		i++;
+		if (rvalue != _EXIT_SUCCESS)
+			break;
+	}
+	munmap(ptr, sizeof(ptr));
+	return (rvalue != _EXIT_SUCCESS ? error(_BAD_FMT, NULL) : _EXIT_SUCCESS);
+}
 
 /*
 ** Read magic_number et start appropriate function
 */
 
-static int	magic_reader(char *ptr, char *file, int nb_args)
+int			magic_reader(char *ptr, char *file, int nb_args, char fat)
 {
-	int				(*f[2]) (char *ptr, char *file, int nb_args);
 	unsigned int	magicnb;
 	unsigned int	rvalue;
+	int				swap;
 
 	if (!ptr)
 		return (_EXIT_FAILURE);
-	f[0] = &bin32;
-	f[1] = &bin64;
-	magicnb = *(int *)ptr;
-	if (magicnb == MH_MAGIC_64)
-		rvalue = f[1](ptr, file, nb_args);
-	else
-		rvalue = _EXIT_SUCCESS;
-	munmap(ptr, sizeof(ptr));
+	rvalue = -2;
+	magicnb = *(unsigned int *)ptr;
+	swap = 0;
+	if (magicnb == FAT_CIGAM || magicnb == MH_CIGAM || magicnb == MH_CIGAM_64)
+		swap = 1;
+	if (magicnb == MH_MAGIC | magicnb == MH_CIGAM)
+		rvalue = bin32(ptr, file, nb_args, swap);
+	else if (magicnb == MH_MAGIC_64 || magicnb == MH_CIGAM_64)
+		rvalue = bin64(ptr, file, nb_args, swap);
+	else if (magicnb == FAT_MAGIC || magicnb == FAT_CIGAM)
+		rvalue = fat_boi(ptr, file, nb_args, swap);
+	if (!fat)
+		munmap(ptr, sizeof(ptr));
 	return (rvalue != _EXIT_SUCCESS ? error(_BAD_FMT, NULL) : _EXIT_SUCCESS);
+}
+
+void	endian_swap(char *ptr, size_t size)
+{
+	size_t		i;
+	int32_t		*bin;
+
+	i = 0;
+	size = size / 4;
+	bin = (void *)ptr;
+	while (i < size)
+	{
+		bin[i] = ((bin[i] & 0xff0000000) >> 24) |
+					((bin[i] & 0x00ff0000) >> 8) |
+					((bin[i] & 0x0000ff00) << 8) |
+					(bin[i] << 24);
+		i++;
+	}
 }
 
 /*
@@ -41,9 +89,10 @@ static int	magic_reader(char *ptr, char *file, int nb_args)
 
 static int	treat_file(char *file, int nb_args)
 {
-	int			fd;
-	struct stat	buff;
-	char		*ptr;
+	int				fd;
+	struct stat		buff;
+	char			*ptr;
+	unsigned int	magicnb;
 
 	fd = 0;
 	errno = 0;
@@ -57,7 +106,10 @@ static int	treat_file(char *file, int nb_args)
 		munmap(ptr, sizeof(ptr));
 		return (error(_MMAP_FAILURE, file));
 	}
-	return (magic_reader(ptr, file, nb_args));
+	magicnb = *(unsigned int*)ptr;
+	if (magicnb == FAT_CIGAM || magicnb == MH_CIGAM || magicnb == MH_CIGAM_64)
+		endian_swap(ptr, buff.st_size);
+	return (magic_reader(ptr, file, nb_args, 0));
 }
 
 int			main(int argc, char **argv)

@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2018/11/27 13:50:52 by acottier         ###   ########.fr       */
+/*   Updated: 2018/11/29 16:00:23 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../../libft/libft.h"
 # include "/usr/include/mach-o/loader.h"
 # include "/usr/include/mach-o/nlist.h"
+# include "/usr/include/mach-o/fat.h"
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <sys/mman.h>
@@ -74,6 +75,7 @@ typedef struct				s_symbol
 typedef struct				s_data
 {
 	int						filetype;
+	char					swap;
 	char					*ptr;
 	unsigned int			ncmds;
 	struct load_command		*lc;
@@ -83,18 +85,23 @@ typedef struct				s_data
 /*
 ** MAIN.c
 */
+int							magic_reader(char *ptr, char *file, int nb_args,
+								char fat);
+void						endian_swap(char *trp, size_t size);
 
 /*
 ** 64BIT.C
 */
 
-int							bin64(char *ptr, char *file, int nb_args);
+int							bin64(char *ptr, char *file, int nb_args,
+								int swap);
 
 /*
 ** 32BIT.C
 */
 
-int							bin32(char *ptr, char *file, int nb_args);
+int							bin32(char *ptr, char *file, int nb_args,
+								int swap);
 
 /*
 ** SYM_LIST.C
