@@ -6,7 +6,7 @@
 #    By: acottier <acottier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/01 13:55:41 by acottier          #+#    #+#              #
-#    Updated: 2018/11/28 13:18:04 by acottier         ###   ########.fr        #
+#    Updated: 2018/12/06 16:44:16 by acottier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,8 @@ SRC_NAMES	=	main.c \
 				sym_list.c \
 				display.c \
 				data.c \
-				sector_browsing.c
+				sector_browsing.c \
+				endian_swaps.c
 
 OBJ_NAMES	=	$(SRC_NAMES:.c=.o)
 

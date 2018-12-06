@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2018/11/29 16:00:23 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/06 17:14:46 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <sys/stat.h>
 # include <sys/mman.h>
 # include <errno.h>
+# include <stdint.h>
 
 enum						e_errcodes
 {
@@ -87,7 +88,6 @@ typedef struct				s_data
 */
 int							magic_reader(char *ptr, char *file, int nb_args,
 								char fat);
-void						endian_swap(char *trp, size_t size);
 
 /*
 ** 64BIT.C
@@ -133,6 +133,13 @@ int							free_all(t_symbol *list, t_data *data,
 
 char						browse_sector_bin64(t_data *data,
 								uint8_t n_sect, struct load_command *lc);
+
+/*
+** ENDIAN_SWAPS.C
+*/
+
+char						*endian_swap(char *ptr, size_t size);
+char						*fat_swap(char *ptr);
 
 /*
 ** ERRORS.C
