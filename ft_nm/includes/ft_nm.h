@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/06 17:14:46 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/10 11:45:25 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "/usr/include/mach-o/loader.h"
 # include "/usr/include/mach-o/nlist.h"
 # include "/usr/include/mach-o/fat.h"
+# include "/usr/include/mach/machine.h"
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <sys/mman.h>

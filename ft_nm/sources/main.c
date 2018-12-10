@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/06 17:11:24 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/10 11:06:12 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	fat_boi(char *ptr, char *file, int nb_args, int swap)
 int			magic_reader(char *ptr, char *file, int nb_args, char fat)
 {
 	unsigned int	magicnb;
-	unsigned int	rvalue;
+	int				rvalue;
 	int				swap;
 
 	if (!ptr)
@@ -66,6 +66,7 @@ int			magic_reader(char *ptr, char *file, int nb_args, char fat)
 		rvalue = bin64(ptr, file, nb_args, swap);
 	else if (magicnb == FAT_MAGIC)
 		rvalue = fat_boi(ptr, file, nb_args, swap);
+	printf("%d\n", rvalue);
 	if (!fat)
 		munmap(ptr, sizeof(ptr));
 	return (rvalue != _EXIT_SUCCESS ? error(_BAD_FMT, NULL) : _EXIT_SUCCESS);
