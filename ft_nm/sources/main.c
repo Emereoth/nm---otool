@@ -6,35 +6,62 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/10 11:06:12 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/11 15:38:22 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "../includes/ft_nm.h"
 
-static int	fat_boi(char *ptr, char *file, int nb_args, int swap)
+/*
+** Create array (one entry per arch in fat binary) telling if the arch is
+** supposed to be displayed or not
+*/
+
+static int	*arch_selection(char *ptr, int archnb)
+{
+	int		*res;
+	int		i;
+
+	res = (int *)malloc(sizeof(int) * archnb);
+	(void)ptr;
+	i = 0;
+	while (i < archnb)
+	{
+		res[i] = (/* VALID_ARCH_CONDITION*/1 ? 1 : 0);
+		i++;
+	}
+	return (res);
+}
+
+/*
+** Manages fat binary display
+*/
+
+static int	fat_boi(char *ptr, char *file, int nb_args)
 {
 	struct fat_header	*h;
 	struct fat_arch		*arch;
 	unsigned int		rvalue;
 	unsigned int		i;
+	int					*display;
 
-	(void)swap;
 	i = 0;
 	rvalue = -2;
 	h = (struct fat_header*)ptr;
-	printf("fat boi address: %p\n", ptr);
+	display = arch_selection(ptr, h->nfat_arch);
 	while (i < h->nfat_arch)
 	{
-		arch = (struct fat_arch*)(ptr + sizeof(h) + sizeof(struct fat_arch) * i);
-		printf("arch struct address: %p\n", arch);
-		printf("magic_reader pointer address: %p (%d)\n", ptr + arch->offset, arch->offset);
-		rvalue = magic_reader(ptr + arch->offset, file, nb_args, 1);
+		if (display[i])
+		{
+			arch = (struct fat_arch*)(ptr + sizeof(h) + sizeof(struct fat_arch) * i);
+			rvalue = magic_reader(ptr + arch->offset, file, nb_args, 1);
+			if (rvalue != _EXIT_SUCCESS)
+				break;
+		}
 		i++;
-		if (rvalue != _EXIT_SUCCESS)
-			break;
 	}
+	free(display);
 	munmap(ptr, sizeof(ptr));
 	return (rvalue != _EXIT_SUCCESS ? error(_BAD_FMT, NULL) : _EXIT_SUCCESS);
 }
@@ -54,19 +81,14 @@ int			magic_reader(char *ptr, char *file, int nb_args, char fat)
 	rvalue = -2;
 	magicnb = *(unsigned int *)ptr;
 	swap = 0;
-	printf("magicnb = %#x (%p)\n", magicnb, ptr);
 	if (magicnb == FAT_CIGAM || magicnb == MH_CIGAM || magicnb == MH_CIGAM_64)
-	{
-		printf("C I G A M\n");
 		swap = 1;
-	}
 	if (magicnb == MH_MAGIC | magicnb == MH_CIGAM)
 		rvalue = bin32(ptr, file, nb_args, swap);
 	else if (magicnb == MH_MAGIC_64 || magicnb == MH_CIGAM_64)
 		rvalue = bin64(ptr, file, nb_args, swap);
 	else if (magicnb == FAT_MAGIC)
-		rvalue = fat_boi(ptr, file, nb_args, swap);
-	printf("%d\n", rvalue);
+		rvalue = fat_boi(ptr, file, nb_args);
 	if (!fat)
 		munmap(ptr, sizeof(ptr));
 	return (rvalue != _EXIT_SUCCESS ? error(_BAD_FMT, NULL) : _EXIT_SUCCESS);

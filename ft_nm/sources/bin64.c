@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/10 14:18:22 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/11 13:27:01 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static int	symtab_read_64(t_data *data, int nsyms, int symoff, int stroff)
 
 	el = (t_nlist *)malloc(sizeof(t_nlist));
 	el->list64 = (void *)data->ptr + symoff;
-	printf("el address: %p\nel->list64 address: %p\n", el, el->list64);
 	stringtable = (void *)data->ptr + stroff;
 	sym_list = make_sym_list(stringtable, el, nsyms, _BIN64);
 	free(el);

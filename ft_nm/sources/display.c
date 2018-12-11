@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 17:01:06 by acottier          #+#    #+#             */
-/*   Updated: 2018/11/28 09:43:58 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/11 13:41:04 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
 ** Display symbol value
 */
 
-static void	display_value(uint64_t n_value)
+static void	display_value(uint64_t n_value, uint8_t n_type)
 {
 	char	*value;
 	int		padding;
 
 	value = ft_to_hex(n_value);
-	if (n_value > 0)
+	if ((n_type & N_TYPE) == N_SECT)
 	{
 		padding = 16 - ft_strlen(value);
 		while (padding-- > 0)
@@ -117,7 +117,7 @@ int			display(t_symbol *list, t_data *data)
 		symbol_type = get_symbol_type(list);
 		if (symbol_type != 1)
 		{
-			display_value(list->s_info->n_value);
+			display_value(list->s_info->n_value, list->s_info->n_type);
 			res = display_type(list, data, symbol_type);
 			if (res != _DISPLAY_OK)
 				return (res);
