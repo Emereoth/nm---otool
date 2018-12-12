@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/10 11:45:25 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/12 14:10:13 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ enum						e_errcodes
 	_EXIT_NO_FILE,
 	_DISPLAY_OK,
 	_DATA_OK
+};
+
+enum						e_arch_display_prio
+{
+	_NONE,
+	_32_ONLY,
+	_64_ONLY,
 };
 
 enum						e_filetypes
@@ -141,6 +148,14 @@ char						browse_sector_bin64(t_data *data,
 
 char						*endian_swap(char *ptr, size_t size);
 char						*fat_swap(char *ptr);
+
+/*
+** UTILITIES.C
+*/
+
+int							determine_priority(int *prio,
+								unsigned int magicnb, int *bin32, int **tab);
+void						show_arch(int archnb, cpu_type_t cpu, char *file);
 
 /*
 ** ERRORS.C

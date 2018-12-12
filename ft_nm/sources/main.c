@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/11 15:38:22 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/12 14:12:30 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,25 @@
 ** supposed to be displayed or not
 */
 
-static int	*arch_selection(char *ptr, int archnb)
+static int	*arch_selection(char *ptr, int archnb, int i)
 {
-	int		*res;
-	int		i;
+	int				*res;
+	int				prio;
+	int				bin32;
+	struct fat_arch	*arch;
+	unsigned int	magicnb;
 
-	res = (int *)malloc(sizeof(int) * archnb);
-	(void)ptr;
-	i = 0;
-	while (i < archnb)
+	res = (int *)malloc(sizeof(int) * (archnb + 1));
+	ft_putstr("arch selection\n");
+	bin32 = -1;
+	prio = _NONE;
+	while (i - 1 < archnb)
 	{
-		res[i] = (/* VALID_ARCH_CONDITION*/1 ? 1 : 0);
+		ft_putstr("fghjnkml\n");
+		arch = (struct fat_arch *)(ptr + sizeof(struct fat_header) + sizeof(struct fat_arch) * i);
+		magicnb = *(int *)arch;
+		res[i] = (determine_priority(&prio, magicnb, &bin32, &res));
+		res[0] += res[i];
 		i++;
 	}
 	return (res);
@@ -49,12 +57,13 @@ static int	fat_boi(char *ptr, char *file, int nb_args)
 	i = 0;
 	rvalue = -2;
 	h = (struct fat_header*)ptr;
-	display = arch_selection(ptr, h->nfat_arch);
+	display = arch_selection(ptr, h->nfat_arch, 1);
 	while (i < h->nfat_arch)
 	{
-		if (display[i])
+		if (display[i + 1])
 		{
 			arch = (struct fat_arch*)(ptr + sizeof(h) + sizeof(struct fat_arch) * i);
+			show_arch(display[i], arch->cputype, file);
 			rvalue = magic_reader(ptr + arch->offset, file, nb_args, 1);
 			if (rvalue != _EXIT_SUCCESS)
 				break;
@@ -80,10 +89,8 @@ int			magic_reader(char *ptr, char *file, int nb_args, char fat)
 		return (_EXIT_FAILURE);
 	rvalue = -2;
 	magicnb = *(unsigned int *)ptr;
-	swap = 0;
-	if (magicnb == FAT_CIGAM || magicnb == MH_CIGAM || magicnb == MH_CIGAM_64)
-		swap = 1;
-	if (magicnb == MH_MAGIC | magicnb == MH_CIGAM)
+	swap = ( (magicnb == MH_CIGAM || magicnb == MH_CIGAM_64) ? 1 : 0);
+	if (magicnb == MH_MAGIC || magicnb == MH_CIGAM)
 		rvalue = bin32(ptr, file, nb_args, swap);
 	else if (magicnb == MH_MAGIC_64 || magicnb == MH_CIGAM_64)
 		rvalue = bin64(ptr, file, nb_args, swap);
