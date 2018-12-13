@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/11 13:27:01 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/13 13:54:30 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int			bin64(char *ptr, char *file, int nb_args, int swap)
 	{
 		if (nb_args > 1)
 		{
+			ft_putchar('\n');
 			ft_putstr(file);
 			ft_putendl(":");
 		}

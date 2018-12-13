@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 11:04:55 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/12 14:13:30 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/13 16:08:57 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 
 int     determine_priority(int *prio, unsigned int magicnb, int *bin32, int **tab)
 {
-    printf("%#x\n", magicnb);
     if (magicnb == MH_MAGIC || magicnb == MH_CIGAM)
     {
-        ft_putstr("32\n");
         if (*prio == _NONE)
         {
             *bin32 = 1;
@@ -29,7 +27,6 @@ int     determine_priority(int *prio, unsigned int magicnb, int *bin32, int **ta
     }
     if (magicnb == MH_MAGIC_64 || magicnb == MH_CIGAM_64)
     {
-        ft_putstr("64\n");
         if (*bin32 == 1)
             *(tab[0]) -= 1;
         *prio = _64_ONLY;
@@ -51,7 +48,7 @@ static char *cpu_name_list(cpu_type_t cpu)
 
 void    show_arch(int archnb, cpu_type_t cpu, char *file)
 {
-    if (archnb <= 1)
+    if (archnb < 1)
         return ;
     ft_putchar('\n');
     ft_putstr(file);

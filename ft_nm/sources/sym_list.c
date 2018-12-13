@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 15:46:16 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/10 11:30:56 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/13 10:05:32 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static t_info	*create_info_struct(t_nlist *el, char type, int i)
 		res->n_type = (el->list32)[i].n_type;
 		res->n_sect = (el->list32)[i].n_sect;
 		res->n_desc = (el->list32)[i].n_desc;
-		res->n_value = (el->list32)[i].n_value;
+		res->n_value.val_32 = (el->list32)[i].n_value;
 	}
 	else if (type == _BIN64)
 	{
@@ -86,7 +86,7 @@ static t_info	*create_info_struct(t_nlist *el, char type, int i)
 		res->n_type = (el->list64)[i].n_type;
 		res->n_sect = (el->list64)[i].n_sect;
 		res->n_desc = (el->list64)[i].n_desc;
-		res->n_value = (el->list64)[i].n_value;
+		res->n_value.val_64 = (el->list64)[i].n_value;
 	}
 	return (res);
 }

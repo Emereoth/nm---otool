@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/12 14:12:30 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/13 16:50:49 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,21 @@ static int	*arch_selection(char *ptr, int archnb, int i)
 {
 	int				*res;
 	int				prio;
-	int				bin32;
+	int				is_bin32;
 	struct fat_arch	*arch;
 	unsigned int	magicnb;
 
 	res = (int *)malloc(sizeof(int) * (archnb + 1));
-	ft_putstr("arch selection\n");
-	bin32 = -1;
+	is_bin32 = -1;
 	prio = _NONE;
 	while (i - 1 < archnb)
 	{
-		ft_putstr("fghjnkml\n");
-		arch = (struct fat_arch *)(ptr + sizeof(struct fat_header) + sizeof(struct fat_arch) * i);
-		magicnb = *(int *)arch;
-		res[i] = (determine_priority(&prio, magicnb, &bin32, &res));
+		arch = (struct fat_arch *)(ptr + sizeof(struct fat_header)
+				+ sizeof(struct fat_arch) * (i - 1));
+		magicnb = *(unsigned int *)(ptr + arch->offset);
+		if (arch->cputype == CPU_TYPE_POWERPC)
+			endian_swap(ptr + arch->offset, arch->size);
+		res[i] = (determine_priority(&prio, magicnb, &is_bin32, &res));
 		res[0] += res[i];
 		i++;
 	}

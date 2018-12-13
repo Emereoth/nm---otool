@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 17:01:06 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/11 13:41:04 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/13 10:50:47 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,25 @@
 ** Display symbol value
 */
 
-static void	display_value(uint64_t n_value, uint8_t n_type)
+static void	display_value(t_info *info, int filetype)
 {
 	char	*value;
 	int		padding;
 
-	value = ft_to_hex(n_value);
-	if ((n_type & N_TYPE) == N_SECT)
+	if (filetype == _BIN32)
+		value = ft_to_hex_32(info->n_value.val_32);
+	else
+		value = ft_to_hex(info->n_value.val_64);
+	padding = (filetype == _BIN32 ? 8 : 16 );
+	if ((info->n_type & N_TYPE) == N_SECT)
 	{
-		padding = 16 - ft_strlen(value);
+		padding -= ft_strlen(value);
 		while (padding-- > 0)
 			ft_putchar('0');
 		ft_putstr(value);
 	}
 	else
-		ft_putstr("                ");
+		ft_putstr(filetype == _BIN32 ? "        " : "                ");
 	ft_putchar(' ');
 }
 
@@ -41,10 +45,11 @@ static void	display_value(uint64_t n_value, uint8_t n_type)
 
 static char	get_sector_type(t_data *data, t_symbol *list)
 {
-	static char	(*f[1]) (t_data *data, uint8_t n_sect, struct load_command *lc);
+	static char	(*f[2]) (t_data *data, uint8_t n_sect, struct load_command *lc);
 	char		segment;
 
-	f[0] = &browse_sector_bin64;
+	f[0] = &browse_sector_bin32;
+	f[1] = &browse_sector_bin64;
 	segment = f[data->filetype](data, list->s_info->n_sect, data->lc);
 	if (segment != 'T' && segment != 'D' && segment != 'B')
 		return ('S');
@@ -117,7 +122,7 @@ int			display(t_symbol *list, t_data *data)
 		symbol_type = get_symbol_type(list);
 		if (symbol_type != 1)
 		{
-			display_value(list->s_info->n_value, list->s_info->n_type);
+			display_value(list->s_info, data->filetype);
 			res = display_type(list, data, symbol_type);
 			if (res != _DISPLAY_OK)
 				return (res);

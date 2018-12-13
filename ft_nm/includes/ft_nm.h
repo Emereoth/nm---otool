@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/12 14:10:13 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/13 10:49:03 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ typedef struct				s_info
 	uint8_t					n_type;
 	uint8_t					n_sect;
 	uint16_t				n_desc;
-	uint64_t				n_value;
+	union {
+		uint64_t			val_64;
+		uint32_t			val_32;
+	}						n_value;
 }							t_info;
 
 typedef struct				s_symbol
@@ -140,6 +143,8 @@ int							free_all(t_symbol *list, t_data *data,
 */
 
 char						browse_sector_bin64(t_data *data,
+								uint8_t n_sect, struct load_command *lc);
+char						browse_sector_bin32(t_data *data,
 								uint8_t n_sect, struct load_command *lc);
 
 /*
