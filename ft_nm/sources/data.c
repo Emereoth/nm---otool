@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 12:33:17 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/13 10:33:04 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/14 13:40:34 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,17 @@ int		fill_data_32(char *ptr, t_data **data)
 	(*data)->ptr = ptr;
 	(*data)->ncmds = header->ncmds;
 	(*data)->lc = lc_cursor;
+	ft_putstr("going through ");
+	ft_putnbr(header->ncmds);
+	ft_putendl(" entries");
 	while (i < header->ncmds && !symtab)
 	{
 		if (lc_cursor->cmd == LC_SYMTAB)
 			symtab = (struct symtab_command *)lc_cursor;
 		i++;
 		lc_cursor = (void *)lc_cursor + lc_cursor->cmdsize;
+		if (symtab)
+			ft_putendl("symtab found");
 	}
 	if (!symtab)
 		return (_NO_SYMTAB_FAILURE);

@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 11:04:55 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/13 16:08:57 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/14 13:46:02 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ static char *cpu_name_list(cpu_type_t cpu)
         return ("i386");
     if (cpu == CPU_TYPE_X86_64)
         return ("x86_64");
-    if (cpu == CPU_TYPE_POWERPC)
-        return ("ppc");
     return ("undefined cpu type");
 }
 

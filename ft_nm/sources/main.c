@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/13 16:50:49 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/14 15:26:21 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ static int	*arch_selection(char *ptr, int archnb, int i)
 		arch = (struct fat_arch *)(ptr + sizeof(struct fat_header)
 				+ sizeof(struct fat_arch) * (i - 1));
 		magicnb = *(unsigned int *)(ptr + arch->offset);
-		if (arch->cputype == CPU_TYPE_POWERPC)
-			endian_swap(ptr + arch->offset, arch->size);
 		res[i] = (determine_priority(&prio, magicnb, &is_bin32, &res));
+		if (arch->cputype == CPU_TYPE_POWERPC)
+			res[i] = 0;
 		res[0] += res[i];
 		i++;
 	}
@@ -61,6 +61,7 @@ static int	fat_boi(char *ptr, char *file, int nb_args)
 	display = arch_selection(ptr, h->nfat_arch, 1);
 	while (i < h->nfat_arch)
 	{
+		ft_putendl("boom");
 		if (display[i + 1])
 		{
 			arch = (struct fat_arch*)(ptr + sizeof(h) + sizeof(struct fat_arch) * i);

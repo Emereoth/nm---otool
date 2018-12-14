@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/13 13:54:34 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/14 13:14:53 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int					bin32(char *ptr, char *file, int nb_args, int swap)
 
 	data = (t_data *)malloc(sizeof(t_data));
 	fill_data_32(ptr, &data);
+	ft_putendl("bin32 bois");
 	if (swap)
 		endian_swap(ptr + data->symtab->stroff, data->symtab->strsize);
 	symtab = data->symtab;
