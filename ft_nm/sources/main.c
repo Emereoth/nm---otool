@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/14 15:26:21 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/16 12:27:01 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static int	fat_boi(char *ptr, char *file, int nb_args)
 	display = arch_selection(ptr, h->nfat_arch, 1);
 	while (i < h->nfat_arch)
 	{
-		ft_putendl("boom");
 		if (display[i + 1])
 		{
 			arch = (struct fat_arch*)(ptr + sizeof(h) + sizeof(struct fat_arch) * i);
