@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/13 10:49:03 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/16 12:32:00 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <sys/mman.h>
 # include <errno.h>
 # include <stdint.h>
+
+# define MH_STATIC_LIB 0x72613c21
 
 enum						e_errcodes
 {
