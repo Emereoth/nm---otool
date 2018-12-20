@@ -6,42 +6,12 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/19 11:38:42 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/19 13:36:41 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "../includes/ft_nm.h"
-
-/*
-** Create array (one entry per arch in fat binary) telling if the arch is
-** supposed to be displayed or not
-*/
-
-static int	*arch_selection(char *ptr, int archnb, int i)
-{
-	int				*res;
-	int				prio;
-	int				is_bin32;
-	struct fat_arch	*arch;
-	unsigned int	magicnb;
-
-	res = (int *)malloc(sizeof(int) * (archnb + 1));
-	is_bin32 = -1;
-	prio = _NONE;
-	while (i - 1 < archnb)
-	{
-		arch = (struct fat_arch *)(ptr + sizeof(struct fat_header)
-				+ sizeof(struct fat_arch) * (i - 1));
-		magicnb = *(unsigned int *)(ptr + arch->offset);
-		res[i] = (determine_priority(&prio, magicnb, &is_bin32, &res));
-		if (arch->cputype == CPU_TYPE_POWERPC)
-			res[i] = 0;
-		res[0] += res[i];
-		i++;
-	}
-	return (res);
-}
 
 /*
 ** Manages fat binary display
@@ -53,18 +23,16 @@ static int	fat_boi(char *ptr, char *file, int nb_args)
 	struct fat_arch		*arch;
 	unsigned int		rvalue;
 	unsigned int		i;
-	int					*display;
 
 	i = 0;
 	rvalue = -2;
 	h = (struct fat_header*)ptr;
-	display = arch_selection(ptr, h->nfat_arch, 1);
 	while (i < h->nfat_arch)
 	{
-		if (display[i + 1])
+		arch = (struct fat_arch*)(ptr + sizeof(h) + sizeof(struct fat_arch) * i);
+		if (arch->cputype != CPU_TYPE_POWERPC)
 		{
-			arch = (struct fat_arch*)(ptr + sizeof(h) + sizeof(struct fat_arch) * i);
-			show_arch(display[i], arch->cputype, file);
+			show_arch(arch->cputype, file);
 			rvalue = magic_reader(ptr + arch->offset, file, nb_args, 1);
 			if (rvalue != _EXIT_SUCCESS)
 				break;

@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 11:04:55 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/19 11:38:42 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/19 14:40:52 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,20 @@ static char *cpu_name_list(cpu_type_t cpu)
     return ("undefined cpu type");
 }
 
-void    show_arch(int archnb, cpu_type_t cpu, char *file)
+void    show_arch(cpu_type_t cpu, char *file)
 {
-    if (archnb <= 1)
-        return ;
     ft_putchar('\n');
     ft_putstr(file);
     ft_putstr(" (for achitecture ");
     ft_putstr(cpu_name_list(cpu));
     ft_putendl("):");
+}
+
+/*
+** Displays (in hexadecimal) the address of the specified pointer.
+*/
+
+void		show_address(char *address)
+{
+	ft_putstr(ft_to_hex((uint64_t)address));
 }

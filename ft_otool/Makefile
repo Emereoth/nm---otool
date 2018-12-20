@@ -6,7 +6,7 @@
 #    By: acottier <acottier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/01 13:55:41 by acottier          #+#    #+#              #
-#    Updated: 2018/12/19 13:01:45 by acottier         ###   ########.fr        #
+#    Updated: 2018/12/19 13:38:11 by acottier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ GREEN		=	\033[0;32m
 YELLOW		=	\033[0;33m
 NC			=	\033[0m
 
-NAME		=	ft_nm
+NAME		=	ft_otool
 
 LIB_PATH	=	../libft
 LIB			=	../libft/libft.a
@@ -26,14 +26,14 @@ SRC_PATH	=	sources
 OBJ_PATH	=	objects
 
 SRC_NAMES	=	main.c \
-				errors.c \
 				bin32.c \
 				bin64.c \
-				sym_list.c \
-				display.c \
 				data.c \
-				sector_browsing.c \
+				display.c \
 				endian_swaps.c \
+				errors.c \
+				sector_browsing.c \
+				sym_list.c \
 				utilities.c
 
 OBJ_NAMES	=	$(SRC_NAMES:.c=.o)
@@ -54,7 +54,7 @@ lib:
 
 $(NAME) : $(OBJ)
 	@(time $(CC) $(FLAGS) $(LIB) $^ -o $@) 2> time.txt
-	@printf "${GREEN}'ft_nm' executable compilation finished:${NC} "
+	@printf "${GREEN}'ft_otool' executable compilation finished:${NC} "
 	@printf "${YELLOW}"
 	@cat time.txt | head -2 | tail -1
 	@printf "${NC}"
@@ -65,11 +65,11 @@ $(OBJ_PATH)/%.o : $(SRC_PATH)/%.c
 
 clean :
 	@rm -rf $(OBJ_PATH)
-	@printf "${RED}'ft_nm' executable object files deleted.${NC}\n"
+	@printf "${RED}'ft_otool' executable object files deleted.${NC}\n"
 
 fclean : clean
 	@@rm -f $(NAME) $(LOG)
-	@printf "${RED}'ft_nm' executable deleted.${NC}\n"
+	@printf "${RED}'ft_otool' executable deleted.${NC}\n"
 
 re : fclean all
 

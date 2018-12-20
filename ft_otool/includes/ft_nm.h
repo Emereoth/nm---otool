@@ -6,12 +6,12 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/19 13:02:06 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/19 14:34:55 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_NM_H
-# define FT_NM_H
+#ifndef FT_OTOOL_H
+# define FT_OTOOL_H
 
 # include "../../libft/libft.h"
 # include "/usr/include/mach-o/loader.h"
@@ -162,7 +162,8 @@ char						*fat_swap(char *ptr);
 
 int							determine_priority(int *prio,
 								unsigned int magicnb, int *bin32, int **tab);
-void						show_arch(int archnb, cpu_type_t cpu, char *file);
+void						show_arch(cpu_type_t cpu, char *file);
+void						show_address(char*address);
 
 /*
 ** ERRORS.C
