@@ -6,12 +6,12 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/19 13:36:41 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/21 10:07:17 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include "../includes/ft_nm.h"
+#include "../includes/ft_otool.h"
 
 /*
 ** Manages fat binary display

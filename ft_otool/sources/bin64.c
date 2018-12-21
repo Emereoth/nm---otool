@@ -6,11 +6,11 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/20 15:52:05 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/21 15:59:55 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_nm.h"
+#include "../includes/ft_otool.h"
 #include <stdio.h>
 
 /*
@@ -39,23 +39,40 @@ static struct section_64	*get_section_64(t_data *data)
 	return (NULL);
 }
 
+static void					display_value(char *addr, unsigned int length)
+{
+	int		padding;
+
+	padding = 16 - ft_strlen(show_address(addr + length));
+	while (padding-- > 0)
+		ft_putchar('0');
+	ft_putstr(show_address(addr + length));
+}
+
+static void					show_hex(char *cursor)
+{
+	// static char	table[16] = "0123456789abcdef";
+
+	ft_putnbr(*cursor);
+	// write(0, &table[*cursor / 16], 1);
+	// write(0, &table[*cursor % 16], 1);
+}
+
 static void					read_section(struct section_64 *section)
 {
 	unsigned int	length;
 
 	length = -1;
-	ft_putendl("ayy lmao reading section");
-	ft_putnbr(section->size);
 	while (++length < section->size)
 	{
 		if (length % 16 == 0)
 		{
 			ft_putchar('\n');
-			show_address((char *)section + length);
+			display_value((char *)section->addr, length);
 			ft_putstr("        ");
 		}
 		ft_putchar(' ');
-		ft_putstr(ft_to_hex((uint64_t)section + length));
+		show_hex((char *)section + length);
 	}
 }
 

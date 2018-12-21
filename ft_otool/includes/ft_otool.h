@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_nm.h                                            :+:      :+:    :+:   */
+/*   ft_otool.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -163,7 +163,7 @@ char						*fat_swap(char *ptr);
 int							determine_priority(int *prio,
 								unsigned int magicnb, int *bin32, int **tab);
 void						show_arch(cpu_type_t cpu, char *file);
-void						show_address(char*address);
+char						*show_address(char*address);
 
 /*
 ** ERRORS.C

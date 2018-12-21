@@ -6,11 +6,11 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 11:04:55 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/19 14:40:52 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/21 13:44:49 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_nm.h"
+#include "../includes/ft_otool.h"
 #include <stdio.h>
 
 int     determine_priority(int *prio, unsigned int magicnb, int *bin32, int **tab)
@@ -57,7 +57,7 @@ void    show_arch(cpu_type_t cpu, char *file)
 ** Displays (in hexadecimal) the address of the specified pointer.
 */
 
-void		show_address(char *address)
+char	*show_address(char *address)
 {
-	ft_putstr(ft_to_hex((uint64_t)address));
+	return (ft_to_hex((uint64_t)address));
 }
