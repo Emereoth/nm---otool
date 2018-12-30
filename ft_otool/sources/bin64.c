@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/21 15:59:55 by acottier         ###   ########.fr       */
+/*   Updated: 2018/12/30 15:01:27 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,29 +51,36 @@ static void					display_value(char *addr, unsigned int length)
 
 static void					show_hex(char *cursor)
 {
-	// static char	table[16] = "0123456789abcdef";
+	int				sign;
+	static char	table[16] = "0123456789abcdef";
+	unsigned char	nb;
 
-	ft_putnbr(*cursor);
-	// write(0, &table[*cursor / 16], 1);
-	// write(0, &table[*cursor % 16], 1);
+	sign = *(cursor)>= 0 ? 1 : -1;
+	nb = *cursor;
+	ft_putchar(table[nb / 16]);
+	ft_putchar(table[nb % 16]);
 }
 
-static void					read_section(struct section_64 *section)
+static void					read_section(char *ptr, struct section_64 *section)
 {
 	unsigned int	length;
+	unsigned int	size;
 
 	length = -1;
-	while (++length < section->size)
+	size = section->size;
+	while (++length < size)
 	{
 		if (length % 16 == 0)
 		{
 			ft_putchar('\n');
 			display_value((char *)section->addr, length);
-			ft_putstr("        ");
+			ft_putchar('\t');
 		}
+		show_hex(ptr + section->offset + length);
 		ft_putchar(' ');
-		show_hex((char *)section + length);
 	}
+	if (length % 16 != 0)
+		ft_putchar('\n');
 }
 
 /*
@@ -90,12 +97,10 @@ int							bin64(char *ptr, char *file, int nb_args, int swap)
 	if (swap)
 		endian_swap(ptr + data->symtab->stroff, data->symtab->strsize);
 	ft_putstr(file);
-	ft_putchar('\n');
-	ft_putendl("Contents of (__TEXT,__text) section");
+	ft_putendl(":");
+	ft_putstr("Contents of (__TEXT,__text) section");
 	section = get_section_64(data);
-	ft_putstr("section: ");
-	ft_putendl(section->segname);
-	read_section(section);
+	read_section(ptr, section);
 	free(data);
 	(void)nb_args;
 	return (0);
