@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/21 10:07:17 by acottier         ###   ########.fr       */
+/*   Updated: 2019/01/11 18:26:31 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** Manages fat binary display
 */
 
-static int	fat_boi(char *ptr, char *file, int nb_args)
+static int	fat_boi(char *ptr, char *file)
 {
 	struct fat_header	*h;
 	struct fat_arch		*arch;
@@ -33,13 +33,12 @@ static int	fat_boi(char *ptr, char *file, int nb_args)
 		if (arch->cputype != CPU_TYPE_POWERPC)
 		{
 			show_arch(arch->cputype, file);
-			rvalue = magic_reader(ptr + arch->offset, file, nb_args, 1);
+			rvalue = magic_reader(ptr + arch->offset, file, 1);
 			if (rvalue != _EXIT_SUCCESS)
 				break;
 		}
 		i++;
 	}
-	free(display);
 	munmap(ptr, sizeof(ptr));
 	return (rvalue != _EXIT_SUCCESS ? error(_BAD_FMT, NULL) : _EXIT_SUCCESS);
 }
@@ -48,7 +47,7 @@ static int	fat_boi(char *ptr, char *file, int nb_args)
 ** Read magic_number et start appropriate function
 */
 
-int			magic_reader(char *ptr, char *file, int nb_args, char fat)
+int			magic_reader(char *ptr, char *file, char fat)
 {
 	unsigned int	magicnb;
 	int				rvalue;
@@ -60,11 +59,11 @@ int			magic_reader(char *ptr, char *file, int nb_args, char fat)
 	magicnb = *(unsigned int *)ptr;
 	swap = ( (magicnb == MH_CIGAM || magicnb == MH_CIGAM_64) ? 1 : 0);
 	if (magicnb == MH_MAGIC || magicnb == MH_CIGAM)
-		rvalue = bin32(ptr, file, nb_args, swap);
+		rvalue = bin32(ptr, file, swap);
 	else if (magicnb == MH_MAGIC_64 || magicnb == MH_CIGAM_64)
-		rvalue = bin64(ptr, file, nb_args, swap);
+		rvalue = bin64(ptr, file, swap);
 	else if (magicnb == FAT_MAGIC)
-		rvalue = fat_boi(ptr, file, nb_args);
+		rvalue = fat_boi(ptr, file);
 	if (!fat)
 		munmap(ptr, sizeof(ptr));
 	return (rvalue != _EXIT_SUCCESS ? error(_BAD_FMT, NULL) : _EXIT_SUCCESS);
@@ -74,7 +73,7 @@ int			magic_reader(char *ptr, char *file, int nb_args, char fat)
 ** Open, map and display one file's symbols
 */
 
-static int	treat_file(char *file, int nb_args)
+static int	treat_file(char *file)
 {
 	int				fd;
 	struct stat		buff;
@@ -93,7 +92,7 @@ static int	treat_file(char *file, int nb_args)
 	magicnb = *(unsigned int*)ptr;
 	if (magicnb == FAT_CIGAM)
 		ptr = fat_swap(ptr);
-	return (magic_reader(ptr, file, nb_args, 0));
+	return (magic_reader(ptr, file, 0));
 }
 
 int			main(int argc, char **argv)
@@ -105,10 +104,10 @@ int			main(int argc, char **argv)
 	rvalue = -1;
 	while (argc - i > 1)
 	{
-		rvalue = treat_file(ft_strdup(argv[i + 1]), argc - 1);
+		rvalue = treat_file(ft_strdup(argv[i + 1]));
 		i++;
 	}
 	if (argc == 1)
-		return (treat_file("a.out", 0));
+		return (treat_file("a.out"));
 	return (rvalue ? rvalue : _EXIT_SUCCESS);
 }

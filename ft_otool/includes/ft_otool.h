@@ -99,22 +99,21 @@ typedef struct				s_data
 /*
 ** MAIN.c
 */
-int							magic_reader(char *ptr, char *file, int nb_args,
-								char fat);
+int							magic_reader(char *ptr, char *file, char fat);
 
 /*
-** 64BIT.C
+** BIN64.C
 */
 
-int							bin64(char *ptr, char *file, int nb_args,
-								int swap);
+int							bin64(char *ptr, char *file, int swap);
+void						display_value(char *addr, unsigned int length);
+void						show_hex(char *cursor);
 
 /*
-** 32BIT.C
+** BIN32.C
 */
 
-int							bin32(char *ptr, char *file, int nb_args,
-								int swap);
+int							bin32(char *ptr, char *file, int swap);
 
 /*
 ** SYM_LIST.C
@@ -137,8 +136,7 @@ char						get_symbol_type(t_symbol *list);
 
 int							fill_data(char *ptr, t_data **data);
 int							fill_data_32(char *ptr, t_data **data);
-int							free_all(t_symbol *list, t_data *data,
-								int errcode, char *str);
+int							free_all(t_data *data, int errcode, char *str);
 
 /*
 ** SECTOR_BROWSING.C

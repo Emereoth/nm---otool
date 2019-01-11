@@ -6,11 +6,15 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 11:13:32 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/21 10:07:17 by acottier         ###   ########.fr       */
+/*   Updated: 2019/01/11 17:09:34 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_otool.h"
+
+/*
+** Show error message
+*/
 
 int	error(int errcode, char *file)
 {

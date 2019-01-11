@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/21 10:07:17 by acottier         ###   ########.fr       */
+/*   Updated: 2019/01/11 17:12:10 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,52 +14,74 @@
 #include <stdio.h>
 
 /*
-** Create symbol list, display it and free
+** Returns first section (__text) from the first segment (__TEXT)
 */
 
-static int			symtab_read_32(t_data *data, int nsyms, int symoff,
-								int stroff)
+static struct section	*get_section(t_data *data)
 {
-	t_nlist			*el;
-	char			*stringtable;
-	t_symbol		*sym_list;
-	int				res;
+	struct section			*res;
+	struct segment_command	*seg;
+	struct load_command		*lc;
+	unsigned int			i;
 
-	el = (t_nlist *)malloc(sizeof(t_nlist));
-	el->list32 = (void *)data->ptr + symoff;
-	stringtable = (void *)data->ptr + stroff;
-	sym_list = make_sym_list(stringtable, el, nsyms, _BIN32);
-	free(el);
-	if ((res = display(sym_list, data)) == _DISPLAY_OK)
-		return (free_all(sym_list, data, _EXIT_SUCCESS, NULL));
-	return (res);
+	i = 0;
+	lc = data->lc;
+	while (i++ < data->ncmds)
+	{
+		if (lc->cmd == LC_SEGMENT)
+		{
+			seg = (struct segment_command *)lc;
+			res = (struct section *)(seg + 1 + i);
+			return (res);
+		}
+		lc = (void *)lc + lc->cmdsize;
+	}
+	return (NULL);
 }
 
 /*
-** General function for 64bit binaries
+** Display adresses and content of __text section for 32bit
 */
 
-int					bin32(char *ptr, char *file, int nb_args, int swap)
+static void				read_section(char *ptr, struct section *section)
 {
-	t_data					*data;
-	struct symtab_command	*symtab;
+	unsigned int	length;	
+	unsigned int	size;
+
+	length = -1;
+	size = section->size;
+	while (++length < size)
+	{
+		if (length % 16 == 0)
+		{
+			ft_putchar('\n');
+			display_value((char *)(uintptr_t)section->addr, length);
+			ft_putchar('\t');
+		}
+		show_hex(ptr + section->offset + length);
+		ft_putchar(' ');
+	}
+}
+
+/*
+** General function for 32bit binaries
+*/
+
+int						bin32(char *ptr, char *file, int swap)
+{
+	t_data			*data;
+	struct section	*section;
 
 	data = (t_data *)malloc(sizeof(t_data));
 	fill_data_32(ptr, &data);
 	if (swap)
 		endian_swap(ptr + data->symtab->stroff, data->symtab->strsize);
-	symtab = data->symtab;
-	if (symtab)
-	{
-		if (nb_args > 1)
-		{
-			ft_putchar('\n');
-			ft_putstr(file);
-			ft_putendl(":");
-		}
-		return (symtab_read_32(data, symtab->nsyms, symtab->symoff,
-				symtab->stroff));
-	}
+	ft_putstr(file);
+	ft_putendl(":");
+	ft_putstr("Contents of (__TEXT,__text)");
+	section = get_section(data);
+	read_section(ptr, section);
+	ft_putchar('\n');
 	free(data);
-	return (error(_NO_SYMTAB_FAILURE, NULL));
+	return (0);
 }

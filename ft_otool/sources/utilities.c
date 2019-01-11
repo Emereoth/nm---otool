@@ -6,12 +6,16 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 11:04:55 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/21 13:44:49 by acottier         ###   ########.fr       */
+/*   Updated: 2019/01/11 17:09:19 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_otool.h"
 #include <stdio.h>
+
+/*
+** Determine the arch (x32 or x64) to show in the case of FAT binary
+*/
 
 int     determine_priority(int *prio, unsigned int magicnb, int *bin32, int **tab)
 {
@@ -35,6 +39,10 @@ int     determine_priority(int *prio, unsigned int magicnb, int *bin32, int **ta
     return (1);
 }
 
+/*
+** Returns name of the CPU type
+*/
+
 static char *cpu_name_list(cpu_type_t cpu)
 {
     if (cpu == CPU_TYPE_I386)
@@ -44,11 +52,15 @@ static char *cpu_name_list(cpu_type_t cpu)
     return ("undefined cpu type");
 }
 
+/*
+** Show architecture name
+*/
+
 void    show_arch(cpu_type_t cpu, char *file)
 {
     ft_putchar('\n');
     ft_putstr(file);
-    ft_putstr(" (for achitecture ");
+    ft_putstr(" (architecture ");
     ft_putstr(cpu_name_list(cpu));
     ft_putendl("):");
 }

@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 12:33:17 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/21 10:07:17 by acottier         ###   ########.fr       */
+/*   Updated: 2019/01/11 16:42:32 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@
 ** Destroy and free data struct
 */
 
-int		free_all(t_symbol *list, t_data *data, int errcode, char *str)
+int		free_all(t_data *data, int errcode, char *str)
 {
-	free_sym_list(list);
 	if (data)
 		free(data);
 	return (errcode == _EXIT_SUCCESS ? 0 : error(errcode, str));

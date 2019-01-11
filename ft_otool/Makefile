@@ -6,7 +6,7 @@
 #    By: acottier <acottier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/01 13:55:41 by acottier          #+#    #+#              #
-#    Updated: 2018/12/19 13:38:11 by acottier         ###   ########.fr        #
+#    Updated: 2019/01/11 16:41:55 by acottier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,11 +29,8 @@ SRC_NAMES	=	main.c \
 				bin32.c \
 				bin64.c \
 				data.c \
-				display.c \
 				endian_swaps.c \
 				errors.c \
-				sector_browsing.c \
-				sym_list.c \
 				utilities.c
 
 OBJ_NAMES	=	$(SRC_NAMES:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/30 15:01:27 by acottier         ###   ########.fr       */
+/*   Updated: 2019/01/11 17:12:18 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,11 @@ static struct section_64	*get_section_64(t_data *data)
 	return (NULL);
 }
 
-static void					display_value(char *addr, unsigned int length)
+/*
+** Show adress of current emplacement in section
+*/
+
+void						display_value(char *addr, unsigned int length)
 {
 	int		padding;
 
@@ -49,7 +53,11 @@ static void					display_value(char *addr, unsigned int length)
 	ft_putstr(show_address(addr + length));
 }
 
-static void					show_hex(char *cursor)
+/*
+** Display current byte in hex
+*/
+
+void						show_hex(char *cursor)
 {
 	int				sign;
 	static char	table[16] = "0123456789abcdef";
@@ -61,7 +69,11 @@ static void					show_hex(char *cursor)
 	ft_putchar(table[nb % 16]);
 }
 
-static void					read_section(char *ptr, struct section_64 *section)
+/*
+** Display adresses and content of __text section for 64bit
+*/
+
+static void					read_section_64(char *ptr, struct section_64 *section)
 {
 	unsigned int	length;
 	unsigned int	size;
@@ -79,15 +91,13 @@ static void					read_section(char *ptr, struct section_64 *section)
 		show_hex(ptr + section->offset + length);
 		ft_putchar(' ');
 	}
-	if (length % 16 != 0)
-		ft_putchar('\n');
 }
 
 /*
 ** General function for 64bit binaries
 */
 
-int							bin64(char *ptr, char *file, int nb_args, int swap)
+int							bin64(char *ptr, char *file, int swap)
 {
 	t_data					*data;
 	struct section_64		*section;
@@ -100,9 +110,8 @@ int							bin64(char *ptr, char *file, int nb_args, int swap)
 	ft_putendl(":");
 	ft_putstr("Contents of (__TEXT,__text) section");
 	section = get_section_64(data);
-	read_section(ptr, section);
+	read_section_64(ptr, section);
+	ft_putchar('\n');
 	free(data);
-	(void)nb_args;
 	return (0);
-	// return (error(_NO_SYMTAB_FAILURE, NULL));
 }
