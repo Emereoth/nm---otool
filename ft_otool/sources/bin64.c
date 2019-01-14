@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2019/01/11 17:12:18 by acottier         ###   ########.fr       */
+/*   Updated: 2019/01/14 14:04:20 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,13 @@ static struct section_64	*get_section_64(t_data *data)
 ** Show adress of current emplacement in section
 */
 
-void						display_value(char *addr, unsigned int length)
+void						display_value(char *addr, unsigned int length,
+											int int_size)
 {
 	int		padding;
 
-	padding = 16 - ft_strlen(show_address(addr + length));
+	padding = (int_size == _BIN64 ? 16 : 8);
+	padding -= ft_strlen(show_address(addr + length));
 	while (padding-- > 0)
 		ft_putchar('0');
 	ft_putstr(show_address(addr + length));
@@ -60,10 +62,10 @@ void						display_value(char *addr, unsigned int length)
 void						show_hex(char *cursor)
 {
 	int				sign;
-	static char	table[16] = "0123456789abcdef";
+	static char		table[16] = "0123456789abcdef";
 	unsigned char	nb;
 
-	sign = *(cursor)>= 0 ? 1 : -1;
+	sign = *(cursor) >= 0 ? 1 : -1;
 	nb = *cursor;
 	ft_putchar(table[nb / 16]);
 	ft_putchar(table[nb % 16]);
@@ -73,7 +75,8 @@ void						show_hex(char *cursor)
 ** Display adresses and content of __text section for 64bit
 */
 
-static void					read_section_64(char *ptr, struct section_64 *section)
+static void					read_section_64(char *ptr,
+							struct section_64 *section)
 {
 	unsigned int	length;
 	unsigned int	size;
@@ -85,7 +88,7 @@ static void					read_section_64(char *ptr, struct section_64 *section)
 		if (length % 16 == 0)
 		{
 			ft_putchar('\n');
-			display_value((char *)section->addr, length);
+			display_value((char *)section->addr, length, _BIN64);
 			ft_putchar('\t');
 		}
 		show_hex(ptr + section->offset + length);
@@ -97,7 +100,7 @@ static void					read_section_64(char *ptr, struct section_64 *section)
 ** General function for 64bit binaries
 */
 
-int							bin64(char *ptr, char *file, int swap)
+int							bin64(char *ptr, char *file, int swap, int fat)
 {
 	t_data					*data;
 	struct section_64		*section;
@@ -106,8 +109,11 @@ int							bin64(char *ptr, char *file, int swap)
 	fill_data(ptr, &data);
 	if (swap)
 		endian_swap(ptr + data->symtab->stroff, data->symtab->strsize);
-	ft_putstr(file);
-	ft_putendl(":");
+	if (!fat)
+	{
+		ft_putstr(file);
+		ft_putendl(":");
+	}
 	ft_putstr("Contents of (__TEXT,__text) section");
 	section = get_section_64(data);
 	read_section_64(ptr, section);

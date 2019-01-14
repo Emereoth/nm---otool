@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/19 11:38:42 by acottier         ###   ########.fr       */
+/*   Updated: 2019/01/14 10:12:25 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,17 @@ static int	fat_boi(char *ptr, char *file, int nb_args)
 	int					*display;
 
 	i = 0;
-	rvalue = -2;
+	rvalue = EXIT_SUCCESS;
 	h = (struct fat_header*)ptr;
 	display = arch_selection(ptr, h->nfat_arch, 1);
-	while (i < h->nfat_arch)
+	while (i < h->nfat_arch && rvalue == EXIT_SUCCESS)
 	{
 		if (display[i + 1])
 		{
-			arch = (struct fat_arch*)(ptr + sizeof(h) + sizeof(struct fat_arch) * i);
+			arch = (struct fat_arch*)(ptr + sizeof(h)
+				+ sizeof(struct fat_arch) * i);
 			show_arch(display[i], arch->cputype, file);
 			rvalue = magic_reader(ptr + arch->offset, file, nb_args, 1);
-			if (rvalue != _EXIT_SUCCESS)
-				break;
 		}
 		i++;
 	}
@@ -90,7 +89,7 @@ int			magic_reader(char *ptr, char *file, int nb_args, char fat)
 		return (_EXIT_FAILURE);
 	rvalue = -2;
 	magicnb = *(unsigned int *)ptr;
-	swap = ( (magicnb == MH_CIGAM || magicnb == MH_CIGAM_64) ? 1 : 0);
+	swap = ((magicnb == MH_CIGAM || magicnb == MH_CIGAM_64) ? 1 : 0);
 	if (magicnb == MH_MAGIC || magicnb == MH_CIGAM)
 		rvalue = bin32(ptr, file, nb_args, swap);
 	else if (magicnb == MH_MAGIC_64 || magicnb == MH_CIGAM_64)

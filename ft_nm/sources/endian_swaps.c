@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:43:56 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/19 11:38:42 by acottier         ###   ########.fr       */
+/*   Updated: 2019/01/14 10:13:14 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 
 char	*endian_swap(char *ptr, size_t size)
 {
-    size_t		i;
-    uint32_t	*bin;
+	size_t		i;
+	uint32_t	*bin;
 
 	i = 0;
 	size = size / 4;

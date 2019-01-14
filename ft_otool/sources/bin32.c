@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2019/01/11 17:12:10 by acottier         ###   ########.fr       */
+/*   Updated: 2019/01/14 14:04:03 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static struct section	*get_section(t_data *data)
 
 static void				read_section(char *ptr, struct section *section)
 {
-	unsigned int	length;	
+	unsigned int	length;
 	unsigned int	size;
 
 	length = -1;
@@ -55,7 +55,7 @@ static void				read_section(char *ptr, struct section *section)
 		if (length % 16 == 0)
 		{
 			ft_putchar('\n');
-			display_value((char *)(uintptr_t)section->addr, length);
+			display_value((char *)(uintptr_t)section->addr, length, _BIN32);
 			ft_putchar('\t');
 		}
 		show_hex(ptr + section->offset + length);
@@ -67,7 +67,7 @@ static void				read_section(char *ptr, struct section *section)
 ** General function for 32bit binaries
 */
 
-int						bin32(char *ptr, char *file, int swap)
+int						bin32(char *ptr, char *file, int swap, int fat)
 {
 	t_data			*data;
 	struct section	*section;
@@ -76,9 +76,12 @@ int						bin32(char *ptr, char *file, int swap)
 	fill_data_32(ptr, &data);
 	if (swap)
 		endian_swap(ptr + data->symtab->stroff, data->symtab->strsize);
-	ft_putstr(file);
-	ft_putendl(":");
-	ft_putstr("Contents of (__TEXT,__text)");
+	if (!fat)
+	{
+		ft_putstr(file);
+		ft_putendl(":");
+	}
+	ft_putstr("Contents of (__TEXT,__text) section");
 	section = get_section(data);
 	read_section(ptr, section);
 	ft_putchar('\n');

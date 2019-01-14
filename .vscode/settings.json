@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"ft_nm.h": "c",
-		"loader.h": "c"
+		"loader.h": "c",
+		"ft_otool.h": "c"
 	}
 }

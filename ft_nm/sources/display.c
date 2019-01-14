@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 17:01:06 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/19 11:38:42 by acottier         ###   ########.fr       */
+/*   Updated: 2019/01/14 10:14:44 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	display_value(t_info *info, int filetype)
 		value = ft_to_hex_32(info->n_value.val_32);
 	else
 		value = ft_to_hex(info->n_value.val_64);
-	padding = (filetype == _BIN32 ? 8 : 16 );
+	padding = (filetype == _BIN32 ? 8 : 16);
 	if ((info->n_type & N_TYPE) == N_SECT)
 	{
 		padding -= ft_strlen(value);

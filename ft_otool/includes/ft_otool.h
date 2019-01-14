@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_otool.h                                            :+:      :+:    :+:   */
+/*   ft_otool.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/19 14:34:55 by acottier         ###   ########.fr       */
+/*   Updated: 2019/01/14 18:20:58 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ enum						e_errcodes
 
 enum						e_arch_display_prio
 {
-	_NONE,
-	_32_ONLY,
-	_64_ONLY,
+	_HIDE,
+	_SHOW,
+	_SHOW_WITH_ARCH
 };
 
 enum						e_filetypes
@@ -105,15 +105,15 @@ int							magic_reader(char *ptr, char *file, char fat);
 ** BIN64.C
 */
 
-int							bin64(char *ptr, char *file, int swap);
-void						display_value(char *addr, unsigned int length);
+int							bin64(char *ptr, char *file, int swap, int fat);
+void						display_value(char *addr, unsigned int length, int int_size);
 void						show_hex(char *cursor);
 
 /*
 ** BIN32.C
 */
 
-int							bin32(char *ptr, char *file, int swap);
+int							bin32(char *ptr, char *file, int swap, int fat);
 
 /*
 ** SYM_LIST.C
@@ -158,10 +158,10 @@ char						*fat_swap(char *ptr);
 ** UTILITIES.C
 */
 
-int							determine_priority(int *prio,
-								unsigned int magicnb, int *bin32, int **tab);
-void						show_arch(cpu_type_t cpu, char *file);
+void						show_name(cpu_type_t cpu, char *file, int to_show);
 char						*show_address(char*address);
+int							determine_priority(unsigned int magicnb, int **tab,
+								int *bin32, int i);
 
 /*
 ** ERRORS.C

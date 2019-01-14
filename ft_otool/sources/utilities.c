@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 11:04:55 by acottier          #+#    #+#             */
-/*   Updated: 2019/01/11 17:09:19 by acottier         ###   ########.fr       */
+/*   Updated: 2019/01/14 18:21:36 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,62 +14,68 @@
 #include <stdio.h>
 
 /*
-** Determine the arch (x32 or x64) to show in the case of FAT binary
-*/
-
-int     determine_priority(int *prio, unsigned int magicnb, int *bin32, int **tab)
-{
-    if (magicnb == MH_MAGIC || magicnb == MH_CIGAM)
-    {
-        if (*prio != _64_ONLY)
-        {
-            *bin32 = 1;
-            *prio = _32_ONLY;
-            return (1);
-        }
-        return (0);
-    }
-    if (magicnb == MH_MAGIC_64 || magicnb == MH_CIGAM_64)
-    {
-        if (*bin32 == 1)
-            *(tab[0]) -= 1;
-        *prio = _64_ONLY;
-        return (1);
-    }
-    return (1);
-}
-
-/*
 ** Returns name of the CPU type
 */
 
-static char *cpu_name_list(cpu_type_t cpu)
+static char	*cpu_name_list(cpu_type_t cpu)
 {
-    if (cpu == CPU_TYPE_I386)
-        return ("i386");
-    if (cpu == CPU_TYPE_X86_64)
-        return ("x86_64");
-    return ("undefined cpu type");
+	if (cpu == CPU_TYPE_I386)
+		return ("i386");
+	if (cpu == CPU_TYPE_X86_64)
+		return ("x86_64");
+	return ("undefined cpu type");
 }
 
 /*
 ** Show architecture name
 */
 
-void    show_arch(cpu_type_t cpu, char *file)
+void		show_name(cpu_type_t cpu, char *file, int to_show)
 {
-    ft_putchar('\n');
-    ft_putstr(file);
-    ft_putstr(" (architecture ");
-    ft_putstr(cpu_name_list(cpu));
-    ft_putendl("):");
+	if (to_show == _HIDE)
+		return ;
+	ft_putstr(file);
+	if (to_show == _SHOW_WITH_ARCH)
+	{
+		ft_putstr(" (architecture ");
+		ft_putstr(cpu_name_list(cpu));
+		ft_putstr("):");
+	}
+	ft_putchar('\n');
 }
 
 /*
 ** Displays (in hexadecimal) the address of the specified pointer.
 */
 
-char	*show_address(char *address)
+char		*show_address(char *address)
 {
 	return (ft_to_hex((uint64_t)address));
+}
+
+/*
+** Assigns priority to each architecture, telling if it should be displayed, displayed with archname
+** or not shown at all
+*/
+
+int			determine_priority(unsigned int magicnb, int **tab,
+								int *bin32, int i)
+{
+	if (magicnb == MH_MAGIC || magicnb == MH_CIGAM)
+	{
+		if (*bin32 == -1)
+		{
+			*bin32 = i;
+			return (_SHOW);
+		}
+	}
+	if (magicnb == MH_MAGIC_64 || magicnb == MH_CIGAM_64)
+	{
+		if (*bin32 != -1)
+		{
+			*tab[*bin32] = _HIDE;
+			return (_SHOW);
+		}
+	}
+	return (_SHOW_WITH_ARCH);
 }
