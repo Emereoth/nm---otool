@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2019/01/14 18:21:20 by acottier         ###   ########.fr       */
+/*   Updated: 2019/01/24 15:59:04 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	fat_boi(char *ptr, char *file)
 	i = 0;
 	rvalue = EXIT_SUCCESS;
 	h = (struct fat_header*)ptr;
-	display = arch_selection(ptr, h->nfat_arch, 1);
+	display = arch_selection(ptr, h->nfat_arch, 0);
 	while (i < h->nfat_arch && rvalue == EXIT_SUCCESS)
 	{
 		arch = (struct fat_arch*)(ptr + sizeof(h)
@@ -94,6 +94,8 @@ int			magic_reader(char *ptr, char *file, char fat)
 		rvalue = bin64(ptr, file, swap, fat);
 	else if (magicnb == FAT_MAGIC)
 		rvalue = fat_boi(ptr, file);
+	else if (magicnb == MH_STATIC_LIB)
+		rvalue = static_lib(ptr, file);
 	if (!fat)
 		munmap(ptr, sizeof(ptr));
 	return (rvalue != _EXIT_SUCCESS ? error(_BAD_FMT, NULL) : _EXIT_SUCCESS);

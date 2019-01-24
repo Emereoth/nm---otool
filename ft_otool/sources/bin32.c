@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2019/01/14 14:04:03 by acottier         ###   ########.fr       */
+/*   Updated: 2019/01/24 12:09:19 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 
 static struct section	*get_section(t_data *data)
 {
-	struct section			*res;
 	struct segment_command	*seg;
 	struct load_command		*lc;
 	unsigned int			i;
@@ -31,8 +30,8 @@ static struct section	*get_section(t_data *data)
 		if (lc->cmd == LC_SEGMENT)
 		{
 			seg = (struct segment_command *)lc;
-			res = (struct section *)(seg + 1 + i);
-			return (res);
+			if (!ft_strcmp(seg->segname, "__TEXT"))
+				return ((struct section *)(seg + 1));
 		}
 		lc = (void *)lc + lc->cmdsize;
 	}

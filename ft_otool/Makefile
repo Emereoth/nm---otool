@@ -6,7 +6,7 @@
 #    By: acottier <acottier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/01 13:55:41 by acottier          #+#    #+#              #
-#    Updated: 2019/01/11 16:41:55 by acottier         ###   ########.fr        #
+#    Updated: 2019/01/24 13:59:07 by acottier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ SRC_NAMES	=	main.c \
 				data.c \
 				endian_swaps.c \
 				errors.c \
-				utilities.c
+				utilities.c \
+				static_lib.c
 
 OBJ_NAMES	=	$(SRC_NAMES:.c=.o)
 
@@ -41,9 +42,12 @@ OBJ			=	$(addprefix $(OBJ_PATH)/, $(OBJ_NAMES))
 CC			=	gcc
 FLAGS		=	-Wall -Wextra -Werror
 
-.PHONY: all clean fclean re fast debug
+.PHONY: all clean fclean re fast debug dance
 
-all : lib $(NAME)
+all : lib dance $(NAME)
+
+dance:
+	./.dance.sh
 
 lib:
 	@make re -C $(LIB_PATH)

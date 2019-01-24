@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2019/01/14 18:20:58 by acottier         ###   ########.fr       */
+/*   Updated: 2019/01/24 15:58:39 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "/usr/include/mach-o/nlist.h"
 # include "/usr/include/mach-o/fat.h"
 # include "/usr/include/mach/machine.h"
+# include "/usr/include/mach-o/ranlib.h"
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <sys/mman.h>
@@ -43,7 +44,8 @@ enum						e_errcodes
 
 enum						e_arch_display_prio
 {
-	_HIDE,
+	_DISABLE_32 = -2,
+	_HIDE = 0,
 	_SHOW,
 	_SHOW_WITH_ARCH
 };
@@ -153,6 +155,12 @@ char						browse_sector_bin32(t_data *data,
 
 char						*endian_swap(char *ptr, size_t size);
 char						*fat_swap(char *ptr);
+
+/*
+** STATIC_LIB.C
+*/
+
+int							static_lib(char *ptr, char *file);
 
 /*
 ** UTILITIES.C
