@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2019/01/24 15:58:39 by acottier         ###   ########.fr       */
+/*   Updated: 2019/01/29 10:09:23 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,14 @@ typedef union				u_nlist
 	struct nlist			*list32;
 	struct nlist_64			*list64;
 }							t_nlist;
+
+typedef struct				s_archive
+{
+	int						obj_off;
+	int						str_off;
+	struct s_archive		*prev;
+	struct s_archive		*next;
+}							t_archive;
 
 typedef struct				s_info
 {
@@ -161,6 +169,12 @@ char						*fat_swap(char *ptr);
 */
 
 int							static_lib(char *ptr, char *file);
+
+/*
+** ARCHIVE_LIST.C
+*/
+
+t_archive					*mk_archive_list(struct ranlib *symtab, int symtab_size);
 
 /*
 ** UTILITIES.C

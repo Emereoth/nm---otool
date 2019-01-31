@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/19 11:38:42 by acottier         ###   ########.fr       */
+/*   Updated: 2019/01/29 15:00:23 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,11 @@ int					bin32(char *ptr, char *file, int nb_args, int swap)
 {
 	t_data					*data;
 	struct symtab_command	*symtab;
+	int						ret;
 
 	data = (t_data *)malloc(sizeof(t_data));
-	fill_data_32(ptr, &data);
+	if ((ret = fill_data_32(ptr, &data)) != _DATA_OK)
+		return (free_all(NULL, data, ret, file));
 	if (swap)
 		endian_swap(ptr + data->symtab->stroff, data->symtab->strsize);
 	symtab = data->symtab;

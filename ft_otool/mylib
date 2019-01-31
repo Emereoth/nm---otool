@@ -1,1 +1,1205 @@
 1918975009
+Archive : ../testfiles/libtest
+../testfiles/libtest(ft_strclr.o):
+reading object at offset 1696
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strrmv.o):
+reading object at offset 2440
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_atoi.o):
+reading object at offset 3408
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strcmp.o):
+reading object at offset 4600
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_bzero.o):
+reading object at offset 5440
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strcpy.o):
+reading object at offset 6200
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_isalnum.o):
+reading object at offset 6976
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strdel.o):
+reading object at offset 7808
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_isalpha.o):
+reading object at offset 8576
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strdup.o):
+reading object at offset 9328
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_isascii.o):
+reading object at offset 10224
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strequ.o):
+reading object at offset 10960
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_isdigit.o):
+reading object at offset 11760
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_striter.o):
+reading object at offset 12496
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_isprint.o):
+reading object at offset 13264
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_striteri.o):
+reading object at offset 14000
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_itoa.o):
+reading object at offset 14768
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strjoin.o):
+reading object at offset 16456
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_memalloc.o):
+reading object at offset 17584
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strlcat.o):
+reading object at offset 18416
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_memccpy.o):
+reading object at offset 19448
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strlen.o):
+reading object at offset 20384
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_memchr.o):
+reading object at offset 21128
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strmap.o):
+reading object at offset 21936
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_memcmp.o):
+reading object at offset 22872
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strmapi.o):
+reading object at offset 23704
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_memcpy.o):
+reading object at offset 24648
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strncat.o):
+reading object at offset 25480
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_memdel.o):
+reading object at offset 26368
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strncmp.o):
+reading object at offset 27136
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_memmove.o):
+reading object at offset 28032
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strncpy.o):
+reading object at offset 28912
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_memset.o):
+reading object at offset 29776
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strnequ.o):
+reading object at offset 30544
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_putchar.o):
+reading object at offset 31384
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strnew.o):
+reading object at offset 32144
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_putchar_fd.o):
+reading object at offset 32992
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strnstr.o):
+reading object at offset 33760
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_putendl.o):
+reading object at offset 34800
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strrchr.o):
+reading object at offset 35696
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_putendl_fd.o):
+reading object at offset 36560
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strsplit.o):
+reading object at offset 37464
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_putnbr.o):
+reading object at offset 38832
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_putnbr_uns.o):
+reading object at offset 38832
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strstr.o):
+reading object at offset 40144
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_putnbr_fd.o):
+reading object at offset 41168
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strsub.o):
+reading object at offset 42248
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_putstr.o):
+reading object at offset 43160
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strtrim.o):
+reading object at offset 44128
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_putstr_fd.o):
+reading object at offset 45776
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_tolower.o):
+reading object at offset 46584
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strcat.o):
+reading object at offset 47320
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_toupper.o):
+reading object at offset 48160
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strchr.o):
+reading object at offset 48896
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_lstnew.o):
+reading object at offset 49736
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_lstdelone.o):
+reading object at offset 50744
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_lstdel.o):
+reading object at offset 51544
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_lstadd.o):
+reading object at offset 52432
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_lstiter.o):
+reading object at offset 53152
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_lstmap.o):
+reading object at offset 53960
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_sqrt.o):
+reading object at offset 54936
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_power.o):
+reading object at offset 55744
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_reverse.o):
+reading object at offset 56544
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strdupchr.o):
+reading object at offset 57432
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strlenchr.o):
+reading object at offset 58416
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_factorial.o):
+reading object at offset 59216
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_puttab.o):
+reading object at offset 60064
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_freetab.o):
+reading object at offset 60872
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_newtab.o):
+reading object at offset 61752
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_putstr_err.o):
+reading object at offset 62560
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_trijoin.o):
+reading object at offset 63352
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_doublestr.o):
+reading object at offset 65536
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_strndup.o):
+reading object at offset 66304
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_to_hex.o):
+reading object at offset 67192
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_to_hex_32.o):
+reading object at offset 67192
+4277009103
+bin64
+4 lcs
+data filled
+Contents of (__TEXT,__text) section
+cycling through 4 cmds
+25
+
+36
+2
+11
+
+no section found
+
+../testfiles/libtest(ft_putnbr_large.o):
+reading object at offset 68544
+0

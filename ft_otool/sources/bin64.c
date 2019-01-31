@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2019/01/24 12:09:52 by acottier         ###   ########.fr       */
+/*   Updated: 2019/01/31 13:32:12 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,17 @@ static struct section_64	*get_section_64(t_data *data)
 
 	i = 0;
 	lc = data->lc;
+	ft_putstr("\ncycling through ");
+	ft_putnbr(data->ncmds);
+	ft_putendl(" cmds");
 	while (i++ < data->ncmds)
 	{
+		ft_putnbr(lc->cmd);
+		ft_putstr("\n");
 		if (lc->cmd == LC_SEGMENT_64)
 		{
 			seg = (struct segment_command_64 *)lc;
+			ft_putendl(seg->segname);
 			if (!ft_strcmp(seg->segname, "__TEXT"))
 				return ((struct section_64 *)(seg + 1));
 		}
@@ -81,6 +87,8 @@ static void					read_section_64(char *ptr,
 	unsigned int	size;
 
 	length = -1;
+	if (!section)
+		return ;
 	size = section->size;
 	while (++length < size)
 	{
@@ -103,9 +111,13 @@ int							bin64(char *ptr, char *file, int swap, int fat)
 {
 	t_data					*data;
 	struct section_64		*section;
+	int						ret;
 
+	ft_putendl("bin64");
 	data = (t_data *)malloc(sizeof(t_data));
-	fill_data(ptr, &data);
+	if ((ret = fill_data(ptr, &data)) != _DATA_OK)
+		return (free_all(data, ret, file));
+	ft_putendl("data filled");
 	if (swap)
 		endian_swap(ptr + data->symtab->stroff, data->symtab->strsize);
 	if (!fat)
@@ -115,6 +127,8 @@ int							bin64(char *ptr, char *file, int swap, int fat)
 	}
 	ft_putstr("Contents of (__TEXT,__text) section");
 	section = get_section_64(data);
+	if (!section)
+		ft_putendl("\nno section found");
 	read_section_64(ptr, section);
 	ft_putchar('\n');
 	free(data);
