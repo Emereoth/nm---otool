@@ -6,11 +6,10 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2019/01/29 12:12:41 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/07 14:20:19 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "../includes/ft_otool.h"
 
 /*
@@ -87,8 +86,7 @@ int			magic_reader(char *ptr, char *file, char fat)
 		return (_EXIT_FAILURE);
 	rvalue = -2;
 	magicnb = *(unsigned int *)ptr;
-	ft_putnbr_uns(magicnb);
-	ft_putchar('\n');
+	ft_putnbr(magicnb);
 	swap = ((magicnb == MH_CIGAM || magicnb == MH_CIGAM_64) ? 1 : 0);
 	if (magicnb == MH_MAGIC || magicnb == MH_CIGAM)
 		rvalue = bin32(ptr, file, swap, fat);

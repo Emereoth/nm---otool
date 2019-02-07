@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 14:26:06 by acottier          #+#    #+#             */
-/*   Updated: 2019/01/29 14:19:32 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/07 14:05:45 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ t_archive	*mk_archive_list(struct ranlib *symtab, int symtab_size)
 	res = NULL;
 	while (symtab_size >= 8)
 	{
-		add_to_list(&res, new_node(symtab->ran_off, symtab->ran_un.ran_strx));
+		if (!(check_duplicate_nodes(res, symtab->ran_off)))
+			add_to_list(&res, new_node(symtab->ran_off, symtab->ran_un.ran_strx));
 		symtab_size -= 8;
 		symtab++;
 	}

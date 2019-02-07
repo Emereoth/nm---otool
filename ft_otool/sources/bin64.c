@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2019/01/31 13:32:12 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/05 11:34:09 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,19 @@ static struct section_64	*get_section_64(t_data *data)
 {
 	struct segment_command_64	*seg;
 	struct load_command			*lc;
+	struct section_64			*sect;
 	unsigned int				i;
 
 	i = 0;
 	lc = data->lc;
-	ft_putstr("\ncycling through ");
-	ft_putnbr(data->ncmds);
-	ft_putendl(" cmds");
 	while (i++ < data->ncmds)
 	{
-		ft_putnbr(lc->cmd);
-		ft_putstr("\n");
 		if (lc->cmd == LC_SEGMENT_64)
 		{
 			seg = (struct segment_command_64 *)lc;
-			ft_putendl(seg->segname);
-			if (!ft_strcmp(seg->segname, "__TEXT"))
+			sect = (struct section_64 *)(seg + 1);
+			if (!ft_strcmp(sect->segname, "__TEXT") && 
+				!ft_strcmp(sect->sectname, "__text"))
 				return ((struct section_64 *)(seg + 1));
 		}
 		lc = (void *)lc + lc->cmdsize;
@@ -113,11 +110,9 @@ int							bin64(char *ptr, char *file, int swap, int fat)
 	struct section_64		*section;
 	int						ret;
 
-	ft_putendl("bin64");
 	data = (t_data *)malloc(sizeof(t_data));
 	if ((ret = fill_data(ptr, &data)) != _DATA_OK)
 		return (free_all(data, ret, file));
-	ft_putendl("data filled");
 	if (swap)
 		endian_swap(ptr + data->symtab->stroff, data->symtab->strsize);
 	if (!fat)

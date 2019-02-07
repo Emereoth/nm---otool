@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 12:33:17 by acottier          #+#    #+#             */
-/*   Updated: 2019/01/31 13:02:10 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/07 14:18:13 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int		free_all(t_data *data, int errcode, char *str)
 ** Create and fill data structure for current file
 */
 
+#include <stdio.h>
+
 int		fill_data(char *ptr, t_data **data)
 {
 	struct mach_header_64	*header;
@@ -41,8 +43,6 @@ int		fill_data(char *ptr, t_data **data)
 	(*data)->filetype = _BIN64;
 	(*data)->ptr = ptr;
 	(*data)->ncmds = header->ncmds;
-	ft_putnbr((*data)->ncmds);
-	ft_putendl(" lcs");
 	(*data)->lc = lc_cursor;
 	while (i < header->ncmds && !symtab)
 	{

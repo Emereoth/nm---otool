@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2019/01/29 10:09:23 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/07 14:07:16 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <stdint.h>
 
 # define MH_STATIC_LIB 0x72613c21
+# define HEADER_SIZE 60
 
 enum						e_errcodes
 {
@@ -169,6 +170,7 @@ char						*fat_swap(char *ptr);
 */
 
 int							static_lib(char *ptr, char *file);
+int							check_duplicate_nodes(t_archive *list, int offset);
 
 /*
 ** ARCHIVE_LIST.C
