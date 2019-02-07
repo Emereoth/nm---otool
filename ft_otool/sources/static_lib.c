@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 13:58:52 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/07 14:28:45 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/07 16:43:55 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,45 @@
 #define TO_SYMTAB 88
 #define TO_BINARY 20
 
+static int	get_name_size(char *ptr)
+{
+	int		length;
+	char	*cursor;
+	int		res;
+
+	length = 0;
+	res = 0;
+	cursor = ptr + 3;
+	while (*cursor != 32)
+	{
+		length++;
+		cursor++;
+	}
+	cursor -= length;
+	while (length > 0)
+	{
+		res *= 10;
+		res += (*cursor) - 48;
+		length--;
+		cursor++;
+	}
+	return (res);
+}
+
 static void	display_archive_list(t_archive *list, char *stringtab, char *file,
 									char *ptr)
 {
+	char	*obj_ptr;
+
 	while (list)
 	{
+		obj_ptr = ptr + list->obj_off;
 		ft_putstr(file);
 		ft_putchar('(');
-		ft_putstr(ptr + list->obj_off + HEADER_SIZE);
+		ft_putstr(obj_ptr + HEADER_SIZE);
 		ft_putendl("):");
-		ft_putstr("Total offset on target: ");
-		ft_putnbr(list->obj_off + 80);
-		ft_putchar('\n');
-		magic_reader((void*)ptr + list->obj_off + 80, stringtab + list->str_off + 1, 1);
+		magic_reader(obj_ptr + 60 + get_name_size(obj_ptr),
+			stringtab + list->str_off + 1, 1);
 		list = list->next;
 	}
 }
