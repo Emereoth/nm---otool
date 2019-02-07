@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 11:04:55 by acottier          #+#    #+#             */
-/*   Updated: 2019/01/24 12:11:58 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/07 17:37:41 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ static char	*cpu_name_list(cpu_type_t cpu)
 
 void		show_name(cpu_type_t cpu, char *file, int to_show)
 {
-	if (to_show == _HIDE)
+	if (to_show == _SHOW_AS_ARCH)
 		return ;
 	ft_putstr(file);
-	if (to_show == _SHOW_WITH_ARCH)
+	if (to_show == _SHOW_WITH_TYPE)
 	{
 		ft_putstr(" (architecture ");
 		ft_putstr(cpu_name_list(cpu));
@@ -77,5 +77,19 @@ int			determine_priority(unsigned int magicnb, int **tab,
 		*bin32 = _DISABLE_32;
 		return (_SHOW);
 	}
-	return (_SHOW_WITH_ARCH);
+	return (_SHOW_WITH_TYPE);
+}
+
+/*
+** Determine if archive must be shown (fats will only display one archive)
+*/
+
+int			archive_priority(void)
+{
+	static int	archive_nb = 0;
+
+	if (archive_nb > 0)
+		return (_HIDE);
+	archive_nb++;
+	return (_SHOW_AS_ARCH);
 }

@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/07 14:07:16 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/07 17:36:19 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ enum						e_arch_display_prio
 	_DISABLE_32 = -2,
 	_HIDE = 0,
 	_SHOW,
-	_SHOW_WITH_ARCH
+	_SHOW_WITH_TYPE,
+	_SHOW_AS_ARCH
 };
 
 enum						e_filetypes
@@ -186,6 +187,7 @@ void						show_name(cpu_type_t cpu, char *file, int to_show);
 char						*show_address(char*address);
 int							determine_priority(unsigned int magicnb, int **tab,
 								int *bin32, int i);
+int							archive_priority(void);
 
 /*
 ** ERRORS.C

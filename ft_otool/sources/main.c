@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/07 16:43:34 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/07 17:37:44 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ static int	*arch_selection(char *ptr, int archnb, int i)
 		arch = (struct fat_arch *)(ptr + sizeof(struct fat_header)
 				+ sizeof(struct fat_arch) * i);
 		magicnb = *(unsigned int *)(ptr + arch->offset);
-		res[i] = (determine_priority(magicnb, &res, &bin32, i));
+		if (magicnb == MH_STATIC_LIB)
+			res[i] = archive_priority();
+		else
+			res[i] = determine_priority(magicnb, &res, &bin32, i);
 		if (arch->cputype == CPU_TYPE_POWERPC)
 			res[i] = _HIDE;
 		i++;
