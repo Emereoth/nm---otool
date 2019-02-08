@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/08 12:08:19 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/08 13:13:20 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "/usr/include/mach-o/nlist.h"
 # include "/usr/include/mach-o/fat.h"
 # include "/usr/include/mach/machine.h"
+# include "/usr/include/mach-o/ranlib.h"
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <sys/mman.h>
@@ -82,6 +83,7 @@ typedef struct				s_archive
 {
 	int						obj_off;
 	int						str_off;
+	char					*start;
 	struct s_archive		*prev;
 	struct s_archive		*next;
 }							t_archive;
@@ -169,14 +171,15 @@ char						*fat_swap(char *ptr);
 ** STATIC_LIB.C
 */
 
-int							static_lib(char *ptr, char *file);
+int							static_lib(char *ptr, char *file, int nb_args);
 int							check_duplicate_nodes(t_archive *list, int offset);
 
 /*
 ** ARCHIVE_LIST.C
 */
 
-t_archive					*mk_archive_list(struct ranlib *symtab, int symtab_size);
+t_archive					*mk_archive_list(struct ranlib *symtab,
+									int symtab_size, char *ptr);
 
 /*
 ** UTILITIES.C

@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/07 17:36:19 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/08 13:20:21 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,8 @@ int							magic_reader(char *ptr, char *file, char fat);
 */
 
 int							bin64(char *ptr, char *file, int swap, int fat);
-void						display_value(char *addr, unsigned int length, int int_size);
+void						display_value(char *addr, unsigned int length,
+								int int_size);
 void						show_hex(char *cursor);
 
 /*
@@ -177,7 +178,8 @@ int							check_duplicate_nodes(t_archive *list, int offset);
 ** ARCHIVE_LIST.C
 */
 
-t_archive					*mk_archive_list(struct ranlib *symtab, int symtab_size);
+t_archive					*mk_archive_list(struct ranlib *symtab,
+								int symtab_size);
 
 /*
 ** UTILITIES.C

@@ -6,14 +6,13 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 13:58:52 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/08 11:48:53 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/08 15:08:31 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
 
 #define TO_SYMTAB 88
-#define TO_BINARY 20
 
 static int	get_name_size(char *ptr)
 {
@@ -41,19 +40,19 @@ static int	get_name_size(char *ptr)
 }
 
 static void	display_archive_list(t_archive *list, char *stringtab, char *file,
-									char *ptr)
+									int nb_args)
 {
 	char	*obj_ptr;
 
 	while (list)
 	{
-		obj_ptr = ptr + list->obj_off;
+		obj_ptr = list->start + list->obj_off;
 		ft_putstr(file);
 		ft_putchar('(');
 		ft_putstr(obj_ptr + HEADER_SIZE);
 		ft_putendl("):");
 		magic_reader(obj_ptr + 60 + get_name_size(obj_ptr),
-			stringtab + list->str_off + 1, 1);
+			stringtab + list->str_off + 1, nb_args, 1);
 		list = list->next;
 	}
 }
@@ -69,7 +68,7 @@ int			check_duplicate_nodes(t_archive *list, int offset)
 	return (0);
 }
 
-int			static_lib(char *ptr, char *file)
+int			static_lib(char *ptr, char *file, int nb_args)
 {
 	struct ranlib	*symtab;
 	int				symtab_size;
@@ -82,7 +81,8 @@ int			static_lib(char *ptr, char *file)
 	symtab_size = *(int *)cursor;
 	cursor += 4;
 	symtab = (struct ranlib *)cursor;
-	list = mk_archive_list(symtab, symtab_size);
-	display_archive_list(list, (void *)symtab + symtab_size + 4, file, ptr);
+	list = mk_archive_list(symtab, symtab_size, ptr);
+	display_archive_list(list,
+		(void *)symtab + symtab_size + 4, file, nb_args);
 	return (0);
 }

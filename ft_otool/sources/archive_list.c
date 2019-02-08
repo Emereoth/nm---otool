@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 14:26:06 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/07 14:05:45 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/08 13:16:40 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static void			add_to_list(t_archive **start, t_archive *new)
 		}
 		link_nodes(new, last_node(*start), NULL);
 	}
-	
 }
 
 static t_archive	*new_node(int obj_off, int str_off)
@@ -66,7 +65,7 @@ static t_archive	*new_node(int obj_off, int str_off)
 	return (res);
 }
 
-t_archive	*mk_archive_list(struct ranlib *symtab, int symtab_size)
+t_archive			*mk_archive_list(struct ranlib *symtab, int symtab_size)
 {
 	char		*stringtab;
 	t_archive	*res;
@@ -76,7 +75,8 @@ t_archive	*mk_archive_list(struct ranlib *symtab, int symtab_size)
 	while (symtab_size >= 8)
 	{
 		if (!(check_duplicate_nodes(res, symtab->ran_off)))
-			add_to_list(&res, new_node(symtab->ran_off, symtab->ran_un.ran_strx));
+			add_to_list(&res,
+				new_node(symtab->ran_off, symtab->ran_un.ran_strx));
 		symtab_size -= 8;
 		symtab++;
 	}

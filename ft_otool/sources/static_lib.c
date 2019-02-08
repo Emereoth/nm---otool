@@ -6,14 +6,13 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 13:58:52 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/07 16:43:55 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/08 13:18:04 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_otool.h"
 
 #define TO_SYMTAB 88
-#define TO_BINARY 20
 
 static int	get_name_size(char *ptr)
 {

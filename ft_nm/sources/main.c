@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/08 12:07:27 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/08 13:25:01 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int			magic_reader(char *ptr, char *file, int nb_args, char fat)
 	else if (magicnb == FAT_MAGIC)
 		rvalue = fat_boi(ptr, file, nb_args);
 	else if (magicnb == MH_STATIC_LIB)
-		rvalue = static_lib(ptr, file);
+		rvalue = static_lib(ptr, file, nb_args);
 	if (!fat)
 		munmap(ptr, sizeof(ptr));
 	return (rvalue != _EXIT_SUCCESS ? error(_BAD_FMT, NULL) : _EXIT_SUCCESS);

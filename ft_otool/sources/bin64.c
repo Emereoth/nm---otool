@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/08 11:54:29 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/08 13:17:09 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static struct section_64	*get_section_64(t_data *data)
 		{
 			seg = (struct segment_command_64 *)lc;
 			sect = (struct section_64 *)(seg + 1);
-			if (!ft_strcmp(sect->segname, "__TEXT") && 
+			if (!ft_strcmp(sect->segname, "__TEXT") &&
 				!ft_strcmp(sect->sectname, "__text"))
 				return ((struct section_64 *)(seg + 1));
 		}

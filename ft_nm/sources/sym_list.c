@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 15:46:16 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/19 11:38:42 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/08 15:08:39 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ static t_symbol	*create_link(char *stringtab, t_nlist *el, char type, int i)
 
 	if ((res = (t_symbol *)malloc(sizeof(t_symbol))) == NULL)
 		return (NULL);
+	ft_bzero(res, sizeof(t_symbol));
 	res->s_info = create_info_struct(el, type, i);
 	if (type == _BIN32)
 		res->name = ft_strdup(stringtab + el->list32[i].n_un.n_strx);

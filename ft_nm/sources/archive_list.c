@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 14:26:06 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/08 11:48:47 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/08 13:21:25 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,23 @@ static void			add_to_list(t_archive **start, t_archive *new)
 		}
 		link_nodes(new, last_node(*start), NULL);
 	}
-	
 }
 
-static t_archive	*new_node(int obj_off, int str_off)
+static t_archive	*new_node(int obj_off, int str_off, char *ptr)
 {
 	t_archive	*res;
 
 	res = (t_archive *)malloc(sizeof(t_archive));
 	res->obj_off = obj_off;
 	res->str_off = str_off;
+	res->start = ptr;
 	res->prev = NULL;
 	res->next = NULL;
 	return (res);
 }
 
-t_archive	*mk_archive_list(struct ranlib *symtab, int symtab_size)
+t_archive			*mk_archive_list(struct ranlib *symtab, int symtab_size,
+										char *ptr)
 {
 	char		*stringtab;
 	t_archive	*res;
@@ -76,7 +77,8 @@ t_archive	*mk_archive_list(struct ranlib *symtab, int symtab_size)
 	while (symtab_size >= 8)
 	{
 		if (!(check_duplicate_nodes(res, symtab->ran_off)))
-			add_to_list(&res, new_node(symtab->ran_off, symtab->ran_un.ran_strx));
+			add_to_list(&res,
+					new_node(symtab->ran_off, symtab->ran_un.ran_strx, ptr));
 		symtab_size -= 8;
 		symtab++;
 	}

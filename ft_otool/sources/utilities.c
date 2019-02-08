@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 11:04:55 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/08 11:45:04 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/08 13:19:43 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ char		*show_address(char *address)
 }
 
 /*
-** Assigns priority to each architecture, telling if it should be displayed, displayed with archname
-** or not shown at all
+** Assigns priority to each architecture, telling if it should be:
+** -displayed,
+** -displayed with archname
+** - or not shown at all
 */
 
 int			determine_priority(unsigned int magicnb, int **tab,
