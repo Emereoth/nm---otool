@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/19 13:02:06 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/08 12:08:19 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <stdint.h>
 
 # define MH_STATIC_LIB 0x72613c21
+# define HEADER_SIZE 60
 
 enum						e_errcodes
 {
@@ -76,6 +77,14 @@ typedef struct				s_info
 		uint32_t			val_32;
 	}						n_value;
 }							t_info;
+
+typedef struct				s_archive
+{
+	int						obj_off;
+	int						str_off;
+	struct s_archive		*prev;
+	struct s_archive		*next;
+}							t_archive;
 
 typedef struct				s_symbol
 {
@@ -155,6 +164,19 @@ char						browse_sector_bin32(t_data *data,
 
 char						*endian_swap(char *ptr, size_t size);
 char						*fat_swap(char *ptr);
+
+/*
+** STATIC_LIB.C
+*/
+
+int							static_lib(char *ptr, char *file);
+int							check_duplicate_nodes(t_archive *list, int offset);
+
+/*
+** ARCHIVE_LIST.C
+*/
+
+t_archive					*mk_archive_list(struct ranlib *symtab, int symtab_size);
 
 /*
 ** UTILITIES.C

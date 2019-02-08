@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/07 17:37:44 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/08 12:07:06 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ static int	*arch_selection(char *ptr, int archnb, int i)
 		else
 			res[i] = determine_priority(magicnb, &res, &bin32, i);
 		if (arch->cputype == CPU_TYPE_POWERPC)
+		{
 			res[i] = _HIDE;
+			bin32 = -1;
+		}
 		i++;
 	}
 	return (res);
@@ -62,15 +65,16 @@ static int	fat_boi(char *ptr, char *file)
 	display = arch_selection(ptr, h->nfat_arch, 0);
 	while (i < h->nfat_arch && rvalue == EXIT_SUCCESS)
 	{
-		arch = (struct fat_arch*)(ptr + sizeof(h)
-				+ sizeof(struct fat_arch) * i);
 		if (display[i])
 		{
+			arch = (struct fat_arch*)(ptr + sizeof(h)
+				+ sizeof(struct fat_arch) * i);
 			show_name(arch->cputype, file, display[i]);
 			rvalue = magic_reader(ptr + arch->offset, file, 1);
 		}
 		i++;
 	}
+	free(display);
 	munmap(ptr, sizeof(ptr));
 	return (rvalue != _EXIT_SUCCESS ? error(_BAD_FMT, NULL) : _EXIT_SUCCESS);
 }

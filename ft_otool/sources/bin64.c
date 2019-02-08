@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/05 11:34:09 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/08 11:54:29 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,6 @@ int							bin64(char *ptr, char *file, int swap, int fat)
 	}
 	ft_putstr("Contents of (__TEXT,__text) section");
 	section = get_section_64(data);
-	if (!section)
-		ft_putendl("\nno section found");
 	read_section_64(ptr, section);
 	ft_putchar('\n');
 	free(data);
