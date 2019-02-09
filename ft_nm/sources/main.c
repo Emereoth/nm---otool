@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/08 13:25:01 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/09 16:00:32 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,26 @@
 static int	*arch_selection(char *ptr, int archnb, int i)
 {
 	int				*res;
-	int				prio;
-	int				is_bin32;
+	int				highest;
+	int				bin32;
 	struct fat_arch	*arch;
 	unsigned int	magicnb;
 
 	res = (int *)malloc(sizeof(int) * (archnb + 1));
-	is_bin32 = -1;
-	prio = _NONE;
-	while (i - 1 < archnb)
+	highest = 0;
+	bin32 = -1;
+	while (i <= archnb)
 	{
 		arch = (struct fat_arch *)(ptr + sizeof(struct fat_header)
 				+ sizeof(struct fat_arch) * (i - 1));
 		magicnb = *(unsigned int *)(ptr + arch->offset);
-		res[i] = (determine_priority(&prio, magicnb, &is_bin32, &res));
+		res[i] = (magicnb == MH_STATIC_LIB ? archive_priority() :
+					determine_priority(magicnb, &res, &bin32, i));
 		if (arch->cputype == CPU_TYPE_POWERPC)
-			res[i] = 0;
+		{
+			res[i] = _HIDE;
+			bin32 = -1;
+		}
 		res[0] += res[i];
 		i++;
 	}
@@ -55,20 +59,21 @@ static int	fat_boi(char *ptr, char *file, int nb_args)
 	unsigned int		i;
 	int					*display;
 
-	i = 0;
+	i = -1;
 	rvalue = EXIT_SUCCESS;
 	h = (struct fat_header*)ptr;
 	display = arch_selection(ptr, h->nfat_arch, 1);
-	while (i < h->nfat_arch && rvalue == EXIT_SUCCESS)
+	while (++i < h->nfat_arch && rvalue == EXIT_SUCCESS)
 	{
-		if (display[i + 1])
+		if (i + 1 <= h->nfat_arch + 1 && display[i + 1])
 		{
 			arch = (struct fat_arch*)(ptr + sizeof(h)
 				+ sizeof(struct fat_arch) * i);
 			show_arch(display[i], arch->cputype, file);
 			rvalue = magic_reader(ptr + arch->offset, file, nb_args, 1);
+			if (i > 1 && display[i + 2])
+				ft_putchar('\n');
 		}
-		i++;
 	}
 	free(display);
 	munmap(ptr, sizeof(ptr));

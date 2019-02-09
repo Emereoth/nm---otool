@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 13:58:52 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/08 15:08:31 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/09 15:27:12 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static void	display_archive_list(t_archive *list, char *stringtab, char *file,
 
 	while (list)
 	{
+		ft_putchar('\n');
 		obj_ptr = list->start + list->obj_off;
 		ft_putstr(file);
 		ft_putchar('(');
@@ -75,8 +76,6 @@ int			static_lib(char *ptr, char *file, int nb_args)
 	char			*cursor;
 	t_archive		*list;
 
-	ft_putstr("Archive : ");
-	ft_putendl(file);
 	cursor = ptr + TO_SYMTAB;
 	symtab_size = *(int *)cursor;
 	cursor += 4;

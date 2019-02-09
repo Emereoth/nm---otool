@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/08 13:13:20 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/09 15:59:29 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,11 @@ enum						e_errcodes
 
 enum						e_arch_display_prio
 {
-	_NONE,
-	_32_ONLY,
-	_64_ONLY,
+	_DISABLE_32 = -2,
+	_HIDE = 0,
+	_SHOW,
+	_SHOW_WITH_TYPE,
+	_SHOW_AS_ARCH
 };
 
 enum						e_filetypes
@@ -185,9 +187,10 @@ t_archive					*mk_archive_list(struct ranlib *symtab,
 ** UTILITIES.C
 */
 
-int							determine_priority(int *prio,
-								unsigned int magicnb, int *bin32, int **tab);
+int							determine_priority(unsigned int magicnb, int **tab,
+								int *bin32, int i);
 void						show_arch(int archnb, cpu_type_t cpu, char *file);
+int							archive_priority(void);
 
 /*
 ** ERRORS.C
