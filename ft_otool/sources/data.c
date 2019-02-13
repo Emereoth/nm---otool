@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 12:33:17 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/08 11:50:47 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/13 16:30:42 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,20 @@ int		fill_data_32(char *ptr, t_data **data)
 		return (_NO_SYMTAB_FAILURE);
 	(*data)->symtab = symtab;
 	return (_DATA_OK);
+}
+
+/*
+** Create new meta structure (info about file size and pointers),
+** needed for corruption protection
+*/
+
+t_meta	*new_master(char *name, char *ptr, u_long size)
+{
+	t_meta	*res;
+
+	res = (t_meta *)malloc(sizeof(t_meta));
+	res->ptr = ptr;
+	res->name = name;
+	res->size = size;
+	return (res);
 }

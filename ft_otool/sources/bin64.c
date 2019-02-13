@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/08 13:17:09 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/13 16:15:57 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,25 +104,30 @@ static void					read_section_64(char *ptr,
 ** General function for 64bit binaries
 */
 
-int							bin64(char *ptr, char *file, int swap, int fat)
+int							bin64(t_meta *file, int swap, int fat)
 {
 	t_data					*data;
 	struct section_64		*section;
 	int						ret;
+	struct symtab_command	*symtab;
 
 	data = (t_data *)malloc(sizeof(t_data));
-	if ((ret = fill_data(ptr, &data)) != _DATA_OK)
-		return (free_all(data, ret, file));
+	if ((ret = fill_data(file->ptr, &data)) != _DATA_OK)
+		return (free_all(data, ret, file->name));
 	if (swap)
-		endian_swap(ptr + data->symtab->stroff, data->symtab->strsize);
+		endian_swap(file->ptr + data->symtab->stroff, data->symtab->strsize);
+	symtab = data->symtab;
+	if (stringtab_check((void*)data->ptr + symtab->stroff, symtab->strsize,
+			file->size, symtab->stroff) == _STRINGTAB_CORRUPTED)
+		return (free_all(data, _STRINGTAB_CORRUPTED, NULL));
 	if (!fat)
 	{
-		ft_putstr(file);
+		ft_putstr(file->name);
 		ft_putendl(":");
 	}
 	ft_putstr("Contents of (__TEXT,__text) section");
 	section = get_section_64(data);
-	read_section_64(ptr, section);
+	read_section_64(file->ptr, section);
 	ft_putchar('\n');
 	free(data);
 	return (0);

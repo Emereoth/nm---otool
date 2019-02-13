@@ -6,11 +6,15 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 14:26:06 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/08 13:16:40 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/13 16:40:23 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_otool.h"
+
+/*
+** Returns pointer to last element of archive list
+*/
 
 static t_archive	*last_node(t_archive *list)
 {
@@ -18,6 +22,10 @@ static t_archive	*last_node(t_archive *list)
 		list = list->next;
 	return (list);
 }
+
+/*
+** Links prev and next pointers between two given nodes
+*/
 
 static void			link_nodes(t_archive *new, t_archive *prev, t_archive *next)
 {
@@ -28,6 +36,10 @@ static void			link_nodes(t_archive *new, t_archive *prev, t_archive *next)
 	if (next)
 		next->prev = new;
 }
+
+/*
+** Adds new node to archive list
+*/
 
 static void			add_to_list(t_archive **start, t_archive *new)
 {
@@ -53,6 +65,10 @@ static void			add_to_list(t_archive **start, t_archive *new)
 	}
 }
 
+/*
+** Creates new archive list node
+*/
+
 static t_archive	*new_node(int obj_off, int str_off)
 {
 	t_archive	*res;
@@ -64,6 +80,10 @@ static t_archive	*new_node(int obj_off, int str_off)
 	res->next = NULL;
 	return (res);
 }
+
+/*
+** Creates list containing all objects in archive
+*/
 
 t_archive			*mk_archive_list(struct ranlib *symtab, int symtab_size)
 {

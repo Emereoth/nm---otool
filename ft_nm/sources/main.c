@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/09 16:00:32 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/13 16:29:05 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ static int	fat_boi(char *ptr, char *file, int nb_args)
 	{
 		if (i + 1 <= h->nfat_arch + 1 && display[i + 1])
 		{
-			arch = (struct fat_arch*)(ptr + sizeof(h)
-				+ sizeof(struct fat_arch) * i);
+			arch = (struct fat_arch*)(ptr + sizeof(h) + sizeof(&arch) * i);
 			show_arch(display[i], arch->cputype, file);
-			rvalue = magic_reader(ptr + arch->offset, file, nb_args, 1);
+			rvalue = magic_reader(
+				new_master(file, ptr + arch->offset, arch->size), nb_args, 1);
 			if (i > 1 && display[i + 2])
 				ft_putchar('\n');
 		}
@@ -84,27 +84,28 @@ static int	fat_boi(char *ptr, char *file, int nb_args)
 ** Read magic_number et start appropriate function
 */
 
-int			magic_reader(char *ptr, char *file, int nb_args, char fat)
+int			magic_reader(t_meta *master, int nb_args, char fat)
 {
 	unsigned int	magicnb;
 	int				rvalue;
 	int				swap;
 
-	if (!ptr)
+	if (!(master->ptr))
 		return (_EXIT_FAILURE);
 	rvalue = -2;
-	magicnb = *(unsigned int *)ptr;
+	magicnb = *(unsigned int *)master->ptr;
 	swap = ((magicnb == MH_CIGAM || magicnb == MH_CIGAM_64) ? 1 : 0);
 	if (magicnb == MH_MAGIC || magicnb == MH_CIGAM)
-		rvalue = bin32(ptr, file, nb_args, swap);
+		rvalue = bin32(master, nb_args, swap);
 	else if (magicnb == MH_MAGIC_64 || magicnb == MH_CIGAM_64)
-		rvalue = bin64(ptr, file, nb_args, swap);
+		rvalue = bin64(master, nb_args, swap);
 	else if (magicnb == FAT_MAGIC)
-		rvalue = fat_boi(ptr, file, nb_args);
+		rvalue = fat_boi(master->ptr, master->name, nb_args);
 	else if (magicnb == MH_STATIC_LIB)
-		rvalue = static_lib(ptr, file, nb_args);
+		rvalue = static_lib(master->ptr, master->name, nb_args);
 	if (!fat)
-		munmap(ptr, sizeof(ptr));
+		munmap(master->ptr, sizeof(master->ptr));
+	free(master);
 	return (rvalue != _EXIT_SUCCESS ? error(_BAD_FMT, NULL) : _EXIT_SUCCESS);
 }
 
@@ -117,7 +118,7 @@ static int	treat_file(char *file, int nb_args)
 	int				fd;
 	struct stat		buff;
 	char			*ptr;
-	unsigned int	magicnb;
+	t_meta			*master_file;
 
 	fd = 0;
 	errno = 0;
@@ -128,10 +129,10 @@ static int	treat_file(char *file, int nb_args)
 	if ((ptr = mmap(NULL, buff.st_size, PROT_READ | PROT_WRITE, MAP_PRIVATE,
 			fd, 0)) == MAP_FAILED)
 		return (error(_MMAP_FAILURE, file));
-	magicnb = *(unsigned int*)ptr;
-	if (magicnb == FAT_CIGAM)
+	master_file = new_master(file, ptr, buff.st_size);
+	if (*(unsigned int*)ptr == FAT_CIGAM)
 		ptr = fat_swap(ptr);
-	return (magic_reader(ptr, file, nb_args, 0));
+	return (magic_reader(master_file, nb_args, 0));
 }
 
 int			main(int argc, char **argv)

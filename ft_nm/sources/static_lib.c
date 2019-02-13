@@ -6,13 +6,17 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 13:58:52 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/09 15:27:12 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/13 17:26:48 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
 
 #define TO_SYMTAB 88
+
+/*
+** Returns the size (in bytes) of the object's name in the header line
+*/
 
 static int	get_name_size(char *ptr)
 {
@@ -39,7 +43,11 @@ static int	get_name_size(char *ptr)
 	return (res);
 }
 
-static void	display_archive_list(t_archive *list, char *stringtab, char *file,
+/*
+** Calls magic_reader() on all nodes in archive object list
+*/
+
+static void	display_archive_list(t_archive *list, char *file,
 									int nb_args)
 {
 	char	*obj_ptr;
@@ -52,11 +60,15 @@ static void	display_archive_list(t_archive *list, char *stringtab, char *file,
 		ft_putchar('(');
 		ft_putstr(obj_ptr + HEADER_SIZE);
 		ft_putendl("):");
-		magic_reader(obj_ptr + 60 + get_name_size(obj_ptr),
-			stringtab + list->str_off + 1, nb_args, 1);
+		magic_reader(new_master(file, obj_ptr + 60 + get_name_size(obj_ptr),
+			(u_long)obj_ptr + 48), nb_args, 1);
 		list = list->next;
 	}
 }
+
+/*
+** Checks for duplicates before adding new node
+*/
 
 int			check_duplicate_nodes(t_archive *list, int offset)
 {
@@ -68,6 +80,10 @@ int			check_duplicate_nodes(t_archive *list, int offset)
 	}
 	return (0);
 }
+
+/*
+** Creates and displays object list for archives
+*/
 
 int			static_lib(char *ptr, char *file, int nb_args)
 {
@@ -81,7 +97,6 @@ int			static_lib(char *ptr, char *file, int nb_args)
 	cursor += 4;
 	symtab = (struct ranlib *)cursor;
 	list = mk_archive_list(symtab, symtab_size, ptr);
-	display_archive_list(list,
-		(void *)symtab + symtab_size + 4, file, nb_args);
+	display_archive_list(list, file, nb_args);
 	return (0);
 }

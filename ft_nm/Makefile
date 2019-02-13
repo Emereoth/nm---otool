@@ -6,7 +6,7 @@
 #    By: acottier <acottier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/01 13:55:41 by acottier          #+#    #+#              #
-#    Updated: 2019/02/08 11:47:23 by acottier         ###   ########.fr        #
+#    Updated: 2019/02/13 09:29:38 by acottier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,8 @@ SRC_NAMES	=	main.c \
 				endian_swaps.c \
 				utilities.c \
 				static_lib.c \
-				archive_list.c
+				archive_list.c \
+				stringtab_check.c
 
 OBJ_NAMES	=	$(SRC_NAMES:.c=.o)
 

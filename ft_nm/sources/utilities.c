@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 11:04:55 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/09 15:58:47 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/13 16:24:51 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,20 @@ int			archive_priority(void)
 		return (_HIDE);
 	archive_nb++;
 	return (_SHOW_AS_ARCH);
+}
+
+/*
+** Create new meta structure (info about file size and pointers),
+** needed for corruption protection
+*/
+
+t_meta		*new_master(char *name, char *ptr, u_long size)
+{
+	t_meta	*res;
+
+	res = (t_meta *)malloc(sizeof(t_meta));
+	res->ptr = ptr;
+	res->name = name;
+	res->size = size;
+	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/08 13:20:21 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/13 16:38:03 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ enum						e_errcodes
 	_FILE_NOT_FOUND,
 	_BAD_FMT,
 	_SCTR_NOT_FOUND,
-	_EXIT_NO_FILE,
+	_STRINGTAB_CORRUPTED,
 	_DISPLAY_OK,
+	_STRINGTAB_OK,
 	_DATA_OK
 };
 
@@ -63,19 +64,19 @@ enum						e_filetypes
 	_LIB
 };
 
+/*
+** Union between 32 and 64bit nlist structs (contains symbol type, value, etc)
+*/
+
 typedef union				u_nlist
 {
 	struct nlist			*list32;
 	struct nlist_64			*list64;
 }							t_nlist;
 
-typedef struct				s_archive
-{
-	int						obj_off;
-	int						str_off;
-	struct s_archive		*prev;
-	struct s_archive		*next;
-}							t_archive;
+/*
+** Structure containing misc data about symbol (mostly extracted from nlist struct)
+*/
 
 typedef struct				s_info
 {
@@ -89,6 +90,22 @@ typedef struct				s_info
 	}						n_value;
 }							t_info;
 
+/*
+** Base structure used to create object lists from archives
+*/
+
+typedef struct				s_archive
+{
+	int						obj_off;
+	int						str_off;
+	struct s_archive		*prev;
+	struct s_archive		*next;
+}							t_archive;
+
+/*
+** Base structure used to create symbol lists from objects
+*/
+
 typedef struct				s_symbol
 {
 	t_info					*s_info;
@@ -97,6 +114,23 @@ typedef struct				s_symbol
 	struct s_symbol			*next;
 	struct s_symbol			*prev;
 }							t_symbol;
+
+/*
+** Metadata structure used for security purposes
+** (checks for stringtable modification or file overflow)
+*/
+
+typedef struct				s_meta
+{
+	char					*ptr;
+	char					*name;
+	u_long					size;
+	u_long					pos;
+}							t_meta;
+
+/*
+** Structure used to store general information about a file
+*/
 
 typedef struct				s_data
 {
@@ -111,13 +145,13 @@ typedef struct				s_data
 /*
 ** MAIN.c
 */
-int							magic_reader(char *ptr, char *file, char fat);
+int							magic_reader(t_meta *master_file, char fat);
 
 /*
 ** BIN64.C
 */
 
-int							bin64(char *ptr, char *file, int swap, int fat);
+int							bin64(t_meta *file, int swap, int fat);
 void						display_value(char *addr, unsigned int length,
 								int int_size);
 void						show_hex(char *cursor);
@@ -126,7 +160,7 @@ void						show_hex(char *cursor);
 ** BIN32.C
 */
 
-int							bin32(char *ptr, char *file, int swap, int fat);
+int							bin32(t_meta *file, int swap, int fat);
 
 /*
 ** SYM_LIST.C
@@ -150,6 +184,7 @@ char						get_symbol_type(t_symbol *list);
 int							fill_data(char *ptr, t_data **data);
 int							fill_data_32(char *ptr, t_data **data);
 int							free_all(t_data *data, int errcode, char *str);
+t_meta						*new_master(char *name, char *ptr, u_long size);
 
 /*
 ** SECTOR_BROWSING.C
@@ -180,6 +215,13 @@ int							check_duplicate_nodes(t_archive *list, int offset);
 
 t_archive					*mk_archive_list(struct ranlib *symtab,
 								int symtab_size);
+
+/*
+** STRINGTAB_CHECK.C
+*/
+
+int							stringtab_check(char *stringtable,
+							uint32_t strtab_size, u_long filesize, int stroff);
 
 /*
 ** UTILITIES.C

@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 11:04:55 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/08 13:19:43 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/13 16:40:44 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*cpu_name_list(cpu_type_t cpu)
 }
 
 /*
-** Show architecture name
+** Shows architecture name
 */
 
 void		show_name(cpu_type_t cpu, char *file, int to_show)
@@ -55,8 +55,8 @@ char		*show_address(char *address)
 
 /*
 ** Assigns priority to each architecture, telling if it should be:
-** -displayed,
-** -displayed with archname
+** - displayed,
+** - displayed with archname
 ** - or not shown at all
 */
 

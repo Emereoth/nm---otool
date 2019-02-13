@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/09 15:59:29 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/13 17:25:39 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ enum						e_errcodes
 	_FILE_NOT_FOUND,
 	_BAD_FMT,
 	_SCTR_NOT_FOUND,
-	_EXIT_NO_FILE,
+	_STRINGTAB_CORRUPTED,
 	_DISPLAY_OK,
+	_STRINGTAB_OK,
 	_DATA_OK
 };
 
@@ -63,11 +64,19 @@ enum						e_filetypes
 	_LIB
 };
 
+/*
+** Union between 32 and 64bit nlist structs (contains symbol type, value, etc)
+*/
+
 typedef union				u_nlist
 {
 	struct nlist			*list32;
 	struct nlist_64			*list64;
 }							t_nlist;
+
+/*
+** Structure containing misc data about symbol (mostly extracted from nlist struct)
+*/
 
 typedef struct				s_info
 {
@@ -81,6 +90,10 @@ typedef struct				s_info
 	}						n_value;
 }							t_info;
 
+/*
+** Base structure used to create object lists from archives
+*/
+
 typedef struct				s_archive
 {
 	int						obj_off;
@@ -90,6 +103,10 @@ typedef struct				s_archive
 	struct s_archive		*next;
 }							t_archive;
 
+/*
+** Base structure used to create symbol lists from objects
+*/
+
 typedef struct				s_symbol
 {
 	t_info					*s_info;
@@ -98,6 +115,23 @@ typedef struct				s_symbol
 	struct s_symbol			*next;
 	struct s_symbol			*prev;
 }							t_symbol;
+
+/*
+** Metadata structure used for security purposes
+** (checks for stringtable modification or file overflow)
+*/
+
+typedef struct				s_meta
+{
+	char					*ptr;
+	char					*name;
+	u_long					size;
+	u_long					pos;
+}							t_meta;
+
+/*
+** Structure used to store general information about a file
+*/
 
 typedef struct				s_data
 {
@@ -112,21 +146,21 @@ typedef struct				s_data
 /*
 ** MAIN.c
 */
-int							magic_reader(char *ptr, char *file, int nb_args,
+int							magic_reader(t_meta *master_file, int nb_args,
 								char fat);
 
 /*
 ** 64BIT.C
 */
 
-int							bin64(char *ptr, char *file, int nb_args,
+int							bin64(t_meta *file, int nb_args,
 								int swap);
 
 /*
 ** 32BIT.C
 */
 
-int							bin32(char *ptr, char *file, int nb_args,
+int							bin32(t_meta *file, int nb_args,
 								int swap);
 
 /*
@@ -184,6 +218,13 @@ t_archive					*mk_archive_list(struct ranlib *symtab,
 									int symtab_size, char *ptr);
 
 /*
+** STRINGTAB_CHECK.C
+*/
+
+int							stringtab_check(char *stringtable,
+							uint32_t strtab_size, u_long filesize, int stroff);
+
+/*
 ** UTILITIES.C
 */
 
@@ -191,6 +232,7 @@ int							determine_priority(unsigned int magicnb, int **tab,
 								int *bin32, int i);
 void						show_arch(int archnb, cpu_type_t cpu, char *file);
 int							archive_priority(void);
+t_meta						*new_master(char *name, char *ptr, u_long size);
 
 /*
 ** ERRORS.C

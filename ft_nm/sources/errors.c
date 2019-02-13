@@ -6,17 +6,22 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 11:13:32 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/19 11:38:42 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/13 17:27:16 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
 
+/*
+** Shows error message
+*/
+
 int	error(int errcode, char *file)
 {
-	static char	*msg[7] = {"Could not open file.", "Mmap call failure",
+	static char	*msg[8] = {"Could not open file.", "Mmap call failure",
 	"No symbol table found.", ": no such file or directory",
-	"Unsupported format.", ": could not locate memory segment for symbol."};
+	"Unsupported format.", ": could not locate memory segment for symbol.",
+	"Corrupted string table."};
 
 	if (errno == 0)
 	{
