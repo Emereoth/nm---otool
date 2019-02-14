@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/13 16:32:14 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/14 18:07:54 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	fat_boi(char *ptr, char *file)
 	}
 	free(display);
 	munmap(ptr, sizeof(ptr));
-	return (rvalue != _EXIT_SUCCESS ? error(_BAD_FMT, NULL) : _EXIT_SUCCESS);
+	return (rvalue != _EXIT_SUCCESS ? error(rvalue, NULL) : _EXIT_SUCCESS);
 }
 
 /*
@@ -103,7 +103,9 @@ int			magic_reader(t_meta *master, char fat)
 		rvalue = static_lib(master->ptr, master->name);
 	if (!fat)
 		munmap(master->ptr, sizeof(master->ptr));
-	return (rvalue != _EXIT_SUCCESS ? error(_BAD_FMT, NULL) : _EXIT_SUCCESS);
+	if (rvalue == _EXIT_SUCCESS)
+		return (_EXIT_SUCCESS);
+	return (error(rvalue == -2 ? _BAD_FMT : rvalue, NULL));
 }
 
 /*

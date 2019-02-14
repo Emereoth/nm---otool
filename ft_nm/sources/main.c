@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/13 16:29:05 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/14 18:06:38 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,30 @@
 ** supposed to be displayed or not
 */
 
-static int	*arch_selection(char *ptr, int archnb, int i)
+static int	*arch_selection(t_meta *file, int archnb, int i, int *rvalue)
 {
 	int				*res;
 	int				highest;
 	int				bin32;
-	struct fat_arch	*arch;
+	int				cputype;
 	unsigned int	magicnb;
 
 	res = (int *)malloc(sizeof(int) * (archnb + 1));
 	highest = 0;
 	bin32 = -1;
-	while (i <= archnb)
+	magicnb = -1;
+	while (++i <= archnb)
 	{
-		arch = (struct fat_arch *)(ptr + sizeof(struct fat_header)
-				+ sizeof(struct fat_arch) * (i - 1));
-		magicnb = *(unsigned int *)(ptr + arch->offset);
+		if ((*rvalue = arch_structures(file, &cputype, i, &magicnb)))
+			break ;
 		res[i] = (magicnb == MH_STATIC_LIB ? archive_priority() :
 					determine_priority(magicnb, &res, &bin32, i));
-		if (arch->cputype == CPU_TYPE_POWERPC)
+		if (cputype == CPU_TYPE_POWERPC)
 		{
 			res[i] = _HIDE;
 			bin32 = -1;
 		}
 		res[0] += res[i];
-		i++;
 	}
 	return (res);
 }
@@ -51,33 +50,33 @@ static int	*arch_selection(char *ptr, int archnb, int i)
 ** Manages fat binary display
 */
 
-static int	fat_boi(char *ptr, char *file, int nb_args)
+static int	fat_boi(t_meta *f, int nb_args, int rvalue, int i)
 {
 	struct fat_header	*h;
 	struct fat_arch		*arch;
-	unsigned int		rvalue;
-	unsigned int		i;
 	int					*display;
 
-	i = -1;
-	rvalue = EXIT_SUCCESS;
-	h = (struct fat_header*)ptr;
-	display = arch_selection(ptr, h->nfat_arch, 1);
-	while (++i < h->nfat_arch && rvalue == EXIT_SUCCESS)
+	h = (struct fat_header*)f->ptr;
+	display = arch_selection(f, h->nfat_arch, 0, &rvalue);
+	while ((uint32_t)++i < h->nfat_arch && rvalue == EXIT_SUCCESS)
 	{
-		if (i + 1 <= h->nfat_arch + 1 && display[i + 1])
+		if ((uint32_t)i + 1 <= h->nfat_arch + 1 && display[i + 1])
 		{
-			arch = (struct fat_arch*)(ptr + sizeof(h) + sizeof(&arch) * i);
-			show_arch(display[i], arch->cputype, file);
-			rvalue = magic_reader(
-				new_master(file, ptr + arch->offset, arch->size), nb_args, 1);
+			if ((rvalue = check_bounds(f, sizeof(h) + sizeof(arch) * i)))
+				break ;
+			arch = (struct fat_arch*)(f->ptr + sizeof(h) + sizeof(arch) * i);
+			show_arch(display[i], arch->cputype, f->name);
+			if ((rvalue = check_bounds(f, arch->offset)))
+				break ;
+			rvalue = magic_reader(new_master
+				(f->name, f->ptr + arch->offset, arch->size), nb_args, 1);
 			if (i > 1 && display[i + 2])
 				ft_putchar('\n');
 		}
 	}
 	free(display);
-	munmap(ptr, sizeof(ptr));
-	return (rvalue != _EXIT_SUCCESS ? error(_BAD_FMT, NULL) : _EXIT_SUCCESS);
+	munmap(f->ptr, sizeof(f->ptr));
+	return (rvalue != _EXIT_SUCCESS ? error(rvalue, NULL) : _EXIT_SUCCESS);
 }
 
 /*
@@ -91,7 +90,7 @@ int			magic_reader(t_meta *master, int nb_args, char fat)
 	int				swap;
 
 	if (!(master->ptr))
-		return (_EXIT_FAILURE);
+		return (_BAD_FMT);
 	rvalue = -2;
 	magicnb = *(unsigned int *)master->ptr;
 	swap = ((magicnb == MH_CIGAM || magicnb == MH_CIGAM_64) ? 1 : 0);
@@ -100,13 +99,15 @@ int			magic_reader(t_meta *master, int nb_args, char fat)
 	else if (magicnb == MH_MAGIC_64 || magicnb == MH_CIGAM_64)
 		rvalue = bin64(master, nb_args, swap);
 	else if (magicnb == FAT_MAGIC)
-		rvalue = fat_boi(master->ptr, master->name, nb_args);
+		rvalue = fat_boi(master, nb_args, _EXIT_SUCCESS, -1);
 	else if (magicnb == MH_STATIC_LIB)
-		rvalue = static_lib(master->ptr, master->name, nb_args);
+		rvalue = static_lib(master, nb_args);
 	if (!fat)
 		munmap(master->ptr, sizeof(master->ptr));
 	free(master);
-	return (rvalue != _EXIT_SUCCESS ? error(_BAD_FMT, NULL) : _EXIT_SUCCESS);
+	if (rvalue == _EXIT_SUCCESS)
+		return (_EXIT_SUCCESS);
+	return (error(rvalue == -2 ? _BAD_FMT : rvalue, NULL));
 }
 
 /*

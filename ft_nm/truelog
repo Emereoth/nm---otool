@@ -1,0 +1,17 @@
+
+../testfiles/liby.a(main.o):
+0000000000000020 s EH_Frame1
+000000000000001e s LC1
+                 U _exit
+0000000000000000 T _main
+                 U _setlocale
+                 U _yyparse
+0000000000000038 s func.eh
+
+../testfiles/liby.a(yyerror.o):
+0000000000000030 s EH_Frame1
+0000000000000026 s LC1
+                 U ___stderrp
+                 U _fprintf
+0000000000000000 T _yyerror
+0000000000000048 s func.eh

@@ -6,11 +6,13 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 14:26:06 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/13 17:28:45 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/14 15:14:54 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
+
+#define TO_SYMTAB 88
 
 /*
 ** Returns pointer to last element of archive list
@@ -87,19 +89,26 @@ static t_archive	*new_node(int obj_off, int str_off, char *ptr)
 */
 
 t_archive			*mk_archive_list(struct ranlib *symtab, int symtab_size,
-										char *ptr)
+										t_meta *file, int *rval)
 {
 	char		*stringtab;
 	t_archive	*res;
+	u_long		pos;
 
+	pos = TO_SYMTAB + 4 + 4 + symtab_size + 4;
+	if ((*rval = check_bounds(file, pos)))
+		return (NULL);
 	stringtab = (void *)symtab + 4 + symtab_size + 4;
 	res = NULL;
 	while (symtab_size >= 8)
 	{
 		if (!(check_duplicate_nodes(res, symtab->ran_off)))
-			add_to_list(&res,
-					new_node(symtab->ran_off, symtab->ran_un.ran_strx, ptr));
+			add_to_list(&res, new_node(symtab->ran_off,
+			symtab->ran_un.ran_strx, file->ptr));
 		symtab_size -= 8;
+		pos += sizeof(struct ranlib);
+		if ((*rval = check_bounds(file, pos)))
+			break ;
 		symtab++;
 	}
 	return (res);

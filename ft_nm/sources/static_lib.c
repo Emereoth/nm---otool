@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 13:58:52 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/13 17:26:48 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/14 18:14:03 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 ** Returns the size (in bytes) of the object's name in the header line
 */
 
-static int	get_name_size(char *ptr)
+static int	get_name_size(char *obj_ptr, t_meta *file, int *rvalue)
 {
 	int		length;
 	char	*cursor;
@@ -26,10 +26,14 @@ static int	get_name_size(char *ptr)
 
 	length = 0;
 	res = 0;
-	cursor = ptr + 3;
-	while (*cursor != 32)
+	if ((*rvalue = check_bounds(file, (u_long)obj_ptr + 3)))
+		return (-1);
+	cursor = obj_ptr + 3;
+	while (*rvalue == _EXIT_SUCCESS && *cursor != 32)
 	{
 		length++;
+		if ((*rvalue = check_bounds(file, (u_long)obj_ptr + 3 + length)))
+			return (-1);
 		cursor++;
 	}
 	cursor -= length;
@@ -44,26 +48,53 @@ static int	get_name_size(char *ptr)
 }
 
 /*
-** Calls magic_reader() on all nodes in archive object list
+** Free object list from archive
 */
 
-static void	display_archive_list(t_archive *list, char *file,
-									int nb_args)
+static void	free_archive_list(t_archive *list)
 {
-	char	*obj_ptr;
+	t_archive	*tmp;
 
 	while (list)
 	{
+		tmp = list->next;
+		free(list);
+		list = tmp;
+	}
+}
+
+/*
+** Calls magic_reader() on all nodes in archive object list
+*/
+
+static void	display_archive_list(t_archive *list, t_meta *f,
+									int nb_args, int *rval)
+{
+	char		*obj_ptr;
+	t_archive	*cursor;
+	int			namesize;
+
+	cursor = list;
+	while (list)
+	{
 		ft_putchar('\n');
-		obj_ptr = list->start + list->obj_off;
-		ft_putstr(file);
+		if ((*rval = check_bounds(f, cursor->obj_off)) ||
+			(*rval = check_bounds(f, cursor->obj_off + HEADER_SIZE)))
+			break ;
+		obj_ptr = cursor->start + cursor->obj_off;
+		ft_putstr(f->name);
 		ft_putchar('(');
 		ft_putstr(obj_ptr + HEADER_SIZE);
 		ft_putendl("):");
-		magic_reader(new_master(file, obj_ptr + 60 + get_name_size(obj_ptr),
+		namesize = get_name_size(obj_ptr, f, rval);
+		if ((*rval = check_object_bounds(f, (void*)obj_ptr, namesize)))
+			break ;
+		ft_putendl("Hello there!");
+		magic_reader(new_master(f->name, obj_ptr + 60 + namesize,
 			(u_long)obj_ptr + 48), nb_args, 1);
-		list = list->next;
+		cursor = cursor->next;
 	}
+	free_archive_list(list);
 }
 
 /*
@@ -85,18 +116,29 @@ int			check_duplicate_nodes(t_archive *list, int offset)
 ** Creates and displays object list for archives
 */
 
-int			static_lib(char *ptr, char *file, int nb_args)
+int			static_lib(t_meta *file, int nb_args)
 {
 	struct ranlib	*symtab;
 	int				symtab_size;
 	char			*cursor;
 	t_archive		*list;
+	int				rvalue;
 
-	cursor = ptr + TO_SYMTAB;
+	rvalue = _EXIT_SUCCESS;
+	if (check_bounds(file, TO_SYMTAB))
+		return (_OUT_OF_BOUNDS);
+	cursor = file->ptr + TO_SYMTAB;
 	symtab_size = *(int *)cursor;
+	if (check_bounds(file, TO_SYMTAB + 4))
+		return (_OUT_OF_BOUNDS);
 	cursor += 4;
 	symtab = (struct ranlib *)cursor;
-	list = mk_archive_list(symtab, symtab_size, ptr);
-	display_archive_list(list, file, nb_args);
-	return (0);
+	list = mk_archive_list(symtab, symtab_size, file, &rvalue);
+	if (rvalue)
+	{
+		free_archive_list(list);
+		return (rvalue);
+	}
+	display_archive_list(list, file, nb_args, &rvalue);
+	return (rvalue);
 }

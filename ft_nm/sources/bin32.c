@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/13 16:19:03 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/14 15:33:24 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,11 @@ static int			symtab_read_32(t_data *data, struct symtab_command *symtab,
 	el->list32 = (void *)data->ptr + symtab->symoff;
 	stringtable = (void *)data->ptr + symtab->stroff;
 	if (stringtab_check(stringtable, symtab->strsize, size, symtab->stroff)
-		== _STRINGTAB_OK)
+		== _STRINGTAB_CORRUPTED)
 	{
 		free(el);
-		return (free_all(NULL, data, _STRINGTAB_CORRUPTED, NULL));
+		free(data);
+		return (_STRINGTAB_CORRUPTED);
 	}
 	sym_list = make_sym_list(stringtable, el, symtab->nsyms, _BIN32);
 	free(el);
@@ -68,5 +69,5 @@ int					bin32(t_meta *file, int nb_args, int swap)
 		return (symtab_read_32(data, symtab, file->size));
 	}
 	free(data);
-	return (error(_NO_SYMTAB_FAILURE, NULL));
+	return (_NO_SYMTAB_FAILURE);
 }
