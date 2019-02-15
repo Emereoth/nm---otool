@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 13:58:52 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/15 12:51:12 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/15 16:08:08 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static void	display_archive_list(t_archive *list, t_meta *f,
 		ft_putstr(obj_ptr + HEADER_SIZE);
 		ft_putendl("):");
 		namesize = get_name_size(obj_ptr, f, rval, cursor->obj_off);
-		if ((*rval =
+		if (namesize == -1 || (*rval =
 			check_object_bounds(f, cursor->obj_off + HEADER_SIZE, namesize)))
 			break ;
 		magic_reader(new_master(f->name, obj_ptr + HEADER_SIZE + namesize,

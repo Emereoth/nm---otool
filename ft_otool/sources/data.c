@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 12:33:17 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/13 16:30:42 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/15 16:22:02 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,42 +16,55 @@
 ** Destroy and free data struct
 */
 
-int		free_all(t_data *data, int errcode, char *str)
+int			free_all(t_data *data, int errcode)
 {
 	if (data)
 		free(data);
-	return (errcode == _EXIT_SUCCESS ? 0 : error(errcode, str));
+	return (errcode);
+}
+
+/*
+** Fills t_data struct with generic fields
+*/
+
+static void	prefill(t_data **data, char *ptr, unsigned int ncmds,
+					struct load_command *lc)
+{
+	(*data)->ptr = ptr;
+	(*data)->ncmds = ncmds;
+	(*data)->lc = lc;
+	(*data)->symtab = NULL;
 }
 
 /*
 ** Create and fill data structure for current file
 */
 
-int		fill_data(char *ptr, t_data **data)
+int			fill_data(char *ptr, t_data **data, t_meta *file)
 {
-	struct mach_header_64	*header;
 	struct load_command		*lc_cursor;
-	struct symtab_command	*symtab;
 	unsigned int			i;
+	unsigned int			pos;
 
 	i = 0;
-	symtab = NULL;
-	header = (struct mach_header_64 *)ptr;
-	lc_cursor = (void *)ptr + sizeof(*header);
+	if (check_bounds(file, sizeof(struct mach_header_64)))
+		return (_OUT_OF_BOUNDS);
+	lc_cursor = (void *)ptr + sizeof(struct mach_header_64);
+	prefill(data, ptr, ((struct mach_header_64 *)ptr)->ncmds,
+		(void *)ptr + sizeof(struct mach_header_64));
 	(*data)->filetype = _BIN64;
-	(*data)->ptr = ptr;
-	(*data)->ncmds = header->ncmds;
-	(*data)->lc = lc_cursor;
-	while (i < header->ncmds && !symtab)
+	while (i < (*data)->ncmds && !(*data)->symtab)
 	{
+		pos = (sizeof(struct mach_header_64) + i * sizeof(lc_cursor)->cmdsize);
 		if (lc_cursor->cmd == LC_SYMTAB)
-			symtab = (struct symtab_command *)lc_cursor;
+			(*data)->symtab = (struct symtab_command *)lc_cursor;
 		i++;
+		if (check_bounds(file, pos))
+			return (_OUT_OF_BOUNDS);
 		lc_cursor = (void *)lc_cursor + lc_cursor->cmdsize;
 	}
-	if (!symtab)
+	if (!(*data)->symtab)
 		return (_NO_SYMTAB_FAILURE);
-	(*data)->symtab = symtab;
 	return (_DATA_OK);
 }
 
@@ -59,31 +72,31 @@ int		fill_data(char *ptr, t_data **data)
 ** Create and fill data structure for 32-bit arch
 */
 
-int		fill_data_32(char *ptr, t_data **data)
+int			fill_data_32(char *ptr, t_data **data, t_meta *file)
 {
-	struct mach_header		*header;
 	struct load_command		*lc_cursor;
-	struct symtab_command	*symtab;
 	unsigned int			i;
+	unsigned int			pos;
 
 	i = 0;
-	symtab = NULL;
-	header = (struct mach_header *)ptr;
-	lc_cursor = (void *)ptr + sizeof(*header);
+	if (check_bounds(file, sizeof(struct mach_header)))
+		return (_OUT_OF_BOUNDS);
+	lc_cursor = (void *)ptr + sizeof(struct mach_header);
+	prefill(data, ptr, ((struct mach_header*)ptr)->ncmds,
+		(void *)ptr + sizeof(struct mach_header));
 	(*data)->filetype = _BIN32;
-	(*data)->ptr = ptr;
-	(*data)->ncmds = header->ncmds;
-	(*data)->lc = lc_cursor;
-	while (i < header->ncmds && !symtab)
+	while (i < (*data)->ncmds && !(*data)->symtab)
 	{
+		pos = (sizeof(struct mach_header) + i * sizeof(lc_cursor)->cmdsize);
 		if (lc_cursor->cmd == LC_SYMTAB)
-			symtab = (struct symtab_command *)lc_cursor;
+			(*data)->symtab = (struct symtab_command *)lc_cursor;
 		i++;
+		if (check_bounds(file, pos))
+			return (_OUT_OF_BOUNDS);
 		lc_cursor = (void *)lc_cursor + lc_cursor->cmdsize;
 	}
-	if (!symtab)
+	if (!(*data)->symtab)
 		return (_NO_SYMTAB_FAILURE);
-	(*data)->symtab = symtab;
 	return (_DATA_OK);
 }
 
@@ -92,7 +105,7 @@ int		fill_data_32(char *ptr, t_data **data)
 ** needed for corruption protection
 */
 
-t_meta	*new_master(char *name, char *ptr, u_long size)
+t_meta		*new_master(char *name, char *ptr, u_long size)
 {
 	t_meta	*res;
 

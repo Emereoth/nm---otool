@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/13 16:15:57 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/15 15:23:24 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,14 +112,14 @@ int							bin64(t_meta *file, int swap, int fat)
 	struct symtab_command	*symtab;
 
 	data = (t_data *)malloc(sizeof(t_data));
-	if ((ret = fill_data(file->ptr, &data)) != _DATA_OK)
-		return (free_all(data, ret, file->name));
+	if ((ret = fill_data(file->ptr, &data, file)) != _DATA_OK)
+		return (free_all(data, ret));
 	if (swap)
 		endian_swap(file->ptr + data->symtab->stroff, data->symtab->strsize);
 	symtab = data->symtab;
 	if (stringtab_check((void*)data->ptr + symtab->stroff, symtab->strsize,
 			file->size, symtab->stroff) == _STRINGTAB_CORRUPTED)
-		return (free_all(data, _STRINGTAB_CORRUPTED, NULL));
+		return (free_all(data, _STRINGTAB_CORRUPTED));
 	if (!fat)
 	{
 		ft_putstr(file->name);

@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/14 18:03:33 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/15 15:19:52 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	symtab_read_64(t_data *data, struct symtab_command *symtab,
 	sym_list = make_sym_list(stringtable, el, symtab->nsyms, _BIN64);
 	free(el);
 	if ((res = display(sym_list, data)) == _DISPLAY_OK)
-		return (free_all(sym_list, data, _EXIT_SUCCESS, NULL));
+		return (free_all(sym_list, data, _EXIT_SUCCESS));
 	return (res);
 }
 
@@ -53,8 +53,8 @@ int			bin64(t_meta *file, int nb_args, int swap)
 	int						ret;
 
 	data = (t_data *)malloc(sizeof(t_data));
-	if ((ret = fill_data(file->ptr, &data)) != _DATA_OK)
-		return (free_all(NULL, data, ret, file->name));
+	if ((ret = fill_data(file->ptr, &data, file)) != _DATA_OK)
+		return (free_all(NULL, data, ret));
 	if (swap)
 		endian_swap(file->ptr + data->symtab->stroff, data->symtab->strsize);
 	symtab = data->symtab;

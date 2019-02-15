@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/13 16:38:03 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/15 16:20:50 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ enum						e_errcodes
 	_BAD_FMT,
 	_SCTR_NOT_FOUND,
 	_STRINGTAB_CORRUPTED,
+	_OUT_OF_BOUNDS,
 	_DISPLAY_OK,
 	_STRINGTAB_OK,
 	_DATA_OK
@@ -75,7 +76,8 @@ typedef union				u_nlist
 }							t_nlist;
 
 /*
-** Structure containing misc data about symbol (mostly extracted from nlist struct)
+** Structure containing misc data about symbol
+** (mostly extracted from nlist struct)
 */
 
 typedef struct				s_info
@@ -98,6 +100,7 @@ typedef struct				s_archive
 {
 	int						obj_off;
 	int						str_off;
+	char					*start;
 	struct s_archive		*prev;
 	struct s_archive		*next;
 }							t_archive;
@@ -125,7 +128,6 @@ typedef struct				s_meta
 	char					*ptr;
 	char					*name;
 	u_long					size;
-	u_long					pos;
 }							t_meta;
 
 /*
@@ -181,9 +183,10 @@ char						get_symbol_type(t_symbol *list);
 ** DATA.C
 */
 
-int							fill_data(char *ptr, t_data **data);
-int							fill_data_32(char *ptr, t_data **data);
-int							free_all(t_data *data, int errcode, char *str);
+int							fill_data(char *ptr, t_data **data, t_meta *file);
+int							fill_data_32(char *ptr, t_data **data,
+								t_meta *file);
+int							free_all(t_data *data, int errcode);
 t_meta						*new_master(char *name, char *ptr, u_long size);
 
 /*
@@ -206,7 +209,7 @@ char						*fat_swap(char *ptr);
 ** STATIC_LIB.C
 */
 
-int							static_lib(char *ptr, char *file);
+int							static_lib(t_meta *file);
 int							check_duplicate_nodes(t_archive *list, int offset);
 
 /*
@@ -214,7 +217,7 @@ int							check_duplicate_nodes(t_archive *list, int offset);
 */
 
 t_archive					*mk_archive_list(struct ranlib *symtab,
-								int symtab_size);
+								int symtab_size, t_meta *file, int *rval);
 
 /*
 ** STRINGTAB_CHECK.C
@@ -222,6 +225,17 @@ t_archive					*mk_archive_list(struct ranlib *symtab,
 
 int							stringtab_check(char *stringtable,
 							uint32_t strtab_size, u_long filesize, int stroff);
+
+/*
+** CHECK_BOUNDS.C
+*/
+
+int							check_bounds(t_meta *file, u_long offset);
+int							arch_structures(t_meta *file,
+								int *cputype, int i,
+								unsigned int *magicnb);
+int							check_object_bounds(t_meta *file, u_long obj,
+								int namesize);
 
 /*
 ** UTILITIES.C

@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/14 18:07:54 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/15 17:52:41 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,29 +17,35 @@
 ** supposed to be displayed or not
 */
 
-static int	*arch_selection(char *ptr, int archnb, int i)
+static int	*arch_selection(t_meta *file, int archnb, int i, int *rvalue)
 {
 	int				*res;
 	int				highest;
 	int				bin32;
-	struct fat_arch	*arch;
+	int				cputype;
 	unsigned int	magicnb;
 
 	res = (int *)malloc(sizeof(int) * archnb);
 	highest = 0;
 	bin32 = -1;
-	while (i < archnb)
+	magicnb = -1;
+	while (++i <= archnb)
 	{
-		arch = (struct fat_arch *)(ptr + sizeof(struct fat_header)
-				+ sizeof(struct fat_arch) * i);
-		magicnb = *(unsigned int *)(ptr + arch->offset);
+		if ((*rvalue = arch_structures(file, &cputype, i, &magicnb)))
+			break ;
 		res[i] = (magicnb == MH_STATIC_LIB ? archive_priority() :
 					determine_priority(magicnb, &res, &bin32, i));
-		if (arch->cputype == CPU_TYPE_POWERPC)
+		ft_putnbr(res[i]);
+		ft_putchar('\n');
+		ft_putnbr(cputype);
+		ft_putendl(" -> cputype");
+		if (cputype == CPU_TYPE_POWERPC)
 		{
 			res[i] = _HIDE;
 			bin32 = -1;
 		}
+		ft_putnbr(res[i]);
+		ft_putchar('\n');
 		i++;
 	}
 	return (res);
@@ -49,32 +55,33 @@ static int	*arch_selection(char *ptr, int archnb, int i)
 ** Manages fat binary display
 */
 
-static int	fat_boi(char *ptr, char *file)
+static int	fat_boi(t_meta *f, int rvalue, uint32_t i)
 {
 	struct fat_header	*h;
 	struct fat_arch		*arch;
-	unsigned int		rvalue;
-	unsigned int		i;
 	int					*display;
 
-	i = 0;
-	rvalue = EXIT_SUCCESS;
-	h = (struct fat_header*)ptr;
-	display = arch_selection(ptr, h->nfat_arch, 0);
-	while (i < h->nfat_arch && rvalue == EXIT_SUCCESS)
+	h = (struct fat_header*)f->ptr;
+	ft_putnbr(h->nfat_arch);
+	ft_putendl(" -> nb of archs");
+	display = arch_selection(f, h->nfat_arch, -1, &rvalue);
+	while (++i < h->nfat_arch && rvalue == _EXIT_SUCCESS)
 	{
-		if (display[i])
+		if (i + 1 <= h->nfat_arch && display[i + 1])
 		{
-			arch = (struct fat_arch*)(ptr + sizeof(h)
-				+ sizeof(struct fat_arch) * i);
-			show_name(arch->cputype, file, display[i]);
+			if ((rvalue = check_bounds(f, sizeof(h) + sizeof(arch) * i)))
+				break ;
+			arch = (struct fat_arch*)(f->ptr + sizeof(h) + sizeof(arch) * i);
+			show_name(arch->cputype, f->name, display[i + 1]);
+			if ((rvalue = check_bounds(f, arch->offset)))
+				break ;
 			rvalue = magic_reader(
-				new_master(file, ptr + arch->offset, arch->size), 1);
+				new_master(f->name, f->ptr + arch->offset, arch->size), 1);
 		}
 		i++;
 	}
 	free(display);
-	munmap(ptr, sizeof(ptr));
+	munmap(f->ptr, sizeof(f->ptr));
 	return (rvalue != _EXIT_SUCCESS ? error(rvalue, NULL) : _EXIT_SUCCESS);
 }
 
@@ -89,7 +96,7 @@ int			magic_reader(t_meta *master, char fat)
 	int				swap;
 
 	if (!(master->ptr))
-		return (_EXIT_FAILURE);
+		return (_BAD_FMT);
 	rvalue = -2;
 	magicnb = *(unsigned int *)master->ptr;
 	swap = ((magicnb == MH_CIGAM || magicnb == MH_CIGAM_64) ? 1 : 0);
@@ -98,9 +105,9 @@ int			magic_reader(t_meta *master, char fat)
 	else if (magicnb == MH_MAGIC_64 || magicnb == MH_CIGAM_64)
 		rvalue = bin64(master, swap, fat);
 	else if (magicnb == FAT_MAGIC)
-		rvalue = fat_boi(master->ptr, master->name);
+		rvalue = fat_boi(master, _EXIT_SUCCESS, -1);
 	else if (magicnb == MH_STATIC_LIB)
-		rvalue = static_lib(master->ptr, master->name);
+		rvalue = static_lib(master);
 	if (!fat)
 		munmap(master->ptr, sizeof(master->ptr));
 	if (rvalue == _EXIT_SUCCESS)

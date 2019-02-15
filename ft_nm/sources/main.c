@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/15 14:15:25 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/15 15:31:09 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	fat_boi(t_meta *f, int nb_args, int rvalue, uint32_t i)
 
 	h = (struct fat_header*)f->ptr;
 	display = arch_selection(f, h->nfat_arch, 0, &rvalue);
-	while (++i < h->nfat_arch && rvalue == EXIT_SUCCESS)
+	while (++i < h->nfat_arch && rvalue == _EXIT_SUCCESS)
 	{
 		if (i + 1 <= h->nfat_arch + 1 && display[i + 1])
 		{
