@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 13:58:52 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/14 18:14:03 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/15 12:51:12 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 ** Returns the size (in bytes) of the object's name in the header line
 */
 
-static int	get_name_size(char *obj_ptr, t_meta *file, int *rvalue)
+static int	get_name_size(char *obj_ptr, t_meta *file, int *rvalue, int offset)
 {
 	int		length;
 	char	*cursor;
@@ -26,13 +26,13 @@ static int	get_name_size(char *obj_ptr, t_meta *file, int *rvalue)
 
 	length = 0;
 	res = 0;
-	if ((*rvalue = check_bounds(file, (u_long)obj_ptr + 3)))
+	if ((*rvalue = check_bounds(file, offset + 3)))
 		return (-1);
 	cursor = obj_ptr + 3;
 	while (*rvalue == _EXIT_SUCCESS && *cursor != 32)
 	{
 		length++;
-		if ((*rvalue = check_bounds(file, (u_long)obj_ptr + 3 + length)))
+		if ((*rvalue = check_bounds(file, offset + 3 + length)))
 			return (-1);
 		cursor++;
 	}
@@ -75,7 +75,7 @@ static void	display_archive_list(t_archive *list, t_meta *f,
 	int			namesize;
 
 	cursor = list;
-	while (list)
+	while (cursor)
 	{
 		ft_putchar('\n');
 		if ((*rval = check_bounds(f, cursor->obj_off)) ||
@@ -86,12 +86,12 @@ static void	display_archive_list(t_archive *list, t_meta *f,
 		ft_putchar('(');
 		ft_putstr(obj_ptr + HEADER_SIZE);
 		ft_putendl("):");
-		namesize = get_name_size(obj_ptr, f, rval);
-		if ((*rval = check_object_bounds(f, (void*)obj_ptr, namesize)))
+		namesize = get_name_size(obj_ptr, f, rval, cursor->obj_off);
+		if ((*rval =
+			check_object_bounds(f, cursor->obj_off + HEADER_SIZE, namesize)))
 			break ;
-		ft_putendl("Hello there!");
-		magic_reader(new_master(f->name, obj_ptr + 60 + namesize,
-			(u_long)obj_ptr + 48), nb_args, 1);
+		magic_reader(new_master(f->name, obj_ptr + HEADER_SIZE + namesize,
+			ft_atoi((obj_ptr + 48))), nb_args, 1);
 		cursor = cursor->next;
 	}
 	free_archive_list(list);

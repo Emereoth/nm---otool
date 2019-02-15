@@ -6,11 +6,10 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/14 18:06:38 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/15 14:15:25 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "../includes/ft_nm.h"
 
 /*
@@ -35,7 +34,7 @@ static int	*arch_selection(t_meta *file, int archnb, int i, int *rvalue)
 		if ((*rvalue = arch_structures(file, &cputype, i, &magicnb)))
 			break ;
 		res[i] = (magicnb == MH_STATIC_LIB ? archive_priority() :
-					determine_priority(magicnb, &res, &bin32, i));
+			determine_priority(magicnb, &res, &bin32, i));
 		if (cputype == CPU_TYPE_POWERPC)
 		{
 			res[i] = _HIDE;
@@ -50,7 +49,7 @@ static int	*arch_selection(t_meta *file, int archnb, int i, int *rvalue)
 ** Manages fat binary display
 */
 
-static int	fat_boi(t_meta *f, int nb_args, int rvalue, int i)
+static int	fat_boi(t_meta *f, int nb_args, int rvalue, uint32_t i)
 {
 	struct fat_header	*h;
 	struct fat_arch		*arch;
@@ -58,9 +57,9 @@ static int	fat_boi(t_meta *f, int nb_args, int rvalue, int i)
 
 	h = (struct fat_header*)f->ptr;
 	display = arch_selection(f, h->nfat_arch, 0, &rvalue);
-	while ((uint32_t)++i < h->nfat_arch && rvalue == EXIT_SUCCESS)
+	while (++i < h->nfat_arch && rvalue == EXIT_SUCCESS)
 	{
-		if ((uint32_t)i + 1 <= h->nfat_arch + 1 && display[i + 1])
+		if (i + 1 <= h->nfat_arch + 1 && display[i + 1])
 		{
 			if ((rvalue = check_bounds(f, sizeof(h) + sizeof(arch) * i)))
 				break ;
@@ -68,8 +67,8 @@ static int	fat_boi(t_meta *f, int nb_args, int rvalue, int i)
 			show_arch(display[i], arch->cputype, f->name);
 			if ((rvalue = check_bounds(f, arch->offset)))
 				break ;
-			rvalue = magic_reader(new_master
-				(f->name, f->ptr + arch->offset, arch->size), nb_args, 1);
+			rvalue = magic_reader(new_master(
+				f->name, f->ptr + arch->offset, arch->size), nb_args, 1);
 			if (i > 1 && display[i + 2])
 				ft_putchar('\n');
 		}

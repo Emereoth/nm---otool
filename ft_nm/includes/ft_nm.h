@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/14 17:49:44 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/15 12:49:03 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ typedef union				u_nlist
 }							t_nlist;
 
 /*
-** Structure containing misc data about symbol (mostly extracted from nlist struct)
+** Structure containing misc data about symbol
+** (mostly extracted from nlist struct)
 */
 
 typedef struct				s_info
@@ -232,7 +233,7 @@ int							check_bounds(t_meta *file, u_long offset);
 int							arch_structures(t_meta *file,
 								int *cputype, int i,
 								unsigned int *magicnb);
-int							check_object_bounds(t_meta *file, void *obj,
+int							check_object_bounds(t_meta *file, u_long obj,
 								int namesize);
 
 /*

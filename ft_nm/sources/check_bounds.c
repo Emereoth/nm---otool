@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/14 12:20:53 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/14 18:16:51 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/15 12:49:16 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,11 @@ int		arch_structures(t_meta *file, int *cputype, int i,
 }
 
 /*
-** Checks bound before sending next object in archive to magic_reader()
+** Checks bounds before sending next object in archive to magic_reader()
 */
 
-int		check_object_bounds(t_meta *file, void *obj, int namesize)
+int		check_object_bounds(t_meta *file, u_long obj, int namesize)
 {
-	ft_putnbr_large((u_long)obj + 60 + namesize);
-	ft_putchar('\n');
 	if (check_bounds(file, (u_long)obj + 60 + namesize))
 		return (_OUT_OF_BOUNDS);
 	if (check_bounds(file, (u_long)obj + 48))
