@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/15 16:20:50 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/18 13:48:23 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ enum						e_arch_display_prio
 	_HIDE = 0,
 	_SHOW,
 	_SHOW_WITH_TYPE,
-	_SHOW_AS_ARCH
+	_SHOW_AS_ARCH,
+	_SHOW_32
 };
 
 enum						e_filetypes
@@ -244,7 +245,7 @@ int							check_object_bounds(t_meta *file, u_long obj,
 void						show_name(cpu_type_t cpu, char *file, int to_show);
 char						*show_address(char*address);
 int							determine_priority(unsigned int magicnb, int **tab,
-								int *bin32, int i);
+								int *highest, int tabsize);
 int							archive_priority(void);
 
 /*

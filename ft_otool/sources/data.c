@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 12:33:17 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/15 16:22:02 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/18 16:24:41 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int			fill_data_32(char *ptr, t_data **data, t_meta *file)
 	prefill(data, ptr, ((struct mach_header*)ptr)->ncmds,
 		(void *)ptr + sizeof(struct mach_header));
 	(*data)->filetype = _BIN32;
+	ft_putendl("prefill ok");
 	while (i < (*data)->ncmds && !(*data)->symtab)
 	{
 		pos = (sizeof(struct mach_header) + i * sizeof(lc_cursor)->cmdsize);

@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/15 17:52:41 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/18 15:44:49 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,36 +17,26 @@
 ** supposed to be displayed or not
 */
 
-static int	*arch_selection(t_meta *file, int archnb, int i, int *rvalue)
+static int	*arch_selection(t_meta *file, int archnb, int *rvalue)
 {
 	int				*res;
 	int				highest;
-	int				bin32;
 	int				cputype;
 	unsigned int	magicnb;
+	int				i;
 
 	res = (int *)malloc(sizeof(int) * archnb);
 	highest = 0;
-	bin32 = -1;
 	magicnb = -1;
-	while (++i <= archnb)
+	i = -1;
+	while (++i < archnb)
 	{
 		if ((*rvalue = arch_structures(file, &cputype, i, &magicnb)))
 			break ;
 		res[i] = (magicnb == MH_STATIC_LIB ? archive_priority() :
-					determine_priority(magicnb, &res, &bin32, i));
-		ft_putnbr(res[i]);
-		ft_putchar('\n');
-		ft_putnbr(cputype);
-		ft_putendl(" -> cputype");
-		if (cputype == CPU_TYPE_POWERPC)
-		{
-			res[i] = _HIDE;
-			bin32 = -1;
-		}
-		ft_putnbr(res[i]);
-		ft_putchar('\n');
-		i++;
+					determine_priority(magicnb, &res, &highest, archnb));
+		// if (cputype == CPU_TYPE_POWERPC)
+			// res[i] = _HIDE;
 	}
 	return (res);
 }
@@ -62,23 +52,20 @@ static int	fat_boi(t_meta *f, int rvalue, uint32_t i)
 	int					*display;
 
 	h = (struct fat_header*)f->ptr;
-	ft_putnbr(h->nfat_arch);
-	ft_putendl(" -> nb of archs");
-	display = arch_selection(f, h->nfat_arch, -1, &rvalue);
+	display = arch_selection(f, h->nfat_arch, &rvalue);
 	while (++i < h->nfat_arch && rvalue == _EXIT_SUCCESS)
 	{
-		if (i + 1 <= h->nfat_arch && display[i + 1])
+		if (i <= h->nfat_arch && display[i])
 		{
 			if ((rvalue = check_bounds(f, sizeof(h) + sizeof(arch) * i)))
 				break ;
 			arch = (struct fat_arch*)(f->ptr + sizeof(h) + sizeof(arch) * i);
-			show_name(arch->cputype, f->name, display[i + 1]);
+			show_name(arch->cputype, f->name, display[i]);
 			if ((rvalue = check_bounds(f, arch->offset)))
 				break ;
 			rvalue = magic_reader(
 				new_master(f->name, f->ptr + arch->offset, arch->size), 1);
 		}
-		i++;
 	}
 	free(display);
 	munmap(f->ptr, sizeof(f->ptr));
@@ -98,6 +85,7 @@ int			magic_reader(t_meta *master, char fat)
 	if (!(master->ptr))
 		return (_BAD_FMT);
 	rvalue = -2;
+	ft_putendl("magic lmao");
 	magicnb = *(unsigned int *)master->ptr;
 	swap = ((magicnb == MH_CIGAM || magicnb == MH_CIGAM_64) ? 1 : 0);
 	if (magicnb == MH_MAGIC || magicnb == MH_CIGAM)

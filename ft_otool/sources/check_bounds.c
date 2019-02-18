@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/14 12:20:53 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/15 14:17:35 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/18 14:16:28 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ int		arch_structures(t_meta *file, int *cputype, int i,
 {
 	struct fat_arch		*arch;
 
-	if (check_bounds(file, sizeof(struct fat_header) + sizeof(arch) * (i - 1)))
+	if (check_bounds(file, sizeof(struct fat_header) + sizeof(*arch) * i))
 		return (_OUT_OF_BOUNDS);
 	arch = (struct fat_arch *)(file->ptr + sizeof(struct fat_header) +
-		sizeof(*arch) * (i - 1));
+		sizeof(*arch) * i);
 	if (check_bounds(file, arch->offset))
 		return (_OUT_OF_BOUNDS);
 	*magicnb = *(unsigned int *)(file->ptr + arch->offset);
