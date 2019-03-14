@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 12:33:17 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/18 16:24:41 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/08 13:34:30 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int			free_all(t_data *data, int errcode)
 ** Fills t_data struct with generic fields
 */
 
-static void	prefill(t_data **data, char *ptr, unsigned int ncmds,
+void		prefill(t_data **data, char *ptr, unsigned int ncmds,
 					struct load_command *lc)
 {
 	(*data)->ptr = ptr;
@@ -40,7 +40,7 @@ static void	prefill(t_data **data, char *ptr, unsigned int ncmds,
 ** Create and fill data structure for current file
 */
 
-int			fill_data(char *ptr, t_data **data, t_meta *file)
+int			fill_data_64(char *ptr, t_data **data, t_meta *file)
 {
 	struct load_command		*lc_cursor;
 	unsigned int			i;
@@ -65,7 +65,7 @@ int			fill_data(char *ptr, t_data **data, t_meta *file)
 	}
 	if (!(*data)->symtab)
 		return (_NO_SYMTAB_FAILURE);
-	return (_DATA_OK);
+	return (_EXIT_SUCCESS);
 }
 
 /*
@@ -77,6 +77,7 @@ int			fill_data_32(char *ptr, t_data **data, t_meta *file)
 	struct load_command		*lc_cursor;
 	unsigned int			i;
 	unsigned int			pos;
+	struct symtab_command	*tmp;
 
 	i = 0;
 	if (check_bounds(file, sizeof(struct mach_header)))
@@ -85,12 +86,15 @@ int			fill_data_32(char *ptr, t_data **data, t_meta *file)
 	prefill(data, ptr, ((struct mach_header*)ptr)->ncmds,
 		(void *)ptr + sizeof(struct mach_header));
 	(*data)->filetype = _BIN32;
-	ft_putendl("prefill ok");
+	pos = (sizeof(struct mach_header));
 	while (i < (*data)->ncmds && !(*data)->symtab)
 	{
-		pos = (sizeof(struct mach_header) + i * sizeof(lc_cursor)->cmdsize);
+		pos += (i > 0 ? lc_cursor->cmdsize : 0);
 		if (lc_cursor->cmd == LC_SYMTAB)
+		{
 			(*data)->symtab = (struct symtab_command *)lc_cursor;
+			tmp = (*data)->symtab;
+		}
 		i++;
 		if (check_bounds(file, pos))
 			return (_OUT_OF_BOUNDS);
@@ -98,7 +102,7 @@ int			fill_data_32(char *ptr, t_data **data, t_meta *file)
 	}
 	if (!(*data)->symtab)
 		return (_NO_SYMTAB_FAILURE);
-	return (_DATA_OK);
+	return (_EXIT_SUCCESS);
 }
 
 /*

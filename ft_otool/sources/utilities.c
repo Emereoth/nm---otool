@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 11:04:55 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/18 15:44:26 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/14 18:02:56 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ int			determine_priority(unsigned int magicnb, int **tab,
 		{
 			while (++i < tabsize)
 			{
-				if (*tab[i] == _SHOW_32)
-					*tab[i] = _HIDE;
+				if ((*tab)[i] == _SHOW_32)
+					(*tab)[i] = _HIDE;
 			}
 		}
 		*highest = 64;

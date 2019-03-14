@@ -6,7 +6,7 @@
 #    By: acottier <acottier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/01 13:55:41 by acottier          #+#    #+#              #
-#    Updated: 2019/02/15 15:26:53 by acottier         ###   ########.fr        #
+#    Updated: 2019/03/14 18:03:03 by acottier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,12 +45,9 @@ OBJ			=	$(addprefix $(OBJ_PATH)/, $(OBJ_NAMES))
 CC			=	gcc
 FLAGS		=	-Wall -Wextra -Werror
 
-.PHONY: all clean fclean re fast debug dance
+.PHONY: all clean fclean re fast debug
 
-all : lib dance $(NAME)
-
-dance:
-	./.dance.sh
+all : lib $(NAME)
 
 lib:
 	@make re -C $(LIB_PATH)

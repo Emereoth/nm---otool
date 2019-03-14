@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/13 09:26:39 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/13 16:41:05 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/19 16:25:05 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,20 @@
 ** Checks stringtable integrity
 */
 
-int		stringtab_check(char *stringtable, uint32_t strtab_size,
-			u_long filesize, int stroff)
+int		stringtab_check(t_meta *file, struct symtab_command *symtab)
 {
 	u_long		i;
 	int			zeroes;
 	int			entry_padding;
+	char		*stringtable;
 
 	i = 0;
 	zeroes = 0;
 	entry_padding = 0;
-	while (i < strtab_size && stroff + i <= filesize)
+	stringtable = file->ptr + symtab->stroff;
+	if (check_bounds(file, symtab->stroff + symtab->strsize))
+		return (_OUT_OF_BOUNDS);
+	while (i < symtab->strsize && symtab->stroff + i <= file->size)
 	{
 		if (entry_padding && *(stringtable + i) == 0)
 			zeroes++;
@@ -34,7 +37,7 @@ int		stringtab_check(char *stringtable, uint32_t strtab_size,
 			entry_padding++;
 		i++;
 	}
-	if (zeroes == 0 || i != strtab_size)
+	if (zeroes == 0 || i != symtab->strsize)
 		return (_STRINGTAB_CORRUPTED);
-	return (_STRINGTAB_OK);
+	return (_EXIT_SUCCESS);
 }

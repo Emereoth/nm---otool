@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 11:13:32 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/14 18:05:12 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/08 13:41:04 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,8 @@ int	error(int errcode, char *file)
 	"Unsupported format.", ": could not locate memory segment for symbol.",
 	"Corrupted string table.", "File size overflow."};
 
-	if (errno == 0)
-	{
-		ft_putendl_fd(msg[errcode - 1], 2);
-		return (errcode);
-	}
+	ft_putendl_fd(msg[errcode - 1], 2);
+	return (errcode);
 	ft_putstr_err(file);
 	if (!file)
 		return (errcode);

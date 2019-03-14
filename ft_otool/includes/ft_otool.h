@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/18 13:48:23 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/27 15:13:00 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <sys/mman.h>
 # include <errno.h>
 # include <stdint.h>
+# include <stdio.h>
 
 # define MH_STATIC_LIB 0x72613c21
 # define HEADER_SIZE 60
@@ -40,6 +41,7 @@ enum						e_errcodes
 	_SCTR_NOT_FOUND,
 	_STRINGTAB_CORRUPTED,
 	_OUT_OF_BOUNDS,
+	_SECTION_NOT_FOUND,
 	_DISPLAY_OK,
 	_STRINGTAB_OK,
 	_DATA_OK
@@ -184,11 +186,14 @@ char						get_symbol_type(t_symbol *list);
 ** DATA.C
 */
 
-int							fill_data(char *ptr, t_data **data, t_meta *file);
+int							fill_data_64(char *ptr, t_data **data,
+								t_meta *file);
 int							fill_data_32(char *ptr, t_data **data,
 								t_meta *file);
 int							free_all(t_data *data, int errcode);
 t_meta						*new_master(char *name, char *ptr, u_long size);
+void						prefill(t_data **data, char *ptr,
+								unsigned int ncmds, struct load_command *lc);
 
 /*
 ** SECTOR_BROWSING.C
@@ -205,6 +210,8 @@ char						browse_sector_bin32(t_data *data,
 
 char						*endian_swap(char *ptr, size_t size);
 char						*fat_swap(char *ptr);
+t_meta						*full_swap_32(t_meta *file, t_data **data, int *rval);
+int							full_swap_64(t_meta *file, t_data **data);
 
 /*
 ** STATIC_LIB.C
@@ -224,8 +231,8 @@ t_archive					*mk_archive_list(struct ranlib *symtab,
 ** STRINGTAB_CHECK.C
 */
 
-int							stringtab_check(char *stringtable,
-							uint32_t strtab_size, u_long filesize, int stroff);
+int							stringtab_check(t_meta *file,
+								struct symtab_command *symtab);
 
 /*
 ** CHECK_BOUNDS.C

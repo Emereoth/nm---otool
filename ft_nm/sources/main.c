@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/15 15:31:09 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/13 14:59:40 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ static int	*arch_selection(t_meta *file, int archnb, int i, int *rvalue)
 	magicnb = -1;
 	while (++i <= archnb)
 	{
+		ft_putnbr(i);
+		ft_putstr(" : ");
+		ft_putnbr(archnb);
+		ft_putchar('\n');
 		if ((*rvalue = arch_structures(file, &cputype, i, &magicnb)))
 			break ;
 		res[i] = (magicnb == MH_STATIC_LIB ? archive_priority() :
@@ -122,6 +126,7 @@ static int	treat_file(char *file, int nb_args)
 
 	fd = 0;
 	errno = 0;
+	ft_putendl(file);
 	if ((fd = open(file, O_RDONLY)) < 0)
 		return (error(_OPEN_FAILURE, file));
 	if (fstat(fd, &buff) < 0)

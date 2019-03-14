@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/14 12:20:53 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/18 14:16:28 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/14 17:58:17 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 int		check_bounds(t_meta *file, u_long offset)
 {
-	if (offset >= file->size)
+	if (offset > file->size)
 		return (_OUT_OF_BOUNDS);
 	return (_EXIT_SUCCESS);
 }

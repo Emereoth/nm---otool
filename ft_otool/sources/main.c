@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/18 15:44:49 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/14 18:03:38 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ static int	*arch_selection(t_meta *file, int archnb, int *rvalue)
 			break ;
 		res[i] = (magicnb == MH_STATIC_LIB ? archive_priority() :
 					determine_priority(magicnb, &res, &highest, archnb));
-		// if (cputype == CPU_TYPE_POWERPC)
-			// res[i] = _HIDE;
 	}
 	return (res);
 }
@@ -52,14 +50,15 @@ static int	fat_boi(t_meta *f, int rvalue, uint32_t i)
 	int					*display;
 
 	h = (struct fat_header*)f->ptr;
+	arch = (struct fat_arch*)(f->ptr + sizeof(*h));
 	display = arch_selection(f, h->nfat_arch, &rvalue);
 	while (++i < h->nfat_arch && rvalue == _EXIT_SUCCESS)
 	{
-		if (i <= h->nfat_arch && display[i])
+		if (display[i])
 		{
-			if ((rvalue = check_bounds(f, sizeof(h) + sizeof(arch) * i)))
+			if ((rvalue = check_bounds(f, sizeof(*h) + sizeof(*arch) * i)))
 				break ;
-			arch = (struct fat_arch*)(f->ptr + sizeof(h) + sizeof(arch) * i);
+			arch = (struct fat_arch*)(f->ptr + sizeof(*h) + sizeof(*arch) * i);
 			show_name(arch->cputype, f->name, display[i]);
 			if ((rvalue = check_bounds(f, arch->offset)))
 				break ;
@@ -69,7 +68,7 @@ static int	fat_boi(t_meta *f, int rvalue, uint32_t i)
 	}
 	free(display);
 	munmap(f->ptr, sizeof(f->ptr));
-	return (rvalue != _EXIT_SUCCESS ? error(rvalue, NULL) : _EXIT_SUCCESS);
+	return (rvalue);
 }
 
 /*
@@ -85,7 +84,6 @@ int			magic_reader(t_meta *master, char fat)
 	if (!(master->ptr))
 		return (_BAD_FMT);
 	rvalue = -2;
-	ft_putendl("magic lmao");
 	magicnb = *(unsigned int *)master->ptr;
 	swap = ((magicnb == MH_CIGAM || magicnb == MH_CIGAM_64) ? 1 : 0);
 	if (magicnb == MH_MAGIC || magicnb == MH_CIGAM)
@@ -100,7 +98,9 @@ int			magic_reader(t_meta *master, char fat)
 		munmap(master->ptr, sizeof(master->ptr));
 	if (rvalue == _EXIT_SUCCESS)
 		return (_EXIT_SUCCESS);
-	return (error(rvalue == -2 ? _BAD_FMT : rvalue, NULL));
+	if (!fat)
+		return (error(rvalue == -2 ? _BAD_FMT : rvalue, NULL));
+	return (rvalue == -2 ? _BAD_FMT : rvalue);
 }
 
 /*
@@ -125,7 +125,7 @@ static int	treat_file(char *file)
 		return (error(_MMAP_FAILURE, file));
 	master_file = new_master(file, ptr, buff.st_size);
 	if (*(unsigned int*)ptr == FAT_CIGAM)
-		ptr = fat_swap(ptr);
+		master_file->ptr = fat_swap(ptr);
 	return (magic_reader(master_file, 0));
 }
 
@@ -143,5 +143,5 @@ int			main(int argc, char **argv)
 	}
 	if (argc == 1)
 		return (treat_file("a.out"));
-	return (rvalue ? rvalue : _EXIT_SUCCESS);
+	return (rvalue ? 1 : _EXIT_SUCCESS);
 }

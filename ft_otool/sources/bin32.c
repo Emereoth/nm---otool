@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/18 16:22:08 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/14 14:32:20 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** Returns first section (__text) from the first segment (__TEXT)
 */
 
-static struct section	*get_section(t_data *data)
+static struct section	*get_section(t_data *data, int *rval)
 {
 	struct segment_command	*seg;
 	struct load_command		*lc;
@@ -33,10 +33,14 @@ static struct section	*get_section(t_data *data)
 			sect = (struct section *)(seg + 1);
 			if (!ft_strcmp(sect->segname, "__TEXT") &&
 				!ft_strcmp(sect->sectname, "__text"))
+			{
+				*rval = _EXIT_SUCCESS;
 				return ((struct section *)(seg + 1));
-		}
+			}
+		} 
 		lc = (void *)lc + lc->cmdsize;
 	}
+	*rval = _SECTION_NOT_FOUND;
 	return (NULL);
 }
 
@@ -74,27 +78,26 @@ int						bin32(t_meta *file, int swap, int fat)
 {
 	t_data					*data;
 	struct section			*section;
-	int						ret;
-	struct symtab_command	*symtab;
-
+	int						rval;
+	
+	rval = 0;
 	data = (t_data *)malloc(sizeof(t_data));
-	if ((ret = fill_data_32(file->ptr, &data, file)) != _DATA_OK)
-		return (free_all(data, ret));
 	if (swap)
-		endian_swap(file->ptr + data->symtab->stroff, data->symtab->strsize);
-	symtab = data->symtab;
-	if (stringtab_check((void*)data->ptr + symtab->stroff, symtab->strsize,
-			file->size, symtab->stroff) == _STRINGTAB_CORRUPTED)
-		return (free_all(data, _STRINGTAB_CORRUPTED));
-	if (!fat)
 	{
-		ft_putstr(file->name);
-		ft_putendl(":");
+		if ((file = full_swap_32(file, &data, 0)) && rval != _EXIT_SUCCESS)
+			return (free_all(data, rval));
 	}
+	else if ((rval = fill_data_32(file->ptr, &data, file)))
+		return (free_all(data, rval));
+	if ((rval = stringtab_check(file, data->symtab)))
+		return (free_all(data, rval));
+	if (!fat)
+		ft_doublestr(file->name, ":\n");
+	if (!(section = get_section(data, &rval)))
+		return (free_all(data, rval));
 	ft_putstr("Contents of (__TEXT,__text) section");
-	section = get_section(data);
 	read_section(file->ptr, section);
 	ft_putchar('\n');
 	free(data);
-	return (0);
+	return (_EXIT_SUCCESS);
 }

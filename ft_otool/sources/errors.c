@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 11:13:32 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/15 16:05:50 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/08 13:41:20 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,14 @@
 
 int	error(int errcode, char *file)
 {
-	static char	*msg[9] = {"Could not open file.", "Mmap call failure",
+	static char	*msg[10] = {"Could not open file.", "Mmap call failure",
 	"No symbol table found.", ": no such file or directory",
 	"Unsupported format.", ": could not locate memory segment for symbol.",
-	"Corrupted string table.", "File size overflow."};
+	"Corrupted string table.", "File size overflow.",
+	"Couldn't find memory section"};
 
-	if (errno == 0)
-	{
-		ft_putendl_fd(msg[errcode - 1], 2);
-		return (errcode);
-	}
+	ft_putendl_fd(msg[errcode - 1], 2);
+	return (errcode);
 	ft_putstr_err(file);
 	if (!file)
 		return (errcode);

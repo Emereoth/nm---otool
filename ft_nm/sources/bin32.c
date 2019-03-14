@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/15 15:07:35 by acottier         ###   ########.fr       */
+/*   Updated: 2019/02/19 14:01:14 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,11 @@ int					bin32(t_meta *file, int nb_args, int swap)
 		}
 		return (symtab_read_32(data, symtab, file->size));
 	}
+	else
+	{
+		ft_putendl("nop");
+	}
+	
 	free(data);
 	return (_NO_SYMTAB_FAILURE);
 }

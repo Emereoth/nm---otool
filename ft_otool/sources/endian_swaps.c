@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:43:56 by acottier          #+#    #+#             */
-/*   Updated: 2019/01/14 10:19:23 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/14 18:03:16 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,56 @@ char	*endian_swap(char *ptr, size_t size)
 
 char	*fat_swap(char *ptr)
 {
-	char				*start;
 	struct fat_header	*h;
 
-	start = endian_swap(ptr, 8);
-	h = (struct fat_header *)start;
-	ptr = endian_swap(start + 8, h->nfat_arch * sizeof(struct fat_arch));
-	return (start);
+	endian_swap(ptr, sizeof(struct fat_header));
+	h = (struct fat_header *)ptr;
+	endian_swap(ptr + sizeof(struct fat_header),
+		h->nfat_arch * sizeof(struct fat_arch));
+	return (ptr);
+}
+
+/*
+** Full- then stringtab- reswap for 32bit archs
+*/
+
+t_meta	*full_swap_32(t_meta *file, t_data **data, int *rval)
+{
+	int						tmp;
+
+	if (check_bounds(file, file->size))
+	{
+		*rval = _OUT_OF_BOUNDS;
+		return (file);
+	}
+	file->ptr = endian_swap(file->ptr, file->size);
+	tmp = fill_data_32(file->ptr, data, file);
+	if (tmp)
+	{
+		*rval = tmp;
+		return (file);
+	}
+	endian_swap(file->ptr + (*data)->symtab->stroff, (*data)->symtab->strsize);
+	return (file);
+}
+
+/*
+** Full- then header- and stringtab- reswap for 64bit archs
+*/
+
+int		full_swap_64(t_meta *file, t_data **data)
+{
+	int		rval;
+
+	rval = 0;
+	if (check_bounds(file, file->size))
+		return (_OUT_OF_BOUNDS);
+	file->ptr = endian_swap(file->ptr, file->size);
+	if (check_bounds(file, sizeof(struct mach_header_64)))
+		return (_OUT_OF_BOUNDS);
+	file->ptr = endian_swap(file->ptr, sizeof(struct mach_header_64));
+	if ((rval = fill_data_64(file->ptr, data, file)))
+		return (rval);
+	endian_swap(file->ptr + (*data)->symtab->stroff, (*data)->symtab->strsize);
+	return (_EXIT_SUCCESS);
 }

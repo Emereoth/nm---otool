@@ -41,4 +41,3 @@ rm truelog mylog
 ./ft_otool ../testfiles/corr_missing_parts
 ./ft_otool ../testfiles/corr_no_magicnb
 ./ft_otool ../testfiles/corr_stringtab
-./ft_otool ../testfiles/audiotest
