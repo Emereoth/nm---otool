@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 11:04:55 by acottier          #+#    #+#             */
-/*   Updated: 2019/03/13 13:50:52 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/15 15:33:37 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,8 @@
 int			determine_priority(unsigned int magicnb, int **tab,
 								int *bin32, int i)
 {
-	ft_putnbr_uns(magicnb);
-	ft_putchar('\n');
 	if (magicnb == MH_MAGIC || magicnb == MH_CIGAM)
 	{
-		ft_putendl("32");
 		if (*bin32 == -1)
 		{
 			*bin32 = i;
@@ -30,17 +27,9 @@ int			determine_priority(unsigned int magicnb, int **tab,
 	}
 	if (magicnb == MH_MAGIC_64 || magicnb == MH_CIGAM_64)
 	{
-		ft_putendl("64");
 		if (*bin32 != -1)
-		{
-			ft_putendl("noice");
-			ft_putnbr(*tab[*bin32]);
-			ft_putendl("eh");
 			*tab[*bin32] = _HIDE;
-		}
-		ft_putendl("1");
 		*bin32 = _DISABLE_32;
-		ft_putendl("2");
 		return (_SHOW);
 	}
 	return (_SHOW_WITH_TYPE);

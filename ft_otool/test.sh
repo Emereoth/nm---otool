@@ -38,6 +38,17 @@ otool -t ../testfiles/sotest.so > truelog
 diff mylog truelog
 rm truelog mylog
 
+./ft_otool ../testfiles/libatest > mylog
+otool -t ../testfiles/libatest > truelog
+diff mylog truelog
+rm truelog mylog
+
+./ft_otool ../testfiles/sqlitest > mylog
+otool -t ../testfiles/sqlitest > truelog
+diff mylog truelog
+rm truelog mylog
+
+
 ./ft_otool ../testfiles/corr_missing_parts
 ./ft_otool ../testfiles/corr_no_magicnb
 ./ft_otool ../testfiles/corr_stringtab

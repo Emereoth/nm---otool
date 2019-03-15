@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2019/03/14 18:03:38 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/15 15:40:50 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static int	*arch_selection(t_meta *file, int archnb, int *rvalue)
 			break ;
 		res[i] = (magicnb == MH_STATIC_LIB ? archive_priority() :
 					determine_priority(magicnb, &res, &highest, archnb));
+		if (cputype == CPU_TYPE_POWERPC)
+			res[i] = _HIDE;
 	}
 	return (res);
 }

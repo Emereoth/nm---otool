@@ -38,7 +38,17 @@ nm ../testfiles/sotest.so > truelog
 diff mylog truelog
 rm truelog mylog
 
+./ft_nm ../testfiles/libatest > mylog
+nm ../testfiles/libatest > truelog
+diff mylog truelog
+rm truelog mylog
+
+./ft_nm ../testfiles/sqlitest > mylog
+nm ../testfiles/sqlitest > truelog
+diff mylog truelog
+rm truelog mylog
+
+
 ./ft_nm ../testfiles/corr_missing_parts
 ./ft_nm ../testfiles/corr_no_magicnb
 ./ft_nm ../testfiles/corr_stringtab
-./ft_nm ../testfiles/audiotest
