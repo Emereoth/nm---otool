@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2019/03/15 15:40:50 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/17 11:17:58 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ static int	treat_file(char *file)
 			fd, 0)) == MAP_FAILED)
 		return (error(_MMAP_FAILURE, file));
 	master_file = new_master(file, ptr, buff.st_size);
+	ft_putendl(master_file->name);
 	if (*(unsigned int*)ptr == FAT_CIGAM)
 		master_file->ptr = fat_swap(ptr);
 	return (magic_reader(master_file, 0));

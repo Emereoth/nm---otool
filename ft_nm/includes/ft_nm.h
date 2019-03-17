@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/15 15:07:23 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/17 11:51:17 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,8 +240,7 @@ int							check_object_bounds(t_meta *file, u_long obj,
 ** UTILITIES.C
 */
 
-int							determine_priority(unsigned int magicnb, int **tab,
-								int *bin32, int i);
+int							determine_priority(unsigned int magicnb, int *bin64);
 void						show_arch(int archnb, cpu_type_t cpu, char *file);
 int							archive_priority(void);
 t_meta						*new_master(char *name, char *ptr, u_long size);
