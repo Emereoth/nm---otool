@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:43:56 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/19 14:01:20 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/19 18:01:53 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ char	*endian_swap(char *ptr, size_t size)
 	i = 0;
 	size = size / 4;
 	bin = (void *)ptr;
+	ft_putstr("Swapping ");
+	ft_putnbr(size);
+	ft_putendl(" bytes");
 	while (i < size)
 	{
 		bin[i] = OSSwapConstInt32(bin[i]);

@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 12:33:17 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/15 15:21:06 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/19 18:29:51 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,67 @@ int			fill_data(char *ptr, t_data **data, t_meta *file)
 ** Create and fill data structure for 32-bit arch
 */
 
+static void						show_hex(char *cursor)
+{
+	int				sign;
+	static char		table[16] = "0123456789abcdef";
+	unsigned char	nb;
+
+	sign = *(cursor) >= 0 ? 1 : -1;
+	nb = *cursor;
+	ft_putchar(table[nb / 16]);
+	ft_putchar(table[nb % 16]);
+}
+
+static char		*show_address(char *address)
+{
+	return (ft_to_hex((uint64_t)address));
+}
+
+static void	dump(char *ptr, u_long length)
+{
+	char	c;
+	u_long	size = 0;
+
+	while (size < length)
+	{
+		if (size % 16 == 0)
+		{
+			if (size != 0)
+			{
+				for (int i = -16 ; i < 0 ; i++)
+				{
+					c = *(ptr + size + i);
+					if (c > 31 && c < 127)
+						ft_putchar(c);
+					else
+						ft_putchar('.');
+				}
+			}
+			ft_putstr("\n");
+			ft_putstr(show_address(ptr + size));
+			ft_putstr("\t");
+		}
+		show_hex(ptr + size);
+		ft_putchar(' ');
+		size++;
+	}
+	if (size % 16 != 0)
+	{
+		for (int i = -(size % 16) ; i < 0 ; i++)
+			ft_putstr(" ");
+		for (int i = -(size % 16) ; i < 0 ; i++)
+			{
+				c = *(ptr + size + i);
+				if (c > 31 && c < 127)
+					ft_putchar(c);
+				else
+					ft_putchar('.');
+			}
+	}
+	ft_putstr("\n\n");
+}
+
 int			fill_data_32(char *ptr, t_data **data, t_meta *file)
 {
 	struct load_command		*lc_cursor;
@@ -80,12 +141,21 @@ int			fill_data_32(char *ptr, t_data **data, t_meta *file)
 	unsigned int			pos;
 
 	i = 0;
+	ft_putendl("ayyy lmao");
 	if (check_bounds(file, sizeof(struct mach_header)))
 		return (_OUT_OF_BOUNDS);
+	ft_putendl("bounds ok");
 	lc_cursor = (void *)ptr + sizeof(struct mach_header);
+	dump(file->ptr, sizeof(struct mach_header));
+	/*file->ptr = */endian_swap(ptr, sizeof(struct mach_header));
+	dump(file->ptr, sizeof(struct mach_header));
 	prefill(data, ptr, ((struct mach_header*)ptr)->ncmds,
 		(void *)ptr + sizeof(struct mach_header));
+	ft_putendl("prefill ok");
 	(*data)->filetype = _BIN32;
+	ft_putstr("ok boi we've got ");
+	ft_putnbr((*data)->ncmds);
+	ft_putendl(" ncmds");
 	while (i < (*data)->ncmds && !(*data)->symtab)
 	{
 		pos = (sizeof(struct mach_header) + i * sizeof(lc_cursor)->cmdsize);

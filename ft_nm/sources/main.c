@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2019/03/17 12:05:52 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/19 13:38:57 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ int			magic_reader(t_meta *master, int nb_args, char fat)
 	ft_putnbr_uns(magicnb);
 	ft_putchar('\n');
 	swap = ((magicnb == MH_CIGAM || magicnb == MH_CIGAM_64) ? 1 : 0);
+	ft_putnbr(swap);
+	ft_putendl(": swap");
 	if (magicnb == MH_MAGIC || magicnb == MH_CIGAM)
 		rvalue = bin32(master, nb_args, swap);
 	else if (magicnb == MH_MAGIC_64 || magicnb == MH_CIGAM_64)
