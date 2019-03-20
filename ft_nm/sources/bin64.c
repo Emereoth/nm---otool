@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2019/03/19 13:39:03 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/20 15:06:12 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,9 @@ int			bin64(t_meta *file, int nb_args, int swap)
 	struct symtab_command	*symtab;
 	int						ret;
 
+	file->arch = _BIN64;
 	data = (t_data *)malloc(sizeof(t_data));
-	if ((ret = fill_data(file->ptr, &data, file)) != _DATA_OK)
+	if ((ret = fill_data(file->ptr, &data, file, swap)) != _DATA_OK)
 		return (free_all(NULL, data, ret));
 	if (swap)
 		endian_swap(file->ptr + data->symtab->stroff, data->symtab->strsize);

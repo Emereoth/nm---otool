@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2019/03/17 11:51:17 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/20 16:35:15 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ typedef struct				s_meta
 {
 	char					*ptr;
 	char					*name;
+	int						arch;
 	u_long					size;
 }							t_meta;
 
@@ -183,8 +184,10 @@ char						get_symbol_type(t_symbol *list);
 ** DATA.C
 */
 
-int							fill_data(char *ptr, t_data **data, t_meta *file);
-int							fill_data_32(char *ptr, t_data **data, t_meta *file);
+int							fill_data(char *ptr, t_data **data, t_meta *file,
+								int swap);
+int							fill_data_32(char *ptr, t_data **data,
+								t_meta *file, int swap);
 int							free_all(t_symbol *list, t_data *data,
 								int errcode);
 
@@ -250,5 +253,7 @@ t_meta						*new_master(char *name, char *ptr, u_long size);
 */
 
 int							error(int errcode, char *file);
+
+void						dump(char *ptr, u_long length);
 
 #endif

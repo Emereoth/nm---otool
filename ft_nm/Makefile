@@ -6,7 +6,7 @@
 #    By: acottier <acottier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/01 13:55:41 by acottier          #+#    #+#              #
-#    Updated: 2019/02/14 15:23:56 by acottier         ###   ########.fr        #
+#    Updated: 2019/03/20 16:34:42 by acottier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,8 @@ SRC_NAMES	=	main.c \
 				static_lib.c \
 				archive_list.c \
 				stringtab_check.c \
-				check_bounds.c
+				check_bounds.c \
+				dump.c
 
 OBJ_NAMES	=	$(SRC_NAMES:.c=.o)
 

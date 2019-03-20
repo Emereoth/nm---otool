@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2019/03/19 13:38:57 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/20 16:48:58 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,9 @@ static int	fat_boi(t_meta *f, int nb_args, int rvalue, uint32_t i)
 	h = (struct fat_header*)f->ptr;
 	arch = (struct fat_arch*)(f->ptr + sizeof(*h));
 	display = arch_selection(f, h->nfat_arch, 0, &rvalue);
-	ft_putendl("arch selection done");
 	while (++i < h->nfat_arch && rvalue == _EXIT_SUCCESS)
 	{
-		// if (i + 1 <= h->nfat_arch + 1 && display[i + 1])
-		if (display[i] > 0)
+		if (display[i] && display[i] > 0)
 		{
 			if ((rvalue = check_bounds(f, sizeof(*h) + sizeof(*arch) * i)))
 				break ;
@@ -114,8 +112,6 @@ int			magic_reader(t_meta *master, int nb_args, char fat)
 	ft_putnbr_uns(magicnb);
 	ft_putchar('\n');
 	swap = ((magicnb == MH_CIGAM || magicnb == MH_CIGAM_64) ? 1 : 0);
-	ft_putnbr(swap);
-	ft_putendl(": swap");
 	if (magicnb == MH_MAGIC || magicnb == MH_CIGAM)
 		rvalue = bin32(master, nb_args, swap);
 	else if (magicnb == MH_MAGIC_64 || magicnb == MH_CIGAM_64)

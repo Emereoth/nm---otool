@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2019/03/19 14:28:33 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/20 16:48:51 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 */
 
 static int			symtab_read_32(t_data *data, struct symtab_command *symtab,
-									u_long size)
+									u_long size, int swap)
 {
 	t_nlist			*el;
 	char			*stringtable;
@@ -26,6 +26,8 @@ static int			symtab_read_32(t_data *data, struct symtab_command *symtab,
 
 	el = (t_nlist *)malloc(sizeof(t_nlist));
 	el->list32 = (void *)data->ptr + symtab->symoff;
+	if (swap)
+		el->list32 = (struct nlist*)endian_swap((void*)el->list32, symtab->nsyms * sizeof(struct symtab_command));
 	stringtable = (void *)data->ptr + symtab->stroff;
 	if (stringtab_check(stringtable, symtab->strsize, size, symtab->stroff)
 		== _STRINGTAB_CORRUPTED)
@@ -51,13 +53,10 @@ int					bin32(t_meta *file, int nb_args, int swap)
 	struct symtab_command	*symtab;
 	int						ret;
 
-	ft_putendl("bin32");
+	file->arch = _BIN32;
 	data = (t_data *)malloc(sizeof(t_data));
-	if ((ret = fill_data_32(file->ptr, &data, file)) != _DATA_OK)
+	if ((ret = fill_data_32(file->ptr, &data, file, swap)) != _DATA_OK)
 		return (free_all(NULL, data, ret));
-	ft_putendl("data filled");
-	if (swap)
-		endian_swap(file->ptr + data->symtab->stroff, data->symtab->strsize);
 	symtab = data->symtab;
 	if (symtab)
 	{
@@ -67,7 +66,7 @@ int					bin32(t_meta *file, int nb_args, int swap)
 			ft_putstr(file->name);
 			ft_putendl(":");
 		}
-		return (symtab_read_32(data, symtab, file->size));
+		return (symtab_read_32(data, symtab, file->size, swap));
 	}
 	free(data);
 	return (_NO_SYMTAB_FAILURE);
