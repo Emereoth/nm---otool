@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2019/03/20 16:35:15 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/21 09:51:29 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,6 +254,6 @@ t_meta						*new_master(char *name, char *ptr, u_long size);
 
 int							error(int errcode, char *file);
 
-void						dump(char *ptr, u_long length);
+void						dump(char *ptr, u_long length, u_long offset);
 
 #endif

@@ -17,7 +17,7 @@ static char		*show_address(char *address)
 	return (ft_to_hex((uint64_t)address));
 }
 
-void			dump(char *ptr, u_long length)
+void			dump(char *ptr, u_long length, u_long offset)
 {
 	char	c;
 	u_long	size = 0;
@@ -39,9 +39,13 @@ void			dump(char *ptr, u_long length)
 						ft_putchar('.');
 				}
 			}
-			ft_putstr("\n");
+			ft_putchar('\n');
+			ft_putnbr(size);
+			ft_putstr("\t(");
+			ft_putnbr(size + offset);
+			ft_putstr(")\t");
 			ft_putstr(show_address(ptr + size));
-			ft_putstr("\t");
+			ft_putchar('\t');
 		}
 		show_hex(ptr + size);
 		ft_putchar(' ');

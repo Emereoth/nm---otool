@@ -1,0 +1,685 @@
+../testfiles/audiotest
+3405691582
+
+../testfiles/audiotest (for architecture ppc):
+3472551422
+
+0	(24576)	10a9ac000	00 00 00 02 1e 01 00 00 00 00 20 24             .......... $
+
+n_strx (4) : 33554432 | n_type (1) : 30 | n_sect (1) : 1 | n_desc (2) : 0 | n_value (4) : 606076928
+n_strx (4) : 2 | n_type (1) : 0 | n_sect (1) : 0 | n_desc (2) : 7681 | n_value (4) : 8228
+
+0	(24576)	10a9ac000	02 00 00 00 00 00 01 1e 24 20 00 00             ........$ ..
+
+__start
+
+0	(0)	10a9ac000	02 00 00 00 00 00 01 1e 24 20 00 00             ........$ ..
+
+0
+dyld_stub_binding_helper
+
+0	(0)	10a9ac00c	0a 00 00 00 00 00 01 1e 70 23 00 00             ........p#..
+
+0
+__dyld_func_lookup
+
+0	(0)	10a9ac018	23 00 00 00 00 00 01 1e 88 23 00 00             #........#..
+
+0
+_main
+
+0	(0)	10a9ac024	36 00 00 00 00 00 01 1e 98 23 00 00             6........#..
+
+0
+-[SSAudioDevice initWithAudioDeviceID:source:isInput:]
+
+0	(0)	10a9ac030	3c 00 00 00 00 00 01 0e e0 29 00 00             <........)..
+
+0
+-[SSAudioDevice dealloc]
+
+0	(0)	10a9ac03c	73 00 00 00 00 00 01 0e 60 2a 00 00             s.......`*..
+
+0
+-[SSAudioDevice description]
+
+0	(0)	10a9ac048	8c 00 00 00 00 00 01 0e a4 2a 00 00             .........*..
+
+0
+-[SSAudioDevice isEqual:]
+
+0	(0)	10a9ac054	a9 00 00 00 00 00 01 0e 34 2b 00 00             ........4+..
+
+0
+-[SSAudioDevice compare:]
+
+0	(0)	10a9ac060	c3 00 00 00 00 00 01 0e f4 2b 00 00             .........+..
+
+0
+-[SSAudioDevice name]
+
+0	(0)	10a9ac06c	dd 00 00 00 00 00 01 0e 58 2c 00 00             ........X,..
+
+0
+-[SSAudioDevice canBeDefaultDevice]
+
+0	(0)	10a9ac078	f3 00 00 00 00 00 01 0e 84 2d 00 00             .........-..
+
+0
+-[SSAudioDevice canBeDefaultSystemDevice]
+
+0	(0)	10a9ac084	17 01 00 00 00 00 01 0e 10 2e 00 00             ............
+
+0
+-[SSAudioDevice coreAudioDeviceID]
+
+0	(0)	10a9ac090	41 01 00 00 00 00 01 0e 9c 2e 00 00             A...........
+
+0
+-[SSAudioDevice coreAudioSourceType]
+
+0	(0)	10a9ac09c	64 01 00 00 00 00 01 0e a4 2e 00 00             d...........
+
+0
+-[SSAudioDevice fetchCoreAudioSourceType]
+
+0	(0)	10a9ac0a8	89 01 00 00 00 00 01 0e ac 2e 00 00             ............
+
+0
+-[SSAudioDevice coreAudioIsInput]
+
+0	(0)	10a9ac0b4	b3 01 00 00 00 00 01 0e 30 2f 00 00             ........0/..
+
+0
+-[SSAudioDevice coreAudioTransportType]
+
+0	(0)	10a9ac0c0	d5 01 00 00 00 00 01 0e 3c 2f 00 00             ........</..
+
+0
++[SSAudioDeviceCenter initialize]
+
+0	(0)	10a9ac0cc	fd 01 00 00 00 00 01 0e c0 2f 00 00             ........./..
+
+0
+-[SSAudioDeviceCenter init]
+
+0	(0)	10a9ac0d8	1f 02 00 00 00 00 01 0e 58 30 00 00             ........X0..
+
+0
+-[SSAudioDeviceCenter dealloc]
+
+0	(0)	10a9ac0e4	3b 02 00 00 00 00 01 0e 9c 30 00 00             ;........0..
+
+0
+-[SSAudioDeviceCenter _allDevicesWithDeviceID:isInput:]
+
+0	(0)	10a9ac0f0	5a 02 00 00 00 00 01 0e 04 31 00 00             Z........1..
+
+0
+-[SSAudioDeviceCenter _loadDeviceList:]
+
+0	(0)	10a9ac0fc	92 02 00 00 00 00 01 0e bc 32 00 00             .........2..
+
+0
+-[SSAudioDeviceCenter inputDevices]
+
+0	(0)	10a9ac108	ba 02 00 00 00 00 01 0e 3c 34 00 00             ........<4..
+
+0
+-[SSAudioDeviceCenter outputDevices]
+
+0	(0)	10a9ac114	de 02 00 00 00 00 01 0e 4c 34 00 00             ........L4..
+
+0
+-[SSAudioDeviceCenter deviceWithID:isInput:]
+
+0	(0)	10a9ac120	03 03 00 00 00 00 01 0e 5c 34 00 00             ........\4..
+
+0
+-[SSAudioDeviceCenter devicesWithTransportType:isInput:]
+
+0	(0)	10a9ac12c	30 03 00 00 00 00 01 0e ec 34 00 00             0........4..
+
+0
+-[SSAudioDeviceCenter _setDefaultDeviceOfClass:to:]
+
+0	(0)	10a9ac138	69 03 00 00 00 00 01 0e ac 35 00 00             i........5..
+
+0
+-[SSAudioDeviceCenter _defaultDeviceOfClass:]
+
+0	(0)	10a9ac144	9d 03 00 00 00 00 01 0e 3c 36 00 00             ........<6..
+
+0
+-[SSAudioDeviceCenter setSelectedInputDevice:]
+
+0	(0)	10a9ac150	cb 03 00 00 00 00 01 0e c8 36 00 00             .........6..
+
+0
+-[SSAudioDeviceCenter selectedInputDevice]
+
+0	(0)	10a9ac15c	fa 03 00 00 00 00 01 0e e0 36 00 00             .........6..
+
+0
+-[SSAudioDeviceCenter setSelectedOutputDevice:]
+
+0	(0)	10a9ac168	25 04 00 00 00 00 01 0e f4 36 00 00             %........6..
+
+0
+-[SSAudioDeviceCenter selectedOutputDevice]
+
+0	(0)	10a9ac174	55 04 00 00 00 00 01 0e 0c 37 00 00             U........7..
+
+0
+-[SSAudioDeviceCenter setSelectedSystemDevice:]
+
+0	(0)	10a9ac180	81 04 00 00 00 00 01 0e 20 37 00 00             ........ 7..
+
+0
+-[SSAudioDeviceCenter selectedSystemDevice]
+
+0	(0)	10a9ac18c	b1 04 00 00 00 00 01 0e 38 37 00 00             ........87..
+
+0
+-[SSAudioDeviceCenter _stringForCAError:]
+
+0	(0)	10a9ac198	dd 04 00 00 00 00 01 0e 4c 37 00 00             ........L7..
+
+0
+-[SSAudioDeviceCenter _getAndSetVolume:forInput:]
+
+0	(0)	10a9ac1a4	07 05 00 00 00 00 01 0e 80 37 00 00             .........7..
+
+0
+-[SSAudioDeviceCenter inputVolume]
+
+0	(0)	10a9ac1b0	39 05 00 00 00 00 01 0e 20 3b 00 00             9....... ;..
+
+0
+-[SSAudioDeviceCenter setInputVolume:]
+
+0	(0)	10a9ac1bc	5c 05 00 00 00 00 01 0e 38 3b 00 00             \.......8;..
+
+0
+-[SSAudioDeviceCenter outputVolume]
+
+0	(0)	10a9ac1c8	83 05 00 00 00 00 01 0e 48 3b 00 00             ........H;..
+
+0
+-[SSAudioDeviceCenter setOutputVolume:]
+
+0	(0)	10a9ac1d4	a7 05 00 00 00 00 01 0e 60 3b 00 00             ........`;..
+
+0
+-[SSAudioDeviceCenter systemVolume]
+
+0	(0)	10a9ac1e0	cf 05 00 00 00 00 01 0e 70 3b 00 00             ........p;..
+
+0
+-[SSAudioDeviceCenter setSystemVolume:]
+
+0	(0)	10a9ac1ec	f3 05 00 00 00 00 01 0e 04 3c 00 00             .........<..
+
+0
+-[SSAudioDeviceCenter _headphoneDevice]
+
+0	(0)	10a9ac1f8	1b 06 00 00 00 00 01 0e 84 3c 00 00             .........<..
+
+0
+-[SSAudioDeviceCenter _devicePropertyChanged:]
+
+0	(0)	10a9ac204	43 06 00 00 00 00 01 0e 8c 3c 00 00             C........<..
+
+0
+_devicePropertyChanged
+
+0	(0)	10a9ac210	72 06 00 00 00 00 01 0e d4 3d 00 00             r........=..
+
+0
+-[SSAudioDeviceCenter supportsAudioFollowsJack]
+
+0	(0)	10a9ac21c	89 06 00 00 00 00 01 0e fc 3e 00 00             .........>..
+
+0
+-[SSAudioDeviceCenter setAudioFollowsJack:]
+
+0	(0)	10a9ac228	b9 06 00 00 00 00 01 0e 94 3f 00 00             .........?..
+
+0
+-[SSAudioDeviceCenter audioFollowsJack]
+
+0	(0)	10a9ac234	e5 06 00 00 00 00 01 0e 40 41 00 00             ........@A..
+
+0
+_C.200.95167
+
+0	(0)	10a9ac240	0d 07 00 00 00 00 04 0e bc 4f 00 00             .........O..
+
+0
+_C.199.95166
+
+0	(0)	10a9ac24c	1a 07 00 00 00 00 04 0e c4 4f 00 00             .........O..
+
+0
+_C.198.95165
+
+0	(0)	10a9ac258	27 07 00 00 00 00 04 0e cc 4f 00 00             '........O..
+
+0
+_pointer_to__darwin_gcc3_preregister_frame_info
+
+0	(0)	10a9ac264	34 07 00 00 00 00 07 0e 10 50 00 00             4........P..
+
+0
+_AudioHardwareServiceGetPropertyDataPtr
+
+0	(0)	10a9ac270	64 07 00 00 00 00 0d 0e cc 51 00 00             d........Q..
+
+0
+_AudioHardwareServiceSetPropertyDataPtr
+
+0	(0)	10a9ac27c	8c 07 00 00 00 00 0d 0e d0 51 00 00             .........Q..
+
+0
+_AudioHardwareServiceHasPropertyPtr
+
+0	(0)	10a9ac288	b4 07 00 00 00 00 0d 0e d4 51 00 00             .........Q..
+
+0
+.objc_class_name_SSAudioDevice
+
+0	(0)	10a9ac294	d8 07 00 00 00 00 11 0f 08 61 00 00             .........a..
+
+0
+.objc_class_name_SSAudioDeviceCenter
+
+0	(0)	10a9ac2a0	f7 07 00 00 00 00 11 0f 38 61 00 00             ........8a..
+
+0
+_NXArgc
+
+0	(0)	10a9ac2ac	1c 08 00 00 10 00 07 0f 0c 50 00 00             .........P..
+
+16
+_NXArgv
+
+0	(0)	10a9ac2b8	24 08 00 00 10 00 07 0f 08 50 00 00             $........P..
+
+16
+___darwin_gcc3_preregister_frame_info
+
+0	(0)	10a9ac2c4	2c 08 00 00 00 00 0c 0f 88 51 00 00             ,........Q..
+
+0
+___progname
+
+0	(0)	10a9ac2d0	52 08 00 00 10 00 07 0f 00 50 00 00             R........P..
+
+16
+__mh_execute_header
+
+0	(0)	10a9ac2dc	5e 08 00 00 10 00 00 03 00 10 00 00             ^...........
+
+16
+_catch_exception_raise
+
+0	(0)	10a9ac2e8	72 08 00 00 10 00 0c 0f 8c 51 00 00             r........Q..
+
+16
+_catch_exception_raise_state
+
+0	(0)	10a9ac2f4	89 08 00 00 10 00 0c 0f 90 51 00 00             .........Q..
+
+16
+_catch_exception_raise_state_identity
+
+0	(0)	10a9ac300	a6 08 00 00 10 00 0c 0f 94 51 00 00             .........Q..
+
+16
+_clock_alarm_reply
+
+0	(0)	10a9ac30c	cc 08 00 00 10 00 0c 0f 98 51 00 00             .........Q..
+
+16
+_do_mach_notify_dead_name
+
+0	(0)	10a9ac318	df 08 00 00 10 00 0c 0f 9c 51 00 00             .........Q..
+
+16
+_do_mach_notify_no_senders
+
+0	(0)	10a9ac324	f9 08 00 00 10 00 0c 0f a0 51 00 00             .........Q..
+
+16
+_do_mach_notify_port_deleted
+
+0	(0)	10a9ac330	14 09 00 00 10 00 0c 0f a4 51 00 00             .........Q..
+
+16
+_do_mach_notify_send_once
+
+0	(0)	10a9ac33c	31 09 00 00 10 00 0c 0f a8 51 00 00             1........Q..
+
+16
+_do_seqnos_mach_notify_dead_name
+
+0	(0)	10a9ac348	4b 09 00 00 10 00 0c 0f ac 51 00 00             K........Q..
+
+16
+_do_seqnos_mach_notify_no_senders
+
+0	(0)	10a9ac354	6c 09 00 00 10 00 0c 0f b0 51 00 00             l........Q..
+
+16
+_do_seqnos_mach_notify_port_deleted
+
+0	(0)	10a9ac360	8e 09 00 00 10 00 0c 0f b4 51 00 00             .........Q..
+
+16
+_do_seqnos_mach_notify_send_once
+
+0	(0)	10a9ac36c	b2 09 00 00 10 00 0c 0f b8 51 00 00             .........Q..
+
+16
+_environ
+
+0	(0)	10a9ac378	d3 09 00 00 10 00 07 0f 04 50 00 00             .........P..
+
+16
+_receive_samples
+
+0	(0)	10a9ac384	dc 09 00 00 10 00 0c 0f bc 51 00 00             .........Q..
+
+16
+start
+
+0	(0)	10a9ac390	ed 09 00 00 00 00 01 0f f0 1f 00 00             ............
+
+0
+.objc_class_name_NSAutoreleasePool
+
+0	(0)	10a9ac39c	f3 09 00 00 01 01 00 01 00 00 00 00             ............
+
+1
+.objc_class_name_NSDictionary
+
+0	(0)	10a9ac3a8	16 0a 00 00 01 01 00 01 00 00 00 00             ............
+
+1
+.objc_class_name_NSMutableArray
+
+0	(0)	10a9ac3b4	34 0a 00 00 01 01 00 01 00 00 00 00             4...........
+
+1
+.objc_class_name_NSNumber
+
+0	(0)	10a9ac3c0	54 0a 00 00 01 01 00 01 00 00 00 00             T...........
+
+1
+.objc_class_name_NSObject
+
+0	(0)	10a9ac3cc	6e 0a 00 00 01 01 00 01 00 00 00 00             n...........
+
+1
+.objc_class_name_NSString
+
+0	(0)	10a9ac3d8	88 0a 00 00 01 01 00 01 00 00 00 00             ............
+
+1
+.objc_class_name_NSURL
+
+0	(0)	10a9ac3e4	a2 0a 00 00 01 01 00 01 00 00 00 00             ............
+
+1
+_AudioDeviceAddPropertyListener
+
+0	(0)	10a9ac3f0	b9 0a 00 00 01 03 00 01 00 00 00 00             ............
+
+1
+_AudioDeviceGetProperty
+
+0	(0)	10a9ac3fc	d9 0a 00 00 01 03 00 01 00 00 00 00             ............
+
+1
+_AudioDeviceGetPropertyInfo
+
+0	(0)	10a9ac408	f1 0a 00 00 01 03 00 01 00 00 00 00             ............
+
+1
+_AudioDeviceRemovePropertyListener
+
+0	(0)	10a9ac414	0d 0b 00 00 01 03 00 01 00 00 00 00             ............
+
+1
+_AudioHardwareGetProperty
+
+0	(0)	10a9ac420	30 0b 00 00 01 03 00 01 00 00 00 00             0...........
+
+1
+_AudioHardwareGetPropertyInfo
+
+0	(0)	10a9ac42c	4a 0b 00 00 01 03 00 01 00 00 00 00             J...........
+
+1
+_AudioHardwareSetProperty
+
+0	(0)	10a9ac438	68 0b 00 00 01 03 00 01 00 00 00 00             h...........
+
+1
+_CFBundleCreate
+
+0	(0)	10a9ac444	82 0b 00 00 01 07 00 01 00 00 00 00             ............
+
+1
+_CFBundleGetFunctionPointerForName
+
+0	(0)	10a9ac450	92 0b 00 00 01 07 00 01 00 00 00 00             ............
+
+1
+_GetSysBeepVolume
+
+0	(0)	10a9ac45c	b5 0b 00 00 01 04 00 01 00 00 00 00             ............
+
+1
+_NSLog
+
+0	(0)	10a9ac468	c7 0b 00 00 01 01 00 01 00 00 00 00             ............
+
+1
+_SetSysBeepVolume
+
+0	(0)	10a9ac474	ce 0b 00 00 01 04 00 01 00 00 00 00             ............
+
+1
+_UTCreateStringForOSType
+
+0	(0)	10a9ac480	e0 0b 00 00 01 0a 00 01 00 00 00 00             ............
+
+1
+___CFConstantStringClassReference
+
+0	(0)	10a9ac48c	f9 0b 00 00 00 07 00 01 00 00 00 00             ............
+
+0
+___keymgr_dwarf2_register_sections
+
+0	(0)	10a9ac498	1b 0c 00 00 01 06 00 01 00 00 00 00             ............
+
+1
+__cthread_init_routine
+
+0	(0)	10a9ac4a4	3e 0c 00 00 00 06 00 01 00 00 00 00             >...........
+
+0
+_atexit
+
+0	(0)	10a9ac4b0	55 0c 00 00 01 06 00 01 00 00 00 00             U...........
+
+1
+_errno
+
+0	(0)	10a9ac4bc	5d 0c 00 00 00 06 00 01 00 00 00 00             ]...........
+
+0
+_exit
+
+0	(0)	10a9ac4c8	64 0c 00 00 01 06 00 01 00 00 00 00             d...........
+
+1
+_free
+
+0	(0)	10a9ac4d4	6a 0c 00 00 01 06 00 01 00 00 00 00             j...........
+
+1
+_mach_init_routine
+
+0	(0)	10a9ac4e0	70 0c 00 00 00 06 00 01 00 00 00 00             p...........
+
+0
+_malloc
+
+0	(0)	10a9ac4ec	83 0c 00 00 01 06 00 01 00 00 00 00             ............
+
+1
+_objc_msgSendSuper
+
+0	(0)	10a9ac4f8	8b 0c 00 00 01 08 00 01 00 00 00 00             ............
+
+1
+_pow
+
+0	(0)	10a9ac504	9e 0c 00 00 01 06 00 01 00 00 00 00             ............
+
+1
+_printf$LDBL128
+
+0	(0)	10a9ac510	a3 0c 00 00 01 06 00 01 00 00 00 00             ............
+
+1
+_puts
+
+0	(0)	10a9ac51c	b3 0c 00 00 01 06 00 01 00 00 00 00             ............
+
+1
+_strcmp
+
+0	(0)	10a9ac528	b9 0c 00 00 01 06 00 01 00 00 00 00             ............
+
+1
+_sysctlbyname
+
+0	(0)	10a9ac534	c1 0c 00 00 01 06 00 01 00 00 00 00             ............
+
+1
+0         u +[SSAudioDeviceCenter initialize]
+0         u -[SSAudioDevice canBeDefaultDevice]
+0         u -[SSAudioDevice canBeDefaultSystemDevice]
+0         u -[SSAudioDevice compare:]
+0         u -[SSAudioDevice coreAudioDeviceID]
+0         u -[SSAudioDevice coreAudioIsInput]
+0         u -[SSAudioDevice coreAudioSourceType]
+0         u -[SSAudioDevice coreAudioTransportType]
+0         u -[SSAudioDevice dealloc]
+0         u -[SSAudioDevice description]
+0         u -[SSAudioDevice fetchCoreAudioSourceType]
+0         u -[SSAudioDevice initWithAudioDeviceID:source:isInput:]
+0         u -[SSAudioDevice isEqual:]
+0         u -[SSAudioDevice name]
+0         u -[SSAudioDeviceCenter _allDevicesWithDeviceID:isInput:]
+0         u -[SSAudioDeviceCenter _defaultDeviceOfClass:]
+0         u -[SSAudioDeviceCenter _devicePropertyChanged:]
+0         u -[SSAudioDeviceCenter _getAndSetVolume:forInput:]
+0         u -[SSAudioDeviceCenter _headphoneDevice]
+0         u -[SSAudioDeviceCenter _loadDeviceList:]
+0         u -[SSAudioDeviceCenter _setDefaultDeviceOfClass:to:]
+0         u -[SSAudioDeviceCenter _stringForCAError:]
+0         u -[SSAudioDeviceCenter audioFollowsJack]
+0         u -[SSAudioDeviceCenter dealloc]
+0         u -[SSAudioDeviceCenter deviceWithID:isInput:]
+0         u -[SSAudioDeviceCenter devicesWithTransportType:isInput:]
+0         u -[SSAudioDeviceCenter init]
+0         u -[SSAudioDeviceCenter inputDevices]
+0         u -[SSAudioDeviceCenter inputVolume]
+0         u -[SSAudioDeviceCenter outputDevices]
+0         u -[SSAudioDeviceCenter outputVolume]
+0         u -[SSAudioDeviceCenter selectedInputDevice]
+0         u -[SSAudioDeviceCenter selectedOutputDevice]
+0         u -[SSAudioDeviceCenter selectedSystemDevice]
+0         u -[SSAudioDeviceCenter setAudioFollowsJack:]
+0         u -[SSAudioDeviceCenter setInputVolume:]
+0         u -[SSAudioDeviceCenter setOutputVolume:]
+0         u -[SSAudioDeviceCenter setSelectedInputDevice:]
+0         u -[SSAudioDeviceCenter setSelectedOutputDevice:]
+0         u -[SSAudioDeviceCenter setSelectedSystemDevice:]
+0         u -[SSAudioDeviceCenter setSystemVolume:]
+0         u -[SSAudioDeviceCenter supportsAudioFollowsJack]
+0         u -[SSAudioDeviceCenter systemVolume]
+0         U .objc_class_name_NSAutoreleasePool
+0         U .objc_class_name_NSDictionary
+0         U .objc_class_name_NSMutableArray
+0         U .objc_class_name_NSNumber
+0         U .objc_class_name_NSObject
+0         U .objc_class_name_NSString
+0         U .objc_class_name_NSURL
+0         u .objc_class_name_SSAudioDevice
+0         u .objc_class_name_SSAudioDeviceCenter
+0         U _AudioDeviceAddPropertyListener
+0         U _AudioDeviceGetProperty
+0         U _AudioDeviceGetPropertyInfo
+0         U _AudioDeviceRemovePropertyListener
+0         U _AudioHardwareGetProperty
+0         U _AudioHardwareGetPropertyInfo
+0         u _AudioHardwareServiceGetPropertyDataPtr
+0         u _AudioHardwareServiceHasPropertyPtr
+0         u _AudioHardwareServiceSetPropertyDataPtr
+0         U _AudioHardwareSetProperty
+0         u _C.198.95165
+0         u _C.199.95166
+0         u _C.200.95167
+0         U _CFBundleCreate
+0         U _CFBundleGetFunctionPointerForName
+0         U _GetSysBeepVolume
+0         U _NSLog
+0         u _NXArgc
+0         u _NXArgv
+0         U _SetSysBeepVolume
+0         U _UTCreateStringForOSType
+0         u ___CFConstantStringClassReference
+0         u ___darwin_gcc3_preregister_frame_info
+0         U ___keymgr_dwarf2_register_sections
+0         u ___progname
+0         u __cthread_init_routine
+0         u __dyld_func_lookup
+0         u __mh_execute_header
+0         u __start
+0         U _atexit
+0         u _catch_exception_raise
+0         u _catch_exception_raise_state
+0         u _catch_exception_raise_state_identity
+0         u _clock_alarm_reply
+0         u _devicePropertyChanged
+0         u _do_mach_notify_dead_name
+0         u _do_mach_notify_no_senders
+0         u _do_mach_notify_port_deleted
+0         u _do_mach_notify_send_once
+0         u _do_seqnos_mach_notify_dead_name
+0         u _do_seqnos_mach_notify_no_senders
+0         u _do_seqnos_mach_notify_port_deleted
+0         u _do_seqnos_mach_notify_send_once
+0         u _environ
+0         u _errno
+0         U _exit
+0         U _free
+0         u _mach_init_routine
+0         u _main
+0         U _malloc
+0         U _objc_msgSendSuper
+0         u _pointer_to__darwin_gcc3_preregister_frame_info
+0         U _pow
+0         U _printf$LDBL128
+0         U _puts
+0         u _receive_samples
+0         U _strcmp
+0         U _sysctlbyname
+0         u dyld_stub_binding_helper
+0         u start

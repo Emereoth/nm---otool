@@ -6,19 +6,20 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2019/03/20 15:06:12 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/21 14:30:49 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
-#include <stdio.h>
+
+#define NLIST_64 struct nlist_64
 
 /*
 ** Create symbol list, display it and free
 */
 
 static int	symtab_read_64(t_data *data, struct symtab_command *symtab,
-							u_long size)
+							u_long size, int swap)
 {
 	t_nlist			*el;
 	char			*stringtable;
@@ -27,7 +28,9 @@ static int	symtab_read_64(t_data *data, struct symtab_command *symtab,
 
 	el = (t_nlist *)malloc(sizeof(t_nlist));
 	el->list64 = (void *)data->ptr + symtab->symoff;
-	stringtable = (void *)data->ptr + symtab->stroff;
+	if (swap)
+		endian_swap((void*)el->list64, symtab->nsyms * sizeof(NLIST_64));
+	stringtable = data->ptr + symtab->stroff;
 	if (stringtab_check(stringtable, symtab->strsize, size, symtab->stroff)
 		== _STRINGTAB_CORRUPTED)
 	{
@@ -56,8 +59,8 @@ int			bin64(t_meta *file, int nb_args, int swap)
 	data = (t_data *)malloc(sizeof(t_data));
 	if ((ret = fill_data(file->ptr, &data, file, swap)) != _DATA_OK)
 		return (free_all(NULL, data, ret));
-	if (swap)
-		endian_swap(file->ptr + data->symtab->stroff, data->symtab->strsize);
+	// if (swap)
+		// endian_swap(file->ptr + data->symtab->stroff, data->symtab->strsize);
 	symtab = data->symtab;
 	if (symtab)
 	{
@@ -67,7 +70,7 @@ int			bin64(t_meta *file, int nb_args, int swap)
 			ft_putstr(file->name);
 			ft_putendl(":");
 		}
-		return (symtab_read_64(data, symtab, file->size));
+		return (symtab_read_64(data, symtab, file->size, swap));
 	}
 	free(data);
 	return (_NO_SYMTAB_FAILURE);

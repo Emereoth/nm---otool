@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 17:01:06 by acottier          #+#    #+#             */
-/*   Updated: 2019/02/15 14:44:30 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/26 15:02:07 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static char	get_sector_type(t_data *data, t_symbol *list)
 	f[0] = &browse_sector_bin32;
 	f[1] = &browse_sector_bin64;
 	segment = f[data->filetype](data, list->s_info->n_sect, data->lc);
+	// ft_putstr("extracted letter ");
+	// ft_putchar(segment);
 	if (segment != 'T' && segment != 'D' && segment != 'B')
 		return ('S');
 	return (segment);
@@ -64,9 +66,12 @@ char		get_symbol_type(t_symbol *list)
 {
 	uint8_t	n_type;
 	uint8_t n_sect;
+	uint8_t	wtf;
 
 	n_type = list->s_info->n_type;
 	n_sect = list->s_info->n_sect;
+	wtf = n_type & N_TYPE;
+	ft_putnbr(wtf);
 	if ((n_type & N_SECT) == N_SECT)
 	{
 		if (n_sect == NO_SECT)
@@ -120,6 +125,7 @@ int			display(t_symbol *list, t_data *data)
 	while (list)
 	{
 		symbol_type = get_symbol_type(list);
+		// ft_putchar(symbol_type);
 		if (symbol_type != 1)
 		{
 			display_value(list->s_info, data->filetype);
