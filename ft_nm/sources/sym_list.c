@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 15:46:16 by acottier          #+#    #+#             */
-/*   Updated: 2019/03/26 14:50:50 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/27 13:27:07 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,10 @@ static t_symbol	*create_link(char *stringtab, t_nlist *el, char type, int i)
 		res->name = ft_strdup(stringtab + el->list32[i].n_un.n_strx);
 	else if (type == _BIN64)
 		res->name = ft_strdup(stringtab + el->list64[i].n_un.n_strx);
-	ft_putendl(res->name);
-	dump((void*)el->list32 + i * sizeof(struct nlist), sizeof(struct nlist), 0);
-	ft_putnbr(el->list32[i].n_type);
-	ft_putchar('\n');
+	// ft_putendl(res->name);
+	// dump((void*)el->list32 + i * sizeof(struct nlist), sizeof(struct nlist), 0);
+	// ft_putnbr(el->list32[i].n_type);
+	// ft_putchar('\n');
 	res->type = type;
 	return (res);
 }

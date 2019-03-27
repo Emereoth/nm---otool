@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2019/03/26 14:51:36 by acottier         ###   ########.fr       */
+/*   Updated: 2019/03/27 13:26:17 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,34 +28,34 @@ static int			symtab_read_32(t_data *data, struct symtab_command *symtab,
 
 	el = (t_nlist *)malloc(sizeof(t_nlist));
 	el->list32 = (void*)data->ptr + symtab->symoff;
-	dump((void*)el->list32, sizeof(NLIST), symtab->symoff);
-	ft_putstr("n_strx (4) : ");
-	ft_putnbr(el->list32->n_un.n_strx);
-	ft_putstr(" | n_type (1) : ");
-	ft_putnbr(el->list32->n_type);
-	ft_putstr(" | n_sect (1) : ");
-	ft_putnbr(el->list32->n_sect);
-	ft_putstr(" | n_desc (2) : ");
-	ft_putnbr(el->list32->n_desc);
-	ft_putstr(" | n_value (4) : ");
-	ft_putnbr(el->list32->n_value);
-	ft_putchar('\n');
+	// dump((void*)el->list32, sizeof(NLIST), symtab->symoff);
+	// ft_putstr("n_strx (4) : ");
+	// ft_putnbr(el->list32->n_un.n_strx);
+	// ft_putstr(" | n_type (1) : ");
+	// ft_putnbr(el->list32->n_type);
+	// ft_putstr(" | n_sect (1) : ");
+	// ft_putnbr(el->list32->n_sect);
+	// ft_putstr(" | n_desc (2) : ");
+	// ft_putnbr(el->list32->n_desc);
+	// ft_putstr(" | n_value (4) : ");
+	// ft_putnbr(el->list32->n_value);
+	// ft_putchar('\n');
 	if (swap)
 	{
 		endian_swap((void*)el->list32, symtab->nsyms * sizeof(NLIST));
-		ft_putstr("n_strx (4) : ");
-		ft_putnbr(el->list32->n_un.n_strx);
-		ft_putstr(" | n_type (1) : ");
-		ft_putnbr(el->list32->n_type);
-		ft_putstr(" | n_sect (1) : ");
-		ft_putnbr(el->list32->n_sect);
-		ft_putstr(" | n_desc (2) : ");
-		ft_putnbr(el->list32->n_desc);
-		ft_putstr(" | n_value (4) : ");
-		ft_putnbr(el->list32->n_value);
-		ft_putchar('\n');
+		// ft_putstr("n_strx (4) : ");
+		// ft_putnbr(el->list32->n_un.n_strx);
+		// ft_putstr(" | n_type (1) : ");
+		// ft_putnbr(el->list32->n_type);
+		// ft_putstr(" | n_sect (1) : ");
+		// ft_putnbr(el->list32->n_sect);
+		// ft_putstr(" | n_desc (2) : ");
+		// ft_putnbr(el->list32->n_desc);
+		// ft_putstr(" | n_value (4) : ");
+		// ft_putnbr(el->list32->n_value);
+		// ft_putchar('\n');
 	}
-	dump((void*)el->list32, sizeof(NLIST), symtab->symoff);
+	// dump((void*)el->list32, sizeof(NLIST), symtab->symoff);
 	stringtable = data->ptr + symtab->stroff;
 	if (stringtab_check(stringtable, symtab->strsize, size, symtab->stroff)
 		== _STRINGTAB_CORRUPTED)
