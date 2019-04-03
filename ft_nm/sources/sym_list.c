@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 15:46:16 by acottier          #+#    #+#             */
-/*   Updated: 2019/03/27 13:27:07 by acottier         ###   ########.fr       */
+/*   Updated: 2019/04/03 16:12:31 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ static t_info	*create_info_struct(t_nlist *el, char type, int i)
 		res->n_sect = (el->list32)[i].n_sect;
 		res->n_desc = (el->list32)[i].n_desc;
 		res->n_value.val_32 = (el->list32)[i].n_value;
-		// ft_putnbr(res->n_value.val_32);
-		// ft_putstr(": value   |");
 	}
 	else if (type == _BIN64)
 	{
@@ -89,8 +87,6 @@ static t_info	*create_info_struct(t_nlist *el, char type, int i)
 		res->n_sect = (el->list64)[i].n_sect;
 		res->n_desc = (el->list64)[i].n_desc;
 		res->n_value.val_64 = (el->list64)[i].n_value;
-		// ft_putnbr(res->n_value.val_64);
-		// ft_putstr(": value   |");
 	}
 	return (res);
 }
@@ -107,17 +103,10 @@ static t_symbol	*create_link(char *stringtab, t_nlist *el, char type, int i)
 		return (NULL);
 	ft_bzero(res, sizeof(t_symbol));
 	res->s_info = create_info_struct(el, type, i);
-	// ft_putstr("extracted n_type of ");
-	// ft_putnbr(res->s_info->n_type);
-	// ft_putchar('\t');
 	if (type == _BIN32)
 		res->name = ft_strdup(stringtab + el->list32[i].n_un.n_strx);
 	else if (type == _BIN64)
 		res->name = ft_strdup(stringtab + el->list64[i].n_un.n_strx);
-	// ft_putendl(res->name);
-	// dump((void*)el->list32 + i * sizeof(struct nlist), sizeof(struct nlist), 0);
-	// ft_putnbr(el->list32[i].n_type);
-	// ft_putchar('\n');
 	res->type = type;
 	return (res);
 }

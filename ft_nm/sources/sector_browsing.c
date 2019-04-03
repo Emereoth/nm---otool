@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/21 15:26:55 by acottier          #+#    #+#             */
-/*   Updated: 2018/12/19 11:38:42 by acottier         ###   ########.fr       */
+/*   Updated: 2019/04/03 18:54:45 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ char		browse_sector_bin32(t_data *data, uint8_t n_sect,
 
 	i = 0;
 	cur_sec = 0;
+	ft_putnbr(n_sect);
+	ft_putendl(": n_sect");
 	while (i++ < data->ncmds)
 	{
 		if (lc->cmd == LC_SEGMENT)
@@ -68,6 +70,10 @@ char		browse_sector_bin32(t_data *data, uint8_t n_sect,
 			{
 				while (++cur_sec < n_sect)
 					sect++;
+				ft_putstr("file start ptr: ");
+				ft_putendl(ft_to_hex((uint64_t)data->ptr));
+				dump((void*)sect, sizeof(struct section), 0);
+				dump_bin((void*)sect, sizeof(struct section), 0);
 				return (sect->sectname[2] - 32);
 			}
 		}

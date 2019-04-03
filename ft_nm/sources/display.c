@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 17:01:06 by acottier          #+#    #+#             */
-/*   Updated: 2019/03/27 14:49:25 by acottier         ###   ########.fr       */
+/*   Updated: 2019/04/03 18:36:35 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ static void	display_value(t_info *info, int filetype)
 	if ((info->n_type & N_TYPE) == N_SECT)
 	{
 		padding -= ft_strlen(value);
-		// while (padding-- > 0)
-			// ft_putchar('0');
-		// ft_putstr(value);
+		while (padding-- > 0)
+			ft_putchar('0');
+		ft_putstr(value);
 	}
-	// else
-		// ft_putstr(filetype == _BIN32 ? "        " : "                ");
-	// ft_putchar(' ');
+	else
+		ft_putstr(filetype == _BIN32 ? "        " : "                ");
+	ft_putchar(' ');
 }
 
 /*
@@ -51,8 +51,6 @@ static char	get_sector_type(t_data *data, t_symbol *list)
 	f[0] = &browse_sector_bin32;
 	f[1] = &browse_sector_bin64;
 	segment = f[data->filetype](data, list->s_info->n_sect, data->lc);
-	// ft_putstr("extracted letter ");
-	// ft_putchar(segment);
 	if (segment != 'T' && segment != 'D' && segment != 'B')
 		return ('S');
 	return (segment);
@@ -97,7 +95,9 @@ static int	display_type(t_symbol *list, t_data *data, char symbol_type)
 	external = 0;
 	if (symbol_type == 'S')
 	{
+		ft_putstr("fetching sector type\t");
 		symbol_type = get_sector_type(data, list);
+		ft_putchar(symbol_type);
 		if (symbol_type == _SCTR_NOT_FOUND)
 			return (free_all(list, data, _SCTR_NOT_FOUND));
 	}
@@ -105,8 +105,8 @@ static int	display_type(t_symbol *list, t_data *data, char symbol_type)
 		external = 1;
 	if (!external)
 		symbol_type += 32;
-	// ft_putchar(symbol_type);
-	// ft_putchar(' ');
+	ft_putchar(symbol_type);
+	ft_putchar(' ');
 	return (_DISPLAY_OK);
 }
 
@@ -122,14 +122,13 @@ int			display(t_symbol *list, t_data *data)
 	while (list)
 	{
 		symbol_type = get_symbol_type(list);
-		// ft_putchar(symbol_type);
 		if (symbol_type != 1)
 		{
 			display_value(list->s_info, data->filetype);
 			res = display_type(list, data, symbol_type);
 			if (res != _DISPLAY_OK)
 				return (res);
-			// ft_putendl(list->name);
+			ft_putendl(list->name);
 		}
 		list = list->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:04 by acottier          #+#    #+#             */
-/*   Updated: 2019/03/27 14:52:05 by acottier         ###   ########.fr       */
+/*   Updated: 2019/04/03 16:18:26 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	fat_boi(t_meta *f, int nb_args, int rvalue, uint32_t i)
 	h = (struct fat_header*)f->ptr;
 	arch = (struct fat_arch*)(f->ptr + sizeof(*h));
 	display = arch_selection(f, h->nfat_arch, 0, &rvalue);
-	while (++i < h->nfat_arch && rvalue == _EXIT_SUCCESS)
+	while (++i <= h->nfat_arch && rvalue == _EXIT_SUCCESS)
 	{
 		if (display[i] && display[i] > 0)
 		{
@@ -109,8 +109,8 @@ int			magic_reader(t_meta *master, int nb_args, char fat)
 		return (_BAD_FMT);
 	rvalue = -2;
 	magicnb = *(unsigned int *)master->ptr;
-	ft_putnbr_uns(magicnb);
-	ft_putchar('\n');
+	// ft_putnbr_uns(magicnb);
+	// ft_putchar('\n');
 	swap = ((magicnb == MH_CIGAM || magicnb == MH_CIGAM_64) ? 1 : 0);
 	if (magicnb == MH_MAGIC || magicnb == MH_CIGAM)
 		rvalue = bin32(master, nb_args, swap);
@@ -141,7 +141,6 @@ static int	treat_file(char *file, int nb_args)
 
 	fd = 0;
 	errno = 0;
-	ft_putendl(file);
 	if ((fd = open(file, O_RDONLY)) < 0)
 		return (error(_OPEN_FAILURE, file));
 	if (fstat(fd, &buff) < 0)

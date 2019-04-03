@@ -6,13 +6,28 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2019/03/27 13:26:17 by acottier         ###   ########.fr       */
+/*   Updated: 2019/04/03 18:37:41 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_nm.h"
 
 #define NLIST struct nlist
+
+static void			swap_nlist(void *el32, uint32_t nsyms)
+{
+	uint32_t		i;
+
+	i = 0;
+	while (i < nsyms)
+	{
+		endian_swap(el32, 4);
+		el32 += 8;
+		endian_swap(el32, 4);
+		el32 += 4;
+		i++;
+	}
+}
 
 /*
 ** Create symbol list, display it and free
@@ -28,6 +43,7 @@ static int			symtab_read_32(t_data *data, struct symtab_command *symtab,
 
 	el = (t_nlist *)malloc(sizeof(t_nlist));
 	el->list32 = (void*)data->ptr + symtab->symoff;
+	// dump_bin((void*)el->list32, sizeof(NLIST), symtab->symoff);
 	// dump((void*)el->list32, sizeof(NLIST), symtab->symoff);
 	// ft_putstr("n_strx (4) : ");
 	// ft_putnbr(el->list32->n_un.n_strx);
@@ -42,7 +58,8 @@ static int			symtab_read_32(t_data *data, struct symtab_command *symtab,
 	// ft_putchar('\n');
 	if (swap)
 	{
-		endian_swap((void*)el->list32, symtab->nsyms * sizeof(NLIST));
+		// endian_swap((void*)el->list32, symtab->nsyms * sizeof(NLIST));
+		swap_nlist((void*)el->list32, symtab->nsyms);
 		// ft_putstr("n_strx (4) : ");
 		// ft_putnbr(el->list32->n_un.n_strx);
 		// ft_putstr(" | n_type (1) : ");
@@ -55,6 +72,7 @@ static int			symtab_read_32(t_data *data, struct symtab_command *symtab,
 		// ft_putnbr(el->list32->n_value);
 		// ft_putchar('\n');
 	}
+	// dump_bin((void*)el->list32, sizeof(NLIST), symtab->symoff);
 	// dump((void*)el->list32, sizeof(NLIST), symtab->symoff);
 	stringtable = data->ptr + symtab->stroff;
 	if (stringtab_check(stringtable, symtab->strsize, size, symtab->stroff)
@@ -83,6 +101,7 @@ int					bin32(t_meta *file, int nb_args, int swap)
 
 	file->arch = _BIN32;
 	data = (t_data *)malloc(sizeof(t_data));
+	// dump(file->ptr, file->size, 0);
 	if ((ret = fill_data_32(file->ptr, &data, file, swap)) != _DATA_OK)
 		return (free_all(NULL, data, ret));
 	symtab = data->symtab;
