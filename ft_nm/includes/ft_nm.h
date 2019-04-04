@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 10:44:32 by acottier          #+#    #+#             */
-/*   Updated: 2019/04/03 18:35:47 by acottier         ###   ########.fr       */
+/*   Updated: 2019/04/04 14:24:36 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ void						free_sym_list(t_symbol *list);
 ** DISPLAY.C
 */
 
-int							display(t_symbol *list, t_data *data);
+int							display(t_symbol *list, t_data *data, int swap);
 char						get_symbol_type(t_symbol *list);
 
 /*
@@ -195,10 +195,10 @@ int							free_all(t_symbol *list, t_data *data,
 ** SECTOR_BROWSING.C
 */
 
-char						browse_sector_bin64(t_data *data,
-								uint8_t n_sect, struct load_command *lc);
-char						browse_sector_bin32(t_data *data,
-								uint8_t n_sect, struct load_command *lc);
+char						browse_sector_bin64(t_data *data, uint8_t n_sect,
+								struct load_command *lc, int swap);
+char						browse_sector_bin32(t_data *data, uint8_t n_sect,
+								struct load_command *lc, int swap);
 
 /*
 ** ENDIAN_SWAPS.C

@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2019/04/03 18:37:41 by acottier         ###   ########.fr       */
+/*   Updated: 2019/04/04 14:25:04 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,26 @@ static int			symtab_read_32(t_data *data, struct symtab_command *symtab,
 
 	el = (t_nlist *)malloc(sizeof(t_nlist));
 	el->list32 = (void*)data->ptr + symtab->symoff;
+	stringtable = data->ptr + symtab->stroff;
+
+	// for (uint32_t i = 0 ; i < symtab->nsyms ; i++)
+	// {
+	// 	if (swap)
+	// 		endian_swap((void*)el->list32 + sizeof(NLIST) * i, sizeof(NLIST));
+	// 	ft_putendl(stringtable + el->list32[i].n_un.n_strx);
+	// 	if (swap)
+	// 		endian_swap((void*)el->list32 + sizeof(NLIST) * i, sizeof(NLIST));
+	// 	dump((void*)el->list32 + sizeof(NLIST) * i, sizeof(NLIST), 0);
+	// 	dump_bin((void*)el->list32 + sizeof(NLIST) * i, sizeof(NLIST), 0);
+	// 	if (swap)
+	// 	{
+	// 		swap_nlist((void*)el->list32, symtab->nsyms);
+	// 		dump((void*)el->list32 + sizeof(NLIST) * i, sizeof(NLIST), 0);
+	// 		dump_bin((void*)el->list32 + sizeof(NLIST) * i, sizeof(NLIST), 0);
+	// 		swap_nlist((void*)el->list32, symtab->nsyms);
+	// 	}
+	// }
+
 	// dump_bin((void*)el->list32, sizeof(NLIST), symtab->symoff);
 	// dump((void*)el->list32, sizeof(NLIST), symtab->symoff);
 	// ft_putstr("n_strx (4) : ");
@@ -74,7 +94,6 @@ static int			symtab_read_32(t_data *data, struct symtab_command *symtab,
 	}
 	// dump_bin((void*)el->list32, sizeof(NLIST), symtab->symoff);
 	// dump((void*)el->list32, sizeof(NLIST), symtab->symoff);
-	stringtable = data->ptr + symtab->stroff;
 	if (stringtab_check(stringtable, symtab->strsize, size, symtab->stroff)
 		== _STRINGTAB_CORRUPTED)
 	{
@@ -84,7 +103,7 @@ static int			symtab_read_32(t_data *data, struct symtab_command *symtab,
 	}
 	sym_list = make_sym_list(stringtable, el, symtab->nsyms, _BIN32);
 	free(el);
-	if ((res = display(sym_list, data)) == _DISPLAY_OK)
+	if ((res = display(sym_list, data, swap)) == _DISPLAY_OK)
 		return (free_all(sym_list, data, _EXIT_SUCCESS));
 	return (res);
 }

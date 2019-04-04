@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 17:01:06 by acottier          #+#    #+#             */
-/*   Updated: 2019/04/03 18:36:35 by acottier         ###   ########.fr       */
+/*   Updated: 2019/04/04 14:24:11 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,16 @@ static void	display_value(t_info *info, int filetype)
 ** Use appropriate function to filetype
 */
 
-static char	get_sector_type(t_data *data, t_symbol *list)
+static char	get_sector_type(t_data *data, t_symbol *list, int swap)
 {
-	static char	(*f[2]) (t_data *data, uint8_t n_sect, struct load_command *lc);
+	static char	(*f[2]) (t_data *data, uint8_t n_sect,
+			struct load_command *lc, int swap);
 	char		segment;
 
 	f[0] = &browse_sector_bin32;
 	f[1] = &browse_sector_bin64;
-	segment = f[data->filetype](data, list->s_info->n_sect, data->lc);
+	ft_putendl(list->name);
+	segment = f[data->filetype](data, list->s_info->n_sect, data->lc, swap);
 	if (segment != 'T' && segment != 'D' && segment != 'B')
 		return ('S');
 	return (segment);
@@ -88,16 +90,15 @@ char		get_symbol_type(t_symbol *list)
 ** Display letter corresponding to symbol type
 */
 
-static int	display_type(t_symbol *list, t_data *data, char symbol_type)
+static int	display_type(t_symbol *list, t_data *data, char symbol_type,
+						int swap)
 {
 	char	external;
 
 	external = 0;
 	if (symbol_type == 'S')
 	{
-		ft_putstr("fetching sector type\t");
-		symbol_type = get_sector_type(data, list);
-		ft_putchar(symbol_type);
+		symbol_type = get_sector_type(data, list, swap);
 		if (symbol_type == _SCTR_NOT_FOUND)
 			return (free_all(list, data, _SCTR_NOT_FOUND));
 	}
@@ -114,7 +115,7 @@ static int	display_type(t_symbol *list, t_data *data, char symbol_type)
 ** Go through symbol list and display details
 */
 
-int			display(t_symbol *list, t_data *data)
+int			display(t_symbol *list, t_data *data, int swap)
 {
 	int		res;
 	char	symbol_type;
@@ -125,7 +126,7 @@ int			display(t_symbol *list, t_data *data)
 		if (symbol_type != 1)
 		{
 			display_value(list->s_info, data->filetype);
-			res = display_type(list, data, symbol_type);
+			res = display_type(list, data, symbol_type, swap);
 			if (res != _DISPLAY_OK)
 				return (res);
 			ft_putendl(list->name);

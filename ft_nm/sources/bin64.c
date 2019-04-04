@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/16 16:38:24 by acottier          #+#    #+#             */
-/*   Updated: 2019/04/03 18:37:19 by acottier         ###   ########.fr       */
+/*   Updated: 2019/04/04 14:25:21 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ static int	symtab_read_64(t_data *data, struct symtab_command *symtab,
 
 	el = (t_nlist *)malloc(sizeof(t_nlist));
 	el->list64 = (void *)data->ptr + symtab->symoff;
+	stringtable = data->ptr + symtab->stroff;
 	if (swap)
 		endian_swap((void*)el->list64, symtab->nsyms * sizeof(NLIST_64));
-	stringtable = data->ptr + symtab->stroff;
 	if (stringtab_check(stringtable, symtab->strsize, size, symtab->stroff)
 		== _STRINGTAB_CORRUPTED)
 	{
@@ -40,7 +40,7 @@ static int	symtab_read_64(t_data *data, struct symtab_command *symtab,
 	}
 	sym_list = make_sym_list(stringtable, el, symtab->nsyms, _BIN64);
 	free(el);
-	if ((res = display(sym_list, data)) == _DISPLAY_OK)
+	if ((res = display(sym_list, data, swap)) == _DISPLAY_OK)
 		return (free_all(sym_list, data, _EXIT_SUCCESS));
 	return (res);
 }
