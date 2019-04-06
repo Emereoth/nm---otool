@@ -6,7 +6,7 @@
 /*   By: acottier <acottier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 17:01:06 by acottier          #+#    #+#             */
-/*   Updated: 2019/04/04 14:24:11 by acottier         ###   ########.fr       */
+/*   Updated: 2019/04/06 15:31:41 by acottier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static char	get_sector_type(t_data *data, t_symbol *list, int swap)
 
 	f[0] = &browse_sector_bin32;
 	f[1] = &browse_sector_bin64;
-	ft_putendl(list->name);
 	segment = f[data->filetype](data, list->s_info->n_sect, data->lc, swap);
 	if (segment != 'T' && segment != 'D' && segment != 'B')
 		return ('S');
